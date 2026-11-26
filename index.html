@@ -1,0 +1,2960 @@
+<!DOCTYPE html>
+<html lang="uz" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favqulodda Vaziyatlar Volontyorlari Maktabi (2026–2027) — Surxondaryo</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome 6.5 Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+                    },
+                    colors: {
+                        navy: '#0B192C',
+                        navyLight: '#132744',
+                        navyDeep: '#060F1C',
+                        emergencyRed: '#E11D48',
+                        emergencyOrange: '#EA580C',
+                        gold: '#F59E0B'
+                    }
+                }
+            }
+        };
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(19, 39, 68, 0.72);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .hero-pattern {
+            background-color: #0B192C;
+            background-image:
+                radial-gradient(at 15% 20%, rgba(225, 29, 72, 0.18) 0px, transparent 50%),
+                radial-gradient(at 85% 15%, rgba(234, 88, 12, 0.18) 0px, transparent 45%),
+                radial-gradient(at 50% 90%, rgba(245, 158, 11, 0.12) 0px, transparent 50%);
+        }
+        @keyframes pulseRing {
+            0% { transform: scale(0.95); opacity: 0.75; }
+            70% { transform: scale(1.35); opacity: 0; }
+            100% { transform: scale(1.35); opacity: 0; }
+        }
+        .sos-pulse {
+            animation: pulseRing 2s infinite;
+        }
+        #toast-container {
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-emergencyRed selection:text-white">
+
+    <!-- ===================================================================== -->
+    <!-- TOAST NOTIFICATION                                                    -->
+    <!-- ===================================================================== -->
+    <div id="toast-container" class="fixed top-20 left-1/2 -translate-x-1/2 z-[100] pointer-events-none opacity-0 -translate-y-4 w-[92%] max-w-md">
+        <div id="toast-box" class="bg-white border border-slate-200 rounded-2xl shadow-2xl p-4 flex items-center gap-3.5">
+            <div id="toast-icon" class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 text-lg"></div>
+            <div class="min-w-0 flex-1">
+                <h4 id="toast-title" class="font-bold text-navy text-sm leading-tight"></h4>
+                <p id="toast-msg" class="text-slate-600 text-xs mt-0.5 leading-snug"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- NAVIGATION BAR                                                        -->
+    <!-- ===================================================================== -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-navy/95 backdrop-blur-md border-b border-white/10 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-3">
+            <!-- Brand -->
+            <button type="button" onclick="switchView('home')" class="flex items-center gap-3 text-left group focus:outline-none">
+                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br from-emergencyRed to-emergencyOrange flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition-transform shrink-0">
+                    <i class="fa-solid fa-shield-halved text-xl"></i>
+                </div>
+                <div>
+                    <div class="text-white font-black text-xs sm:text-base tracking-tight leading-tight">
+                        SURXON FVV VOLONTYORLARI
+                    </div>
+                    <div class="text-gold text-[10px] sm:text-xs font-bold tracking-widest uppercase">
+                        Maktabi 2026–2027
+                    </div>
+                </div>
+            </button>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden lg:flex items-center gap-6 text-sm font-semibold text-slate-200">
+                <a href="#verify-section" onclick="jumpToSection(event, 'verify-section')" class="hover:text-gold transition-colors">ID Tekshirish</a>
+                <a href="#sos-section" onclick="jumpToSection(event, 'sos-section')" class="hover:text-emergencyRed transition-colors">SOS Xizmati</a>
+                <a href="#education-section" onclick="jumpToSection(event, 'education-section')" class="hover:text-gold transition-colors">Oʻquv resurslar</a>
+                <a href="#contact-section" onclick="jumpToSection(event, 'contact-section')" class="hover:text-gold transition-colors">Aloqa</a>
+            </nav>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Live Firebase Status Pill (Desktop) -->
+                <div id="nav-cloud-pill" class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-xs font-semibold">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span id="nav-cloud-text">Firebase Cloud</span>
+                </div>
+
+                <button type="button" onclick="switchView('admin')" class="px-3.5 sm:px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-gold/40 text-gold text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5">
+                    <i class="fa-solid fa-user-shield"></i>
+                    <span>Admin</span>
+                </button>
+
+                <button type="button" onclick="switchView('register')" class="px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-gradient-to-r from-emergencyRed to-emergencyOrange hover:opacity-95 text-white text-xs sm:text-sm font-extrabold shadow-lg transition-all flex items-center gap-1.5">
+                    <i class="fa-solid fa-id-card"></i>
+                    <span class="hidden sm:inline">Volontyor boʻlish</span>
+                    <span class="sm:hidden">Aʼzo boʻlish</span>
+                </button>
+
+                <button type="button" id="mobile-drawer-btn" aria-label="Menyu" class="lg:hidden w-10 h-10 rounded-xl bg-white/10 text-white flex items-center justify-center text-lg">
+                    <i class="fa-solid fa-bars" id="mobile-drawer-icon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div id="mobile-drawer" class="hidden lg:hidden bg-navyDeep border-t border-white/10 px-4 py-4 space-y-2">
+            <a href="#verify-section" onclick="jumpToSection(event, 'verify-section')" class="block py-2.5 px-3 rounded-xl text-slate-200 hover:bg-white/10 font-semibold text-sm">
+                <i class="fa-solid fa-magnifying-glass text-gold mr-2 w-5"></i> Guvohnoma ID tekshirish
+            </a>
+            <a href="#sos-section" onclick="jumpToSection(event, 'sos-section')" class="block py-2.5 px-3 rounded-xl text-slate-200 hover:bg-white/10 font-semibold text-sm">
+                <i class="fa-solid fa-truck-medical text-emergencyRed mr-2 w-5"></i> Favqulodda SOS va 1050
+            </a>
+            <a href="#education-section" onclick="jumpToSection(event, 'education-section')" class="block py-2.5 px-3 rounded-xl text-slate-200 hover:bg-white/10 font-semibold text-sm">
+                <i class="fa-solid fa-graduation-cap text-gold mr-2 w-5"></i> Oʻquv platforma va qoʻllanmalar
+            </a>
+            <a href="#contact-section" onclick="jumpToSection(event, 'contact-section')" class="block py-2.5 px-3 rounded-xl text-slate-200 hover:bg-white/10 font-semibold text-sm">
+                <i class="fa-solid fa-share-nodes text-gold mr-2 w-5"></i> Ijtimoiy tarmoqlar va aloqa
+            </a>
+        </div>
+    </header>
+
+    <!-- Floating SOS Button -->
+    <div class="fixed bottom-5 right-5 z-40">
+        <span class="absolute inset-0 rounded-full bg-emergencyRed sos-pulse pointer-events-none"></span>
+        <a href="#sos-section" onclick="jumpToSection(event, 'sos-section')" class="relative bg-emergencyRed hover:bg-rose-700 text-white font-black px-4 py-3 rounded-full shadow-2xl flex items-center gap-2 text-sm transition-transform hover:scale-105">
+            <i class="fa-solid fa-phone-volume"></i>
+            <span>SOS 1050</span>
+        </a>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- VIEW 1: MAIN LANDING PAGE                                             -->
+    <!-- ===================================================================== -->
+    <main id="view-home" class="pt-16 sm:pt-20">
+
+        <!-- HERO SECTION -->
+        <section class="hero-pattern text-white py-16 sm:py-24 lg:py-28 relative overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+                <div class="grid lg:grid-cols-12 gap-10 items-center">
+                    <div class="lg:col-span-7 text-center lg:text-left">
+                        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-gold text-xs sm:text-sm font-bold mb-6">
+                            <span class="w-2 h-2 rounded-full bg-emergencyRed animate-ping"></span>
+                            OʻZBEKISTON RESPUBLIKASI FVV • SURXONDARYO VILOYATI
+                        </div>
+
+                        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black leading-[1.1] tracking-tight mb-5">
+                            Favqulodda Vaziyatlar
+                            <span class="block text-transparent bg-clip-text bg-gradient-to-r from-gold via-amber-400 to-emergencyOrange mt-1">
+                                Volontyorlari Maktabi
+                            </span>
+                            <span class="inline-block text-xl sm:text-3xl font-extrabold text-slate-300 mt-2">
+                                2026–2027 oʻquv mavsumi
+                            </span>
+                        </h1>
+
+                        <p class="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-8">
+                            Favqulodda vaziyatlarda aholiga tezkor yordam koʻrsatish, birinchi tibbiy koʻmak, yongʻin xavfsizligi va qidiruv-qutqaruv ishlarida ishtirok etuvchi fidoyi yoshlarning yagona raqamli platformasi.
+                        </p>
+
+                        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                            <button type="button" onclick="switchView('register')" class="w-full sm:w-auto px-7 py-4 rounded-2xl bg-gradient-to-r from-emergencyRed to-emergencyOrange hover:opacity-95 text-white font-extrabold text-base shadow-xl transition-all flex items-center justify-center gap-2.5">
+                                <i class="fa-solid fa-user-plus"></i>
+                                <span>Roʻyxatdan oʻtish va Guvohnoma olish</span>
+                            </button>
+                            <a href="#sos-section" onclick="jumpToSection(event, 'sos-section')" class="w-full sm:w-auto px-7 py-4 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-bold text-base transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-triangle-exclamation text-gold"></i>
+                                <span>SOS Signal yuborish</span>
+                            </a>
+                        </div>
+
+                        <!-- Quick Stats -->
+                        <div class="grid grid-cols-3 gap-4 mt-10 pt-8 border-t border-white/10 max-w-xl mx-auto lg:mx-0">
+                            <div>
+                                <div id="hero-total-volunteers" class="text-2xl sm:text-3xl font-black text-white">0</div>
+                                <div class="text-xs text-slate-400 font-medium mt-0.5">Jami volontyorlar</div>
+                            </div>
+                            <div>
+                                <div class="text-2xl sm:text-3xl font-black text-gold">14</div>
+                                <div class="text-xs text-slate-400 font-medium mt-0.5">Shahar va tumanlar</div>
+                            </div>
+                            <div>
+                                <div class="text-2xl sm:text-3xl font-black text-emerald-400">24/7</div>
+                                <div class="text-xs text-slate-400 font-medium mt-0.5">Tezkor shtab aloqasi</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Preview Card -->
+                    <div class="lg:col-span-5">
+                        <div class="glass-panel rounded-3xl p-6 sm:p-7 shadow-2xl border border-white/15">
+                            <div class="flex items-center justify-between mb-5">
+                                <span class="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-bold flex items-center gap-1.5">
+                                    <i class="fa-solid fa-cloud"></i> Real vaqt bazasi faol
+                                </span>
+                                <span class="text-xs font-mono text-slate-400">1000×1500 PNG</span>
+                            </div>
+
+                            <div class="bg-navyDeep rounded-2xl p-5 border border-gold/30 mb-5">
+                                <div class="flex items-center gap-3.5 mb-4">
+                                    <div class="w-12 h-12 rounded-xl bg-gold/20 border border-gold/40 text-gold flex items-center justify-center text-2xl shrink-0">
+                                        <i class="fa-solid fa-id-badge"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-white font-extrabold text-base">Elektron Volontyor Guvohnomasi</h3>
+                                        <p class="text-slate-400 text-xs mt-0.5">QR-kod, rasmiy muhr va noyob ID raqam bilan</p>
+                                    </div>
+                                </div>
+                                <ul class="space-y-2.5 text-xs sm:text-sm text-slate-300">
+                                    <li class="flex items-center gap-2.5">
+                                        <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                                        <span>Ariza topshirilgan zahoti 1000×1500px PNG yuklab olish</span>
+                                    </li>
+                                    <li class="flex items-center gap-2.5">
+                                        <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                                        <span>Firebase Cloud orqali barcha adminlarda darhol koʻrinish</span>
+                                    </li>
+                                    <li class="flex items-center gap-2.5">
+                                        <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                                        <span>Bosh sahifada ID raqam orqali haqiqiylikni tekshirish</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <button type="button" onclick="switchView('register')" class="w-full py-3.5 rounded-xl bg-gold hover:bg-amber-400 text-navy font-black text-sm transition-colors flex items-center justify-center gap-2">
+                                <span>Hozir ariza topshirish</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PUBLIC ID VERIFICATION SEARCH BAR -->
+        <section id="verify-section" class="py-12 sm:py-16 bg-white border-b border-slate-200">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6">
+                <div class="bg-slate-900 rounded-3xl p-6 sm:p-9 text-white shadow-xl border border-slate-800">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                        <div>
+                            <span class="text-gold text-xs font-extrabold uppercase tracking-widest">Ochiq reyestr tekshiruvi</span>
+                            <h2 class="text-xl sm:text-2xl font-black mt-1">Volontyor guvohnomasini ID orqali tekshirish</h2>
+                        </div>
+                        <span class="inline-flex items-center gap-1.5 text-xs text-emerald-400 font-semibold">
+                            <i class="fa-solid fa-database"></i> Firebase Realtime DB
+                        </span>
+                    </div>
+
+                    <form id="public-verify-form" class="flex flex-col sm:flex-row gap-3">
+                        <div class="relative flex-1">
+                            <i class="fa-solid fa-id-card-clip absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                            <input type="text" id="verify-id-input" required placeholder="Masalan: FVV-2026-1001" class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-white/10 border border-white/15 text-white placeholder-slate-400 font-mono text-sm sm:text-base uppercase focus:ring-2 focus:ring-gold outline-none">
+                        </div>
+                        <button type="submit" id="verify-submit-btn" class="px-7 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-sm sm:text-base transition-colors flex items-center justify-center gap-2 shrink-0">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <span>Tekshirish</span>
+                        </button>
+                    </form>
+
+                    <!-- Verification Result Container -->
+                    <div id="verify-result-box" class="hidden mt-6"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOS EMERGENCY SECTION -->
+        <section id="sos-section" class="py-16 sm:py-24 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                <div class="text-center max-w-2xl mx-auto mb-12">
+                    <span class="text-emergencyRed font-extrabold text-xs uppercase tracking-widest">Tezkor harakat va aloqa</span>
+                    <h2 class="text-3xl sm:text-4xl font-black text-navy mt-2 mb-3">Favqulodda xizmatlar va SOS signal</h2>
+                    <p class="text-slate-600 text-sm sm:text-base">Favqulodda holat yuz berganda qisqa raqamlarga qoʻngʻiroq qiling yoki GPS koordinatalaringiz bilan tezkor SOS signal yuboring.</p>
+                </div>
+
+                <!-- 4 Quick Dial Cards -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-12">
+                    <a href="tel:1050" class="bg-white rounded-3xl p-5 sm:p-6 border-2 border-emergencyRed/30 hover:border-emergencyRed shadow-sm hover:shadow-xl transition-all group">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-2xl bg-rose-100 text-emergencyRed flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-helmet-safety"></i>
+                            </div>
+                            <span class="text-2xl sm:text-3xl font-black text-emergencyRed">1050</span>
+                        </div>
+                        <h3 class="font-extrabold text-navy text-base sm:text-lg">FVV Qutqaruv</h3>
+                        <p class="text-slate-500 text-xs mt-1">Favqulodda vaziyatlar qutqaruv xizmati (24/7)</p>
+                    </a>
+
+                    <a href="tel:101" class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 hover:border-emergencyOrange shadow-sm hover:shadow-xl transition-all group">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-2xl bg-orange-100 text-emergencyOrange flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-fire-extinguisher"></i>
+                            </div>
+                            <span class="text-2xl sm:text-3xl font-black text-navy">101</span>
+                        </div>
+                        <h3 class="font-extrabold text-navy text-base sm:text-lg">Yongʻin-qutqaruv</h3>
+                        <p class="text-slate-500 text-xs mt-1">Yongʻin xavfsizligi tezkor xizmati</p>
+                    </a>
+
+                    <a href="tel:102" class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 hover:border-navy shadow-sm hover:shadow-xl transition-all group">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-2xl bg-blue-100 text-navy flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <span class="text-2xl sm:text-3xl font-black text-navy">102</span>
+                        </div>
+                        <h3 class="font-extrabold text-navy text-base sm:text-lg">IIO Xizmati</h3>
+                        <p class="text-slate-500 text-xs mt-1">Ichki ishlar organlari navbatchilik qismi</p>
+                    </a>
+
+                    <a href="tel:103" class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 hover:border-emerald-600 shadow-sm hover:shadow-xl transition-all group">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-heart-pulse"></i>
+                            </div>
+                            <span class="text-2xl sm:text-3xl font-black text-navy">103</span>
+                        </div>
+                        <h3 class="font-extrabold text-navy text-base sm:text-lg">Tez tibbiy yordam</h3>
+                        <p class="text-slate-500 text-xs mt-1">Shoshilinch tibbiy yordam koʻrsatish</p>
+                    </a>
+                </div>
+
+                <!-- Interactive SOS Signal Form -->
+                <div class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-xl max-w-4xl mx-auto">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-6 border-b border-slate-100">
+                        <div class="flex items-center gap-3.5">
+                            <div class="w-12 h-12 rounded-2xl bg-emergencyRed text-white flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-tower-broadcast"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl sm:text-2xl font-black text-navy">Favqulodda SOS Signal Yuborish</h3>
+                                <p class="text-slate-500 text-xs sm:text-sm">Signal Firebase bazasiga yoziladi va GPS xarita bilan Telegram shtabga yuboriladi</p>
+                            </div>
+                        </div>
+                        <button type="button" id="capture-gps-btn" onclick="captureSosLocation()" class="px-4 py-2.5 rounded-xl bg-navy hover:bg-navyLight text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-colors shrink-0">
+                            <i class="fa-solid fa-location-crosshairs text-gold"></i>
+                            <span>GPS joylashuvni aniqlash</span>
+                        </button>
+                    </div>
+
+                    <form id="sos-alert-form" class="space-y-4">
+                        <div class="grid sm:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">Ismingiz *</label>
+                                <input type="text" id="sos-name" required placeholder="Ism familiya" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:ring-2 focus:ring-emergencyRed outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">Telefon raqamingiz *</label>
+                                <input type="tel" id="sos-phone" required placeholder="+998 90 123 45 67" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:ring-2 focus:ring-emergencyRed outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">Hodisa turi *</label>
+                                <select id="sos-type" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:ring-2 focus:ring-emergencyRed outline-none">
+                                    <option value="Yongʻin">Yongʻin</option>
+                                    <option value="Zilzila / Qulash">Zilzila / Qulash</option>
+                                    <option value="Sel / Suv toshqini">Sel / Suv toshqini</option>
+                                    <option value="Tibbiy yordam">Tibbiy yordam</option>
+                                    <option value="Boshqa favqulodda holat">Boshqa favqulodda holat</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">Hudud / Manzil moʻljali *</label>
+                                <input type="text" id="sos-address" required placeholder="Masalan: Termiz sh., Alpomish koʻchasi" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:ring-2 focus:ring-emergencyRed outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">GPS Koordinatalar</label>
+                                <input type="text" id="sos-coords" readonly placeholder="GPS tugmasini bosing (ixtiyoriy)" class="w-full px-4 py-3 rounded-xl bg-slate-100 border border-slate-200 text-xs font-mono text-slate-600 outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">Vaziyat tavsifi *</label>
+                            <textarea id="sos-desc" rows="2" required placeholder="Nima sodir boʻlganini qisqacha yozing..." class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:ring-2 focus:ring-emergencyRed outline-none resize-none"></textarea>
+                        </div>
+
+                        <button type="submit" id="sos-submit-btn" class="w-full py-4 rounded-2xl bg-gradient-to-r from-emergencyRed to-emergencyOrange hover:opacity-95 text-white font-black text-sm sm:text-base shadow-lg transition-all flex items-center justify-center gap-2.5">
+                            <i class="fa-solid fa-bell"></i>
+                            <span>FAVQULODDA SOS SIGNAL YUBORISH</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- EDUCATIONAL RESOURCES & TRAINING MODULES -->
+        <section id="education-section" class="py-16 sm:py-24 bg-navy text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                <div class="text-center max-w-2xl mx-auto mb-14">
+                    <span class="text-gold font-extrabold text-xs uppercase tracking-widest">Bilim va tayyorgarlik</span>
+                    <h2 class="text-3xl sm:text-4xl font-black mt-2 mb-3">Rasmiy oʻquv platformalar va modullar</h2>
+                    <p class="text-slate-300 text-sm sm:text-base">Volontyorlar malakasini oshirish uchun rasmiy elektron portallar va interaktiv oʻquv qoʻllanmalar.</p>
+                </div>
+
+                <!-- 2 Official Portals -->
+                <div class="grid md:grid-cols-2 gap-6 mb-12">
+                    <a href="https://fmi-platforma.uz" target="_blank" rel="noopener noreferrer" class="glass-panel rounded-3xl p-6 sm:p-8 hover:border-gold/60 transition-all group flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-5">
+                                <div class="w-14 h-14 rounded-2xl bg-gold/20 border border-gold/40 text-gold flex items-center justify-center text-2xl group-hover:scale-105 transition-transform">
+                                    <i class="fa-solid fa-graduation-cap"></i>
+                                </div>
+                                <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-xs font-bold">
+                                    Rasmiy portal
+                                </span>
+                            </div>
+                            <h3 class="text-xl sm:text-2xl font-black text-white mb-2 group-hover:text-gold transition-colors">
+                                Fuqaro muhofazasi instituti elektron platformasi
+                            </h3>
+                            <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                                Favqulodda vaziyatlardan muhofazalanish, aholini tayyorlash va volontyorlar uchun tasdiqlangan masofaviy taʼlim dasturlari.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+                            <span class="text-xs font-mono text-slate-400">fmi-platforma.uz</span>
+                            <span class="px-4 py-2 rounded-xl bg-emergencyRed text-white font-bold text-xs sm:text-sm flex items-center gap-2">
+                                Platformaga oʻtish <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            </span>
+                        </div>
+                    </a>
+
+                    <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" class="glass-panel rounded-3xl p-6 sm:p-8 hover:border-gold/60 transition-all group flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-5">
+                                <div class="w-14 h-14 rounded-2xl bg-sky-500/20 border border-sky-400/40 text-sky-300 flex items-center justify-center text-2xl group-hover:scale-105 transition-transform">
+                                    <i class="fa-brands fa-google-drive"></i>
+                                </div>
+                                <span class="px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-400/30 text-xs font-bold">
+                                    Oʻquv kutubxonasi
+                                </span>
+                            </div>
+                            <h3 class="text-xl sm:text-2xl font-black text-white mb-2 group-hover:text-gold transition-colors">
+                                Oʻquv qoʻllanmalar va uslubiy materiallar
+                            </h3>
+                            <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                                Amaliy mashgʻulotlar uchun taqdimotlar, birinchi tibbiy yordam yoʻriqnomalari va xavfsizlik eslatmalari toʻplami.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+                            <span class="text-xs font-mono text-slate-400">drive.google.com</span>
+                            <span class="px-4 py-2 rounded-xl bg-gold text-navy font-extrabold text-xs sm:text-sm flex items-center gap-2">
+                                Qoʻllanmalarni ochish <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            </span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- 4 Interactive Training Modules -->
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5" id="training-modules-grid"></div>
+            </div>
+        </section>
+
+        <!-- CONTACT & SOCIAL MEDIA SECTION -->
+        <section id="contact-section" class="py-16 sm:py-20 bg-white border-t border-slate-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                <div class="text-center max-w-2xl mx-auto mb-12">
+                    <span class="text-emergencyRed font-extrabold text-xs uppercase tracking-widest">Rasmiy sahifalarimiz</span>
+                    <h2 class="text-3xl sm:text-4xl font-black text-navy mt-2 mb-3">Surxon FVV Volontyorlari ijtimoiy tarmoqlarda</h2>
+                    <p class="text-slate-600 text-sm sm:text-base">Yangiliklar, oʻquv mashgʻulotlari va volontyorlar faoliyatini rasmiy kanallarimizda kuzatib boring.</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <a href="https://t.me/surxon_fvv_volontyorlari" target="_blank" rel="noopener noreferrer" class="rounded-3xl p-6 bg-slate-50 border border-slate-200 hover:border-sky-500 hover:shadow-lg transition-all flex items-center gap-4 group">
+                        <div class="w-14 h-14 rounded-2xl bg-sky-500 text-white flex items-center justify-center text-2xl shrink-0 group-hover:scale-105 transition-transform">
+                            <i class="fa-brands fa-telegram"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="text-xs font-bold text-sky-600 uppercase">Telegram kanal</div>
+                            <div class="font-black text-navy text-base truncate">@surxon_fvv_volontyorlari</div>
+                            <div class="text-xs text-slate-500 mt-0.5">Tezkor eʼlonlar va shtab xabarlari</div>
+                        </div>
+                    </a>
+
+                    <a href="https://www.instagram.com/surxon_fvv_volontyorlari" target="_blank" rel="noopener noreferrer" class="rounded-3xl p-6 bg-slate-50 border border-slate-200 hover:border-pink-500 hover:shadow-lg transition-all flex items-center gap-4 group">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-500 via-pink-500 to-purple-600 text-white flex items-center justify-center text-2xl shrink-0 group-hover:scale-105 transition-transform">
+                            <i class="fa-brands fa-instagram"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="text-xs font-bold text-pink-600 uppercase">Instagram sahifa</div>
+                            <div class="font-black text-navy text-base truncate">@surxon_fvv_volontyorlari</div>
+                            <div class="text-xs text-slate-500 mt-0.5">Fotoreportajlar va amaliy tadbirlar</div>
+                        </div>
+                    </a>
+
+                    <a href="https://youtube.com/@fvv_volontyorlari" target="_blank" rel="noopener noreferrer" class="rounded-3xl p-6 bg-slate-50 border border-slate-200 hover:border-emergencyRed hover:shadow-lg transition-all flex items-center gap-4 group">
+                        <div class="w-14 h-14 rounded-2xl bg-emergencyRed text-white flex items-center justify-center text-2xl shrink-0 group-hover:scale-105 transition-transform">
+                            <i class="fa-brands fa-youtube"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="text-xs font-bold text-emergencyRed uppercase">YouTube kanal</div>
+                            <div class="font-black text-navy text-base truncate">@fvv_volontyorlari</div>
+                            <div class="text-xs text-slate-500 mt-0.5">Video darsliklar va oʻquv filmlar</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="bg-navyDeep text-slate-300 py-10 border-t border-white/10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-shield-halved text-emergencyRed text-2xl"></i>
+                    <div>
+                        <div class="font-extrabold text-white">Surxondaryo viloyati FVV Volontyorlari Maktabi</div>
+                        <div class="text-slate-400 text-xs">2026–2027 oʻquv yili • Barcha huquqlar himoyalangan</div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="https://t.me/surxon_fvv_volontyorlari" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors"><i class="fa-brands fa-telegram text-lg"></i></a>
+                    <a href="https://www.instagram.com/surxon_fvv_volontyorlari" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors"><i class="fa-brands fa-instagram text-lg"></i></a>
+                    <a href="https://youtube.com/@fvv_volontyorlari" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors"><i class="fa-brands fa-youtube text-lg"></i></a>
+                    <button type="button" onclick="switchView('admin')" class="text-gold font-bold hover:underline">Admin panel</button>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- ===================================================================== -->
+    <!-- VIEW 2: VOLUNTEER REGISTRATION & 1000x1500 PNG ID CARD GENERATOR      -->
+    <!-- ===================================================================== -->
+    <section id="view-register" class="hidden min-h-screen bg-slate-100 pt-24 pb-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <button type="button" onclick="switchView('home')" class="inline-flex items-center gap-2 text-navy font-bold text-sm mb-6 hover:text-emergencyRed transition-colors">
+                <i class="fa-solid fa-arrow-left"></i> Bosh sahifaga qaytish
+            </button>
+
+            <!-- Confirmation & ID Card View (Shown after submission) -->
+            <div id="register-success-panel" class="hidden">
+                <div class="bg-emerald-50 border border-emerald-200 rounded-3xl p-6 sm:p-8 text-center mb-8 shadow-sm">
+                    <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mx-auto mb-3">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-black text-emerald-950">Muvaffaqiyatli roʻyxatdan oʻtdingiz!</h2>
+                    <p id="register-sync-note" class="text-emerald-800 text-sm sm:text-base mt-1.5 max-w-xl mx-auto">
+                        Maʼlumotlaringiz Firebase Cloud bazasiga saqlandi, guvohnomangiz tayyorlandi va Telegram botga yuborildi.
+                    </p>
+                    <div class="mt-3 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-emerald-300 text-navy font-mono font-black text-sm">
+                        <span>Sizning ID raqamingiz:</span>
+                        <span id="created-volunteer-id" class="text-emergencyRed">FVV-2026-1001</span>
+                    </div>
+                </div>
+
+                <!-- 1000x1500 Canvas Preview -->
+                <div class="flex flex-col items-center">
+                    <canvas id="id-card-canvas" width="1000" height="1500" class="w-full max-w-[380px] h-auto rounded-3xl shadow-2xl border-2 border-amber-400/70 bg-navy"></canvas>
+
+                    <div class="grid sm:grid-cols-3 gap-3 w-full max-w-2xl mt-7">
+                        <button type="button" onclick="downloadGeneratedIdCard()" class="py-3.5 px-5 rounded-2xl bg-navy hover:bg-navyLight text-white font-extrabold text-sm shadow-lg flex items-center justify-center gap-2 transition-colors">
+                            <i class="fa-solid fa-download"></i>
+                            <span>Guvohnomani yuklab olish (1000×1500 PNG)</span>
+                        </button>
+                        <button type="button" id="btn-resend-telegram" onclick="resendLastVolunteerToTelegram()" class="py-3.5 px-5 rounded-2xl bg-sky-600 hover:bg-sky-700 text-white font-extrabold text-sm shadow-lg flex items-center justify-center gap-2 transition-colors">
+                            <i class="fa-brands fa-telegram text-lg"></i>
+                            <span>Botga qayta yuborish</span>
+                        </button>
+                        <button type="button" onclick="resetRegistrationForm()" class="py-3.5 px-5 rounded-2xl bg-white hover:bg-slate-200 text-navy border border-slate-300 font-bold text-sm flex items-center justify-center gap-2 transition-colors">
+                            <i class="fa-solid fa-plus"></i>
+                            <span>Yangi ariza</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Registration Form Card -->
+            <div id="register-form-card" class="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-200">
+                <div class="border-b border-slate-100 pb-6 mb-7">
+                    <span class="text-emergencyRed font-extrabold text-xs uppercase tracking-widest">2026–2027 Qabul</span>
+                    <h1 class="text-2xl sm:text-3xl font-black text-navy mt-1">Volontyor sifatida roʻyxatdan oʻtish</h1>
+                    <p class="text-slate-500 text-sm mt-1">Maʼlumotlaringiz umumiy bazaga saqlanadi va rasmiy elektron guvohnoma avtomatik shakllantiriladi.</p>
+                </div>
+
+                <form id="volunteer-register-form" class="space-y-5">
+                    <!-- Photo Upload -->
+                    <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-dashed border-slate-300 flex flex-col sm:flex-row items-center gap-5">
+                        <div class="w-24 h-32 rounded-2xl bg-white border-2 border-gold/60 overflow-hidden flex items-center justify-center shrink-0 shadow-sm">
+                            <img id="reg-photo-preview" src="" alt="Volontyor surati" class="hidden w-full h-full object-cover">
+                            <div id="reg-photo-empty" class="text-center text-slate-400 px-2">
+                                <i class="fa-solid fa-user-shield text-3xl text-navy/30 mb-1"></i>
+                                <span class="block text-[10px] font-bold">3×4 Surat</span>
+                            </div>
+                        </div>
+                        <div class="flex-1 text-center sm:text-left">
+                            <label class="block text-sm font-extrabold text-navy">Shaxsiy surat yuklash (ixtiyoriy)</label>
+                            <p class="text-xs text-slate-500 mt-1 mb-3">Yuzingiz aniq koʻringan rasm tanlang. Rasm yuklanmasa, guvohnomaga rasmiy FVV ramzi tushiriladi.</p>
+                            <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2.5">
+                                <label for="reg-photo-input" class="cursor-pointer px-4 py-2 rounded-xl bg-navy hover:bg-navyLight text-white text-xs font-bold inline-flex items-center gap-2 transition-colors">
+                                    <i class="fa-solid fa-camera"></i> Rasm tanlash
+                                </label>
+                                <button type="button" id="reg-photo-remove" onclick="clearSelectedPhoto('reg')" class="hidden px-3 py-2 rounded-xl bg-rose-50 text-emergencyRed text-xs font-bold hover:bg-rose-100">
+                                    Oʻchirish
+                                </button>
+                                <input type="file" id="reg-photo-input" accept="image/*" class="hidden" onchange="onPhotoSelected(event, 'reg')">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 gap-5">
+                        <div>
+                            <label for="reg-fullname" class="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">F.I.Sh. (Toʻliq ism-familiya) *</label>
+                            <input type="text" id="reg-fullname" required placeholder="Karimov Sardorbek Akmalovich" class="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:ring-2 focus:ring-navy outline-none">
+                        </div>
+                        <div>
+                            <label for="reg-birthdate" class="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">Tugʻilgan sana *</label>
+                            <input type="date" id="reg-birthdate" required max="2012-12-31" min="1960-01-01" class="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:ring-2 focus:ring-navy outline-none">
+                        </div>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 gap-5">
+                        <div>
+                            <label for="reg-district" class="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">Tuman / Shahar (Surxondaryo) *</label>
+                            <select id="reg-district" required class="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:ring-2 focus:ring-navy outline-none">
+                                <option value="Termiz shahri">Termiz shahri</option>
+                                <option value="Angor tumani">Angor tumani</option>
+                                <option value="Bandixon tumani">Bandixon tumani</option>
+                                <option value="Boysun tumani">Boysun tumani</option>
+                                <option value="Denov tumani">Denov tumani</option>
+                                <option value="Jarqoʻrgʻon tumani">Jarqoʻrgʻon tumani</option>
+                                <option value="Qiziriq tumani">Qiziriq tumani</option>
+                                <option value="Qumqoʻrgʻon tumani">Qumqoʻrgʻon tumani</option>
+                                <option value="Muzrabot tumani">Muzrabot tumani</option>
+                                <option value="Oltinsoy tumani">Oltinsoy tumani</option>
+                                <option value="Sariosiyo tumani">Sariosiyo tumani</option>
+                                <option value="Sherobod tumani">Sherobod tumani</option>
+                                <option value="Shoʻrchi tumani">Shoʻrchi tumani</option>
+                                <option value="Uzun tumani">Uzun tumani</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="reg-phone" class="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">Telefon raqami *</label>
+                            <input type="tel" id="reg-phone" required placeholder="+998 90 123 45 67" class="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:ring-2 focus:ring-navy outline-none">
+                        </div>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 gap-5">
+                        <div>
+                            <label for="reg-spec" class="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">Yoʻnalish *</label>
+                            <select id="reg-spec" required class="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:ring-2 focus:ring-navy outline-none">
+                                <option value="Birinchi tibbiy yordam">Birinchi tibbiy yordam</option>
+                                <option value="Yongʻin xavfsizligi">Yongʻin xavfsizligi</option>
+                                <option value="Qidiruv-qutqaruv">Qidiruv-qutqaruv</option>
+                                <option value="Axborot va profilaktika">Axborot va profilaktika</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="reg-org" class="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">Oʻqish / Ish joyi *</label>
+                            <input type="text" id="reg-org" required placeholder="Termiz davlat universiteti / 12-maktab" class="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:ring-2 focus:ring-navy outline-none">
+                        </div>
+                    </div>
+
+                    <button type="submit" id="reg-submit-btn" class="w-full py-4 rounded-2xl bg-gradient-to-r from-emergencyRed to-emergencyOrange hover:opacity-95 text-white font-black text-sm sm:text-base shadow-xl transition-all flex items-center justify-center gap-2.5">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span id="reg-submit-label">ARIZANI YUBORISH VA GUVOHNOMA OLISH</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- VIEW 3: ROLE-BASED ADMIN PANEL (WITH FIREBASE REAL-TIME SYNC)         -->
+    <!-- ===================================================================== -->
+    <section id="view-admin" class="hidden min-h-screen bg-navyDeep text-white pt-24 pb-20">
+
+        <!-- A. LOGIN SCREEN -->
+        <div id="admin-login-box" class="max-w-5xl mx-auto px-4 sm:px-6">
+            <button type="button" onclick="switchView('home')" class="inline-flex items-center gap-2 text-slate-300 hover:text-white font-bold text-sm mb-6">
+                <i class="fa-solid fa-arrow-left"></i> Bosh sahifaga qaytish
+            </button>
+
+            <div class="glass-panel rounded-3xl p-6 sm:p-10 max-w-md mx-auto mb-10 shadow-2xl">
+                <div class="text-center mb-7">
+                    <div class="w-16 h-16 rounded-2xl bg-gold text-navy flex items-center justify-center text-3xl mx-auto mb-4 shadow-lg">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl font-black">Admin boshqaruv paneli</h1>
+                    <p class="text-slate-300 text-xs sm:text-sm mt-1">Firebase Realtime Database ulangan markaziy shtab</p>
+                </div>
+
+                <form id="admin-login-form" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">Login</label>
+                        <input type="text" id="admin-login-user" required placeholder="superadmin" class="w-full px-4 py-3.5 rounded-xl bg-navy/80 border border-white/15 text-white text-sm focus:ring-2 focus:ring-gold outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">Parol</label>
+                        <input type="password" id="admin-login-pass" required placeholder="••••••••••••" class="w-full px-4 py-3.5 rounded-xl bg-navy/80 border border-white/15 text-white text-sm focus:ring-2 focus:ring-gold outline-none">
+                    </div>
+                    <button type="submit" class="w-full py-3.5 rounded-xl bg-emergencyRed hover:bg-rose-700 text-white font-extrabold text-sm shadow-lg transition-colors flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-right-to-bracket"></i> Tizimga kirish
+                    </button>
+                </form>
+            </div>
+
+            <!-- 3 Quick-Fill Role Cards -->
+            <div class="grid md:grid-cols-3 gap-4">
+                <button type="button" onclick="quickFillAdminLogin('superadmin')" class="text-left glass-panel hover:bg-white/10 rounded-2xl p-5 border border-gold/40 transition-all">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="px-2.5 py-0.5 rounded bg-gold/20 text-gold text-[10px] font-black">SUPER ADMIN</span>
+                        <i class="fa-solid fa-crown text-gold"></i>
+                    </div>
+                    <div class="font-extrabold text-white text-base">Bosh Qoʻmondon</div>
+                    <p class="text-xs text-slate-300 mt-1 mb-3">Toʻliq nazorat, oʻchirish, bot matnidan import va tizim sozlamalari.</p>
+                    <div class="text-xs font-mono bg-navy/80 p-2.5 rounded-xl border border-white/10">
+                        <div>Login: <span class="text-gold font-bold">superadmin</span></div>
+                        <div>Parol: <span class="text-white">FVV@2026!Boss</span></div>
+                    </div>
+                </button>
+
+                <button type="button" onclick="quickFillAdminLogin('koordinator')" class="text-left glass-panel hover:bg-white/10 rounded-2xl p-5 border border-sky-400/40 transition-all">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="px-2.5 py-0.5 rounded bg-sky-500/20 text-sky-300 text-[10px] font-black">KOORDINATOR</span>
+                        <i class="fa-solid fa-map-location-dot text-sky-400"></i>
+                    </div>
+                    <div class="font-extrabold text-white text-base">Hududiy Koordinator</div>
+                    <p class="text-xs text-slate-300 mt-1 mb-3">Tasdiqlash/rad etish, qoʻshish/import, guvohnoma va CSV eksport.</p>
+                    <div class="text-xs font-mono bg-navy/80 p-2.5 rounded-xl border border-white/10">
+                        <div>Login: <span class="text-sky-300 font-bold">koordinator</span></div>
+                        <div>Parol: <span class="text-white">FVV@Hudud26</span></div>
+                    </div>
+                </button>
+
+                <button type="button" onclick="quickFillAdminLogin('nazoratchi')" class="text-left glass-panel hover:bg-white/10 rounded-2xl p-5 border border-emerald-400/40 transition-all">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[10px] font-black">NAZORATCHI</span>
+                        <i class="fa-solid fa-eye text-emerald-400"></i>
+                    </div>
+                    <div class="font-extrabold text-white text-base">Xavfsizlik Nazoratchisi</div>
+                    <p class="text-xs text-slate-300 mt-1 mb-3">Faqat koʻrish, tuman/holat boʻyicha qidirish va audit jurnali.</p>
+                    <div class="text-xs font-mono bg-navy/80 p-2.5 rounded-xl border border-white/10">
+                        <div>Login: <span class="text-emerald-300 font-bold">nazoratchi</span></div>
+                        <div>Parol: <span class="text-white">FVV@Safe26</span></div>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- B. ADMIN DASHBOARD -->
+        <div id="admin-dashboard-box" class="hidden max-w-7xl mx-auto px-4 sm:px-6">
+            <!-- Top Bar -->
+            <div class="glass-panel rounded-3xl p-5 sm:p-6 mb-6 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                <div>
+                    <div class="flex flex-wrap items-center gap-2.5">
+                        <h1 id="dash-role-title" class="text-xl sm:text-2xl font-black text-white"></h1>
+                        <span id="dash-role-badge" class="px-3 py-0.5 rounded-full text-xs font-black"></span>
+                        <span id="firebase-live-badge" class="px-3 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-bold flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span id="firebase-live-text">Firebase Cloud: Ulangan</span>
+                        </span>
+                    </div>
+                    <p id="dash-role-desc" class="text-slate-300 text-xs sm:text-sm mt-1"></p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-2.5">
+                    <button type="button" id="btn-sync-cloud" onclick="syncAllFromFirebase(true)" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-bold flex items-center gap-2 transition-colors">
+                        <i class="fa-solid fa-rotate" id="sync-icon"></i>
+                        <span>Bulut bilan sinxronlash</span>
+                    </button>
+                    <button type="button" onclick="logoutAdmin()" class="px-4 py-2.5 rounded-xl bg-emergencyRed hover:bg-rose-700 text-white text-xs sm:text-sm font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-right-from-bracket"></i> Chiqish
+                    </button>
+                </div>
+            </div>
+
+            <!-- KPI Cards -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <div class="glass-panel rounded-2xl p-4 sm:p-5">
+                    <div class="text-xs font-bold text-slate-400 uppercase">Jami volontyorlar</div>
+                    <div id="stat-total" class="text-2xl sm:text-3xl font-black text-white mt-1">0</div>
+                </div>
+                <div class="glass-panel rounded-2xl p-4 sm:p-5 border-emerald-400/30">
+                    <div class="text-xs font-bold text-slate-400 uppercase">Tasdiqlangan</div>
+                    <div id="stat-approved" class="text-2xl sm:text-3xl font-black text-emerald-400 mt-1">0</div>
+                </div>
+                <div class="glass-panel rounded-2xl p-4 sm:p-5 border-gold/30">
+                    <div class="text-xs font-bold text-slate-400 uppercase">Kutilmoqda</div>
+                    <div id="stat-pending" class="text-2xl sm:text-3xl font-black text-gold mt-1">0</div>
+                </div>
+                <div class="glass-panel rounded-2xl p-4 sm:p-5 border-emergencyRed/30">
+                    <div class="text-xs font-bold text-slate-400 uppercase">Rad etilgan</div>
+                    <div id="stat-rejected" class="text-2xl sm:text-3xl font-black text-emergencyRed mt-1">0</div>
+                </div>
+            </div>
+
+            <!-- Dashboard Tabs -->
+            <div class="flex flex-wrap gap-2 mb-6">
+                <button type="button" onclick="setAdminTab('volunteers')" data-admintab="volunteers" class="admintab-btn px-4 py-2.5 rounded-xl bg-gold text-navy font-extrabold text-xs sm:text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-users"></i> Volontyorlar bazasi
+                </button>
+                <button type="button" onclick="setAdminTab('sos')" data-admintab="sos" class="admintab-btn px-4 py-2.5 rounded-xl bg-white/10 text-slate-200 hover:bg-white/20 font-bold text-xs sm:text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-tower-broadcast text-emergencyRed"></i> SOS Signallar (<span id="sos-count-badge">0</span>)
+                </button>
+                <button type="button" onclick="setAdminTab('audit')" data-admintab="audit" class="admintab-btn px-4 py-2.5 rounded-xl bg-white/10 text-slate-200 hover:bg-white/20 font-bold text-xs sm:text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-clock-rotate-left"></i> Audit jurnali
+                </button>
+                <button type="button" id="tab-btn-settings" onclick="setAdminTab('settings')" data-admintab="settings" class="admintab-btn px-4 py-2.5 rounded-xl bg-white/10 text-slate-200 hover:bg-white/20 font-bold text-xs sm:text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-sliders"></i> Tizim sozlamalari
+                </button>
+            </div>
+
+            <!-- TAB 1: VOLUNTEERS DATABASE -->
+            <div id="admin-panel-volunteers" class="space-y-5">
+                <!-- Toolbar -->
+                <div class="glass-panel rounded-2xl p-4 flex flex-col lg:flex-row gap-3 justify-between">
+                    <div class="flex flex-col sm:flex-row gap-3 flex-1">
+                        <div class="relative flex-1">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                            <input type="text" id="admin-search-input" oninput="renderAdminVolunteers()" placeholder="Ism, ID (FVV-2026-...) yoki telefon..." class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-navy/80 border border-white/15 text-white text-sm outline-none focus:ring-2 focus:ring-gold">
+                        </div>
+                        <select id="admin-district-filter" onchange="renderAdminVolunteers()" class="px-3.5 py-2.5 rounded-xl bg-navy/80 border border-white/15 text-white text-sm outline-none">
+                            <option value="all">Barcha tuman/shaharlar</option>
+                            <option value="Termiz shahri">Termiz shahri</option>
+                            <option value="Angor tumani">Angor tumani</option>
+                            <option value="Bandixon tumani">Bandixon tumani</option>
+                            <option value="Boysun tumani">Boysun tumani</option>
+                            <option value="Denov tumani">Denov tumani</option>
+                            <option value="Jarqoʻrgʻon tumani">Jarqoʻrgʻon tumani</option>
+                            <option value="Qiziriq tumani">Qiziriq tumani</option>
+                            <option value="Qumqoʻrgʻon tumani">Qumqoʻrgʻon tumani</option>
+                            <option value="Muzrabot tumani">Muzrabot tumani</option>
+                            <option value="Oltinsoy tumani">Oltinsoy tumani</option>
+                            <option value="Sariosiyo tumani">Sariosiyo tumani</option>
+                            <option value="Sherobod tumani">Sherobod tumani</option>
+                            <option value="Shoʻrchi tumani">Shoʻrchi tumani</option>
+                            <option value="Uzun tumani">Uzun tumani</option>
+                        </select>
+                        <select id="admin-status-filter" onchange="renderAdminVolunteers()" class="px-3.5 py-2.5 rounded-xl bg-navy/80 border border-white/15 text-white text-sm outline-none">
+                            <option value="all">Barcha holatlar</option>
+                            <option value="approved">Tasdiqlangan</option>
+                            <option value="pending">Kutilmoqda</option>
+                            <option value="rejected">Rad etilgan</option>
+                        </select>
+                    </div>
+
+                    <div class="flex flex-wrap gap-2">
+                        <button type="button" id="btn-open-add-modal" onclick="openManualAddModal()" class="px-4 py-2.5 rounded-xl bg-gold hover:bg-amber-400 text-navy font-extrabold text-xs sm:text-sm flex items-center gap-1.5">
+                            <i class="fa-solid fa-user-plus"></i> Qoʻlda qoʻshish
+                        </button>
+                        <button type="button" id="btn-open-import-modal" onclick="openBotImportModal()" class="px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs sm:text-sm flex items-center gap-1.5">
+                            <i class="fa-brands fa-telegram"></i> Bot matnidan tezkor qoʻshish
+                        </button>
+                        <button type="button" id="btn-export-csv" onclick="exportVolunteersCsv()" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm flex items-center gap-1.5">
+                            <i class="fa-solid fa-file-csv text-emerald-400"></i> CSV
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Volunteers Table -->
+                <div class="glass-panel rounded-3xl overflow-hidden border border-white/10">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-navy/90 text-slate-300 text-xs uppercase tracking-wider border-b border-white/10">
+                                    <th class="py-3.5 px-4">ID / Sana</th>
+                                    <th class="py-3.5 px-4">Volontyor</th>
+                                    <th class="py-3.5 px-4">Hudud & Yoʻnalish</th>
+                                    <th class="py-3.5 px-4">Telefon & Oʻqish/Ish</th>
+                                    <th class="py-3.5 px-4">Holat</th>
+                                    <th class="py-3.5 px-4 text-right">Amallar</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-volunteers-tbody" class="divide-y divide-white/10 text-sm"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: SOS ALERTS -->
+            <div id="admin-panel-sos" class="hidden">
+                <div class="glass-panel rounded-3xl p-6 border border-white/10">
+                    <h3 class="text-lg font-black text-white mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-tower-broadcast text-emergencyRed"></i> Kelib tushgan SOS signallar (Firebase)
+                    </h3>
+                    <div id="admin-sos-list" class="space-y-3"></div>
+                </div>
+            </div>
+
+            <!-- TAB 3: AUDIT LOG -->
+            <div id="admin-panel-audit" class="hidden">
+                <div class="glass-panel rounded-3xl overflow-hidden border border-white/10">
+                    <div class="p-5 bg-navy/80 border-b border-white/10 flex items-center justify-between">
+                        <h3 class="font-black text-white text-base">Tizim faoliyati jurnali (Audit log)</h3>
+                        <button type="button" id="btn-clear-audit" onclick="clearRemoteAuditLog()" class="px-3.5 py-1.5 rounded-xl bg-emergencyRed/20 hover:bg-emergencyRed text-rose-300 hover:text-white text-xs font-bold transition-colors">
+                            Jurnalni tozalash
+                        </button>
+                    </div>
+                    <div id="admin-audit-list" class="divide-y divide-white/10 max-h-[500px] overflow-y-auto"></div>
+                </div>
+            </div>
+
+            <!-- TAB 4: SYSTEM SETTINGS (SUPER ADMIN) -->
+            <div id="admin-panel-settings" class="hidden">
+                <div class="glass-panel rounded-3xl p-6 sm:p-8 max-w-3xl border border-white/15">
+                    <h3 class="text-xl font-black text-white mb-1">Firebase Cloud & Telegram Bot sozlamalari</h3>
+                    <p class="text-slate-300 text-xs sm:text-sm mb-6">Barcha qurilmalarda sinxronlash uchun Firebase Realtime Database havolasi va Telegram bot parametrlarini boshqaring.</p>
+
+                    <form id="system-settings-form" class="space-y-5">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">Firebase Realtime Database URL</label>
+                            <input type="url" id="cfg-firebase-url" required class="w-full px-4 py-3 rounded-xl bg-navy/90 border border-white/15 text-white font-mono text-xs sm:text-sm focus:ring-2 focus:ring-gold outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">Telegram Bot Token</label>
+                            <input type="text" id="cfg-bot-token" required class="w-full px-4 py-3 rounded-xl bg-navy/90 border border-white/15 text-white font-mono text-xs sm:text-sm focus:ring-2 focus:ring-gold outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">Admin Chat ID raqamlari (vergul bilan ajrating)</label>
+                            <input type="text" id="cfg-chat-ids" required class="w-full px-4 py-3 rounded-xl bg-navy/90 border border-white/15 text-white font-mono text-xs sm:text-sm focus:ring-2 focus:ring-gold outline-none">
+                        </div>
+
+                        <div id="settings-test-output" class="hidden p-4 rounded-2xl text-xs sm:text-sm"></div>
+
+                        <div class="flex flex-wrap gap-3 pt-2">
+                            <button type="submit" class="px-6 py-3 rounded-xl bg-gold hover:bg-amber-400 text-navy font-extrabold text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-floppy-disk"></i> Saqlash
+                            </button>
+                            <button type="button" onclick="testSystemIntegrations()" class="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-vial-circle-check"></i> Firebase & Botni tekshirish
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- MODALS (MANUAL ADD, BOT TEXT IMPORT, ID CARD PREVIEW, DELETE)         -->
+    <!-- ===================================================================== -->
+
+    <!-- 1. Manual Add Volunteer Modal -->
+    <div id="modal-manual-add" class="hidden fixed inset-0 z-[80] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+        <div class="bg-white text-slate-800 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between pb-4 mb-5 border-b border-slate-100">
+                <h3 class="text-xl font-black text-navy">Yangi volontyor qoʻshish</h3>
+                <button type="button" onclick="closeManualAddModal()" class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <form id="manual-add-form" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-navy uppercase mb-1">F.I.Sh. *</label>
+                    <input type="text" id="m-fullname" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-navy uppercase mb-1">Tugʻilgan sana *</label>
+                        <input type="date" id="m-birthdate" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-navy uppercase mb-1">Telefon *</label>
+                        <input type="tel" id="m-phone" required placeholder="+998..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-navy uppercase mb-1">Tuman/Shahar *</label>
+                        <select id="m-district" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm">
+                            <option value="Termiz shahri">Termiz shahri</option>
+                            <option value="Angor tumani">Angor tumani</option>
+                            <option value="Bandixon tumani">Bandixon tumani</option>
+                            <option value="Boysun tumani">Boysun tumani</option>
+                            <option value="Denov tumani">Denov tumani</option>
+                            <option value="Jarqoʻrgʻon tumani">Jarqoʻrgʻon tumani</option>
+                            <option value="Qiziriq tumani">Qiziriq tumani</option>
+                            <option value="Qumqoʻrgʻon tumani">Qumqoʻrgʻon tumani</option>
+                            <option value="Muzrabot tumani">Muzrabot tumani</option>
+                            <option value="Oltinsoy tumani">Oltinsoy tumani</option>
+                            <option value="Sariosiyo tumani">Sariosiyo tumani</option>
+                            <option value="Sherobod tumani">Sherobod tumani</option>
+                            <option value="Shoʻrchi tumani">Shoʻrchi tumani</option>
+                            <option value="Uzun tumani">Uzun tumani</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-navy uppercase mb-1">Yoʻnalish *</label>
+                        <select id="m-spec" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm">
+                            <option value="Birinchi tibbiy yordam">Birinchi tibbiy yordam</option>
+                            <option value="Yongʻin xavfsizligi">Yongʻin xavfsizligi</option>
+                            <option value="Qidiruv-qutqaruv">Qidiruv-qutqaruv</option>
+                            <option value="Axborot va profilaktika">Axborot va profilaktika</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-navy uppercase mb-1">Oʻqish/Ish joyi *</label>
+                        <input type="text" id="m-org" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-navy uppercase mb-1">Holat</label>
+                        <select id="m-status" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm">
+                            <option value="approved">Tasdiqlangan</option>
+                            <option value="pending">Kutilmoqda</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="w-full py-3.5 rounded-xl bg-navy hover:bg-navyLight text-white font-extrabold text-sm">
+                    Firebase bazasiga saqlash
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. Import from Telegram Bot Message Modal -->
+    <div id="modal-bot-import" class="hidden fixed inset-0 z-[80] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+        <div class="bg-white text-slate-800 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl">
+            <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-brands fa-telegram text-sky-600 text-2xl"></i>
+                    <h3 class="text-lg sm:text-xl font-black text-navy">Bot matnidan tezkor qoʻshish</h3>
+                </div>
+                <button type="button" onclick="closeBotImportModal()" class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-600 mb-3">
+                Telegram botga kelgan volontyor xabarini nusxalab shu yerga tashlang — tizim F.I.Sh., ID, hudud, telefon va yoʻnalishni avtomatik ajratib Firebase bazasiga saqlaydi.
+            </p>
+            <textarea id="bot-import-textarea" rows="7" placeholder="Botdan nusxalangan matnni shu yerga joylang..." class="w-full p-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-xs sm:text-sm font-mono focus:ring-2 focus:ring-sky-600 outline-none mb-4"></textarea>
+            <div class="flex gap-3">
+                <button type="button" onclick="closeBotImportModal()" class="flex-1 py-3 rounded-xl bg-slate-100 text-slate-700 font-bold text-sm">Bekor qilish</button>
+                <button type="button" onclick="parseAndImportBotMessage()" class="flex-1 py-3 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-extrabold text-sm">
+                    Ajratish va Bazaga qoʻshish
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Admin ID Card Preview Modal -->
+    <div id="modal-admin-cert" class="hidden fixed inset-0 z-[85] flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-sm">
+        <div class="bg-navy border border-white/15 rounded-3xl max-w-md w-full p-5 sm:p-6 shadow-2xl text-white">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-black text-base sm:text-lg">Elektron Volontyor Guvohnomasi</h3>
+                <button type="button" onclick="closeAdminCertModal()" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="flex justify-center mb-4">
+                <canvas id="admin-preview-canvas" width="1000" height="1500" class="w-full max-w-[300px] h-auto rounded-2xl border border-gold/50 shadow-xl"></canvas>
+            </div>
+            <div class="flex gap-2.5">
+                <button type="button" onclick="downloadAdminPreviewCanvas()" class="flex-1 py-3 rounded-xl bg-gold hover:bg-amber-400 text-navy font-extrabold text-xs sm:text-sm flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-download"></i> PNG yuklash
+                </button>
+                <button type="button" id="btn-admin-modal-bot" onclick="sendAdminPreviewCanvasToBot()" class="flex-1 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5">
+                    <i class="fa-brands fa-telegram"></i> Botga yuborish
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Custom Delete Confirmation Modal -->
+    <div id="modal-confirm-delete" class="hidden fixed inset-0 z-[90] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+        <div class="bg-white text-slate-800 rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl">
+            <div class="w-14 h-14 rounded-full bg-rose-100 text-emergencyRed flex items-center justify-center text-2xl mx-auto mb-3">
+                <i class="fa-solid fa-trash-can"></i>
+            </div>
+            <h3 class="text-lg font-black text-navy">Volontyorni oʻchirish</h3>
+            <p id="delete-confirm-msg" class="text-slate-600 text-sm mt-1.5 mb-6"></p>
+            <div class="flex gap-3">
+                <button type="button" onclick="closeDeleteModal()" class="flex-1 py-2.5 rounded-xl bg-slate-100 font-bold text-sm">Bekor qilish</button>
+                <button type="button" id="btn-execute-delete" class="flex-1 py-2.5 rounded-xl bg-emergencyRed text-white font-extrabold text-sm">Oʻchirish</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Offscreen Canvas for Background Operations -->
+    <canvas id="offscreen-cert-canvas" width="1000" height="1500" class="hidden"></canvas>
+
+    <!-- ===================================================================== -->
+    <!-- APPLICATION JAVASCRIPT                                                -->
+    <!-- ===================================================================== -->
+    <script>
+        /* =====================================================================
+           1. PRE-CONFIGURED CONSTANTS & SYSTEM CONFIG
+           ===================================================================== */
+        const DEFAULT_FIREBASE_URL = "https://fvv-volontyorlar-default-rtdb.firebaseio.com";
+        const DEFAULT_BOT_TOKEN = "8672135372:AAHP4Nw765yg6gLNFk-rUWXh5KCNVV8UXmE";
+        const DEFAULT_CHAT_IDS = "8981971790";
+
+        const KEY_CONFIG = "fvv_sys_config_v2";
+        const KEY_LOCAL_VOLUNTEERS = "fvv_volunteers_cache_v2";
+        const KEY_LOCAL_AUDIT = "fvv_audit_cache_v2";
+        const KEY_LOCAL_SOS = "fvv_sos_cache_v2";
+        const KEY_SEEDED_FLAG = "fvv_firebase_seeded_v2";
+        const KEY_ADMIN_SESSION = "fvv_admin_session_v2";
+
+        let volunteersList = [];
+        let auditLogsList = [];
+        let sosAlertsList = [];
+        let currentAdmin = null;
+        let autoSyncInterval = null;
+        let regPhotoDataUrl = "";
+        let lastRegisteredVolunteer = null;
+        let activeModalVolunteerId = null;
+        let pendingDeleteVolunteerId = null;
+
+        const ADMIN_ROLES = {
+            superadmin: {
+                username: "superadmin",
+                password: "FVV@2026!Boss",
+                title: "Bosh Qoʻmondon (Super Admin)",
+                badge: "SUPER ADMIN",
+                badgeClass: "bg-gold/20 text-gold border border-gold/50",
+                desc: "Toʻliq nazorat: tasdiqlash, rad etish, oʻchirish, qoʻlda qoʻshish, botdan import, CSV va tizim sozlamalari.",
+                perms: { approve: true, delete: true, add: true, csv: true, settings: true, clearAudit: true }
+            },
+            koordinator: {
+                username: "koordinator",
+                password: "FVV@Hudud26",
+                title: "Hududiy Koordinator",
+                badge: "KOORDINATOR",
+                badgeClass: "bg-sky-500/20 text-sky-300 border border-sky-400/50",
+                desc: "Arizalarni tasdiqlash/rad etish, qoʻshish/import, guvohnoma yuklash va CSV eksport (Oʻchirish va sozlamalar yopiq).",
+                perms: { approve: true, delete: false, add: true, csv: true, settings: false, clearAudit: false }
+            },
+            nazoratchi: {
+                username: "nazoratchi",
+                password: "FVV@Safe26",
+                title: "Xavfsizlik Nazoratchisi",
+                badge: "NAZORATCHI",
+                badgeClass: "bg-emerald-500/20 text-emerald-300 border border-emerald-400/50",
+                desc: "Faqat oʻqish rejimi: qidirish, filtrlash, statistika, guvohnoma koʻrish va audit jurnali.",
+                perms: { approve: false, delete: false, add: false, csv: false, settings: false, clearAudit: false }
+            }
+        };
+
+        function normalizeFirebaseUrl(rawUrl) {
+            let clean = String(rawUrl || DEFAULT_FIREBASE_URL).trim();
+            if (!clean) clean = DEFAULT_FIREBASE_URL;
+            if (!clean.startsWith("http://") && !clean.startsWith("https://")) {
+                clean = "https://" + clean;
+            }
+            return clean.replace(/\/+$/, "");
+        }
+
+        function getSystemConfig() {
+            try {
+                const raw = localStorage.getItem(KEY_CONFIG);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    return {
+                        firebaseUrl: normalizeFirebaseUrl(parsed.firebaseUrl),
+                        botToken: String(parsed.botToken || DEFAULT_BOT_TOKEN).trim(),
+                        chatIds: String(parsed.chatIds || DEFAULT_CHAT_IDS).trim()
+                    };
+                }
+            } catch (e) {
+                console.warn("Config load error:", e);
+            }
+            return {
+                firebaseUrl: DEFAULT_FIREBASE_URL,
+                botToken: DEFAULT_BOT_TOKEN,
+                chatIds: DEFAULT_CHAT_IDS
+            };
+        }
+
+        function saveSystemConfig(firebaseUrl, botToken, chatIds) {
+            const cfg = {
+                firebaseUrl: normalizeFirebaseUrl(firebaseUrl),
+                botToken: String(botToken || DEFAULT_BOT_TOKEN).trim(),
+                chatIds: String(chatIds || DEFAULT_CHAT_IDS).trim()
+            };
+            localStorage.setItem(KEY_CONFIG, JSON.stringify(cfg));
+            return cfg;
+        }
+
+        function getChatIdArray() {
+            const cfg = getSystemConfig();
+            const arr = cfg.chatIds.split(",").map(s => s.trim()).filter(Boolean);
+            return arr.length ? arr : [DEFAULT_CHAT_IDS];
+        }
+
+        /* =====================================================================
+           2. FIREBASE REALTIME DATABASE REST ENGINE (CROSS-DEVICE SYNC)
+           ===================================================================== */
+        function setCloudStatusUI(state, label) {
+            const navPill = document.getElementById("nav-cloud-pill");
+            const navText = document.getElementById("nav-cloud-text");
+            const dashBadge = document.getElementById("firebase-live-badge");
+            const dashText = document.getElementById("firebase-live-text");
+
+            if (state === "connected") {
+                if (navPill) navPill.className = "hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-xs font-semibold";
+                if (navText) navText.textContent = "Firebase Cloud";
+                if (dashBadge) dashBadge.className = "px-3 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-bold flex items-center gap-1.5";
+                if (dashText) dashText.textContent = label || "Firebase Cloud: Ulangan";
+            } else if (state === "syncing") {
+                if (dashText) dashText.textContent = label || "Sinxronlanmoqda...";
+            } else {
+                if (navPill) navPill.className = "hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-500/15 border border-amber-400/30 text-amber-300 text-xs font-semibold";
+                if (navText) navText.textContent = "Lokal zaxira";
+                if (dashBadge) dashBadge.className = "px-3 py-0.5 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs font-bold flex items-center gap-1.5";
+                if (dashText) dashText.textContent = label || "Oflayn (Lokal zaxira)";
+            }
+        }
+
+        async function firebaseRequest(path, method = "GET", body = null) {
+            const { firebaseUrl } = getSystemConfig();
+            const url = `${firebaseUrl}${path}`;
+            const options = {
+                method,
+                headers: { "Content-Type": "application/json" }
+            };
+            if (body !== null) {
+                options.body = JSON.stringify(body);
+            }
+            const res = await fetch(url, options);
+            if (!res.ok) {
+                throw new Error(`Firebase HTTP ${res.status}`);
+            }
+            return res.json();
+        }
+
+        function saveLocalCache() {
+            try {
+                localStorage.setItem(KEY_LOCAL_VOLUNTEERS, JSON.stringify(volunteersList));
+                localStorage.setItem(KEY_LOCAL_AUDIT, JSON.stringify(auditLogsList.slice(0, 100)));
+                localStorage.setItem(KEY_LOCAL_SOS, JSON.stringify(sosAlertsList.slice(0, 50)));
+            } catch (e) {
+                console.warn("Local cache storage warning:", e);
+            }
+        }
+
+        function loadLocalCache() {
+            try {
+                volunteersList = JSON.parse(localStorage.getItem(KEY_LOCAL_VOLUNTEERS) || "[]");
+                auditLogsList = JSON.parse(localStorage.getItem(KEY_LOCAL_AUDIT) || "[]");
+                sosAlertsList = JSON.parse(localStorage.getItem(KEY_LOCAL_SOS) || "[]");
+            } catch {
+                volunteersList = [];
+                auditLogsList = [];
+                sosAlertsList = [];
+            }
+        }
+
+        async function pushVolunteerToFirebase(volObj) {
+            const payload = { ...volObj, synced: true };
+            await firebaseRequest(`/volunteers/${encodeURIComponent(volObj.id)}.json`, "PUT", payload);
+            return payload;
+        }
+
+        async function pushAuditToFirebase(actor, role, action, type = "info") {
+            const entry = {
+                id: `AUD-${Date.now()}`,
+                time: formatDateTime(new Date()),
+                timestamp: Date.now(),
+                actor,
+                role,
+                action,
+                type
+            };
+            auditLogsList.unshift(entry);
+            saveLocalCache();
+            try {
+                await firebaseRequest("/audit.json", "POST", entry);
+            } catch (e) {
+                console.warn("Audit push failed:", e);
+            }
+        }
+
+        async function migrateUnsyncedLocalVolunteers(remoteMap) {
+            const unsynced = volunteersList.filter(v => !remoteMap[v.id]);
+            for (const item of unsynced) {
+                try {
+                    const syncedItem = await pushVolunteerToFirebase(item);
+                    remoteMap[item.id] = syncedItem;
+                } catch (err) {
+                    console.warn("Migration error for", item.id, err);
+                }
+            }
+        }
+
+        async function seedSampleVolunteersIfNeeded(remoteData) {
+            if (remoteData && Object.keys(remoteData).length > 0) return remoteData;
+            if (localStorage.getItem(KEY_SEEDED_FLAG)) return remoteData || {};
+
+            const samples = {
+                "FVV-2026-1001": {
+                    id: "FVV-2026-1001",
+                    fullName: "Xolmatov Jasurbek Bahodirovich",
+                    birthDate: "2004-04-18",
+                    district: "Termiz shahri",
+                    phone: "+998 91 574 22 10",
+                    specialization: "Qidiruv-qutqaruv",
+                    organization: "Termiz davlat universiteti",
+                    status: "approved",
+                    issueDate: "15.11.2026",
+                    validity: "2026–2027",
+                    photo: "",
+                    createdAt: Date.now() - 86400000 * 3,
+                    synced: true
+                },
+                "FVV-2026-1002": {
+                    id: "FVV-2026-1002",
+                    fullName: "Toshpoʻlatova Malika Rustamovna",
+                    birthDate: "2005-09-12",
+                    district: "Denov tumani",
+                    phone: "+998 90 345 19 88",
+                    specialization: "Birinchi tibbiy yordam",
+                    organization: "Denov tadbirkorlik va pedagogika instituti",
+                    status: "pending",
+                    issueDate: "24.11.2026",
+                    validity: "2026–2027",
+                    photo: "",
+                    createdAt: Date.now() - 3600000 * 5,
+                    synced: true
+                }
+            };
+
+            try {
+                await firebaseRequest("/volunteers.json", "PATCH", samples);
+                localStorage.setItem(KEY_SEEDED_FLAG, "1");
+                return samples;
+            } catch {
+                return remoteData || {};
+            }
+        }
+
+        async function syncAllFromFirebase(manualTrigger = false) {
+            const syncIcon = document.getElementById("sync-icon");
+            if (syncIcon) syncIcon.classList.add("fa-spin");
+            setCloudStatusUI("syncing", "Firebase bilan sinxronlanmoqda...");
+
+            try {
+                let remoteVols = await firebaseRequest("/volunteers.json", "GET");
+                remoteVols = await seedSampleVolunteersIfNeeded(remoteVols);
+                const mergedMap = remoteVols && typeof remoteVols === "object" ? { ...remoteVols } : {};
+
+                // Migrate any locally saved records that haven't reached Firebase yet
+                await migrateUnsyncedLocalVolunteers(mergedMap);
+
+                volunteersList = Object.values(mergedMap)
+                    .filter(v => v && v.id && v.fullName)
+                    .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+                // Fetch Audit Logs
+                const remoteAudit = await firebaseRequest("/audit.json", "GET");
+                if (remoteAudit && typeof remoteAudit === "object") {
+                    auditLogsList = Object.values(remoteAudit)
+                        .filter(Boolean)
+                        .sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+                }
+
+                // Fetch SOS Alerts
+                const remoteSos = await firebaseRequest("/sos.json", "GET");
+                if (remoteSos && typeof remoteSos === "object") {
+                    sosAlertsList = Object.values(remoteSos)
+                        .filter(Boolean)
+                        .sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+                }
+
+                saveLocalCache();
+                setCloudStatusUI("connected", "Firebase Cloud: Ulangan");
+                updateDashboardUI();
+
+                if (manualTrigger) {
+                    showToast("Sinxronlandi!", `Firebase Cloud bazasidan ${volunteersList.length} ta volontyor yuklandi.`);
+                }
+            } catch (err) {
+                console.warn("Firebase sync fallback to local cache:", err);
+                setCloudStatusUI("offline", "Oflayn (Lokal zaxira)");
+                updateDashboardUI();
+                if (manualTrigger) {
+                    showToast("Ulanish xatosi", "Firebase serveriga ulanib boʻlmadi. Internetni tekshiring.", true);
+                }
+            } finally {
+                if (syncIcon) syncIcon.classList.remove("fa-spin");
+            }
+        }
+
+        /* =====================================================================
+           3. TELEGRAM BOT API INTEGRATION (SEND PHOTO + TEXT FALLBACK)
+           ===================================================================== */
+        function buildTelegramVolunteerCaption(vol) {
+            const statusMap = {
+                approved: "Tasdiqlangan ✅",
+                pending: "Kutilmoqda ⏳",
+                rejected: "Rad etilgan ❌"
+            };
+            return `🚨 FAVQULODDA VAZIYATLAR VOLONTYORI 🚨\n\n` +
+                   `🆔 ID: ${vol.id}\n` +
+                   `👤 F.I.Sh.: ${vol.fullName}\n` +
+                   `🎂 Tugʻilgan sana: ${vol.birthDate}\n` +
+                   `📍 Hudud: ${vol.district}\n` +
+                   `📞 Telefon: ${vol.phone}\n` +
+                   `🧭 Yoʻnalish: ${vol.specialization}\n` +
+                   `🏢 Oʻqish/Ish joyi: ${vol.organization}\n` +
+                   `📆 Amal qilish muddati: ${vol.validity}\n` +
+                   `📌 Holat: ${statusMap[vol.status] || "Kutilmoqda"}\n` +
+                   `📊 Jami bazadagi volontyorlar: ${volunteersList.length} nafar`;
+        }
+
+        async function sendTelegramTextMessage(token, chatId, text) {
+            const url = `https://api.telegram.org/bot${token}/sendMessage`;
+            try {
+                const resp = await fetch(url, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ chat_id: chatId, text })
+                });
+                const json = await resp.json().catch(() => null);
+                return Boolean(resp.ok && json && json.ok);
+            } catch {
+                // Image beacon fallback for strict CORS mobile browsers
+                await new Promise(resolve => {
+                    const img = new Image();
+                    img.onload = img.onerror = resolve;
+                    setTimeout(resolve, 2000);
+                    img.src = `${url}?chat_id=${encodeURIComponent(chatId)}&text=${encodeURIComponent(text)}`;
+                });
+                return true;
+            }
+        }
+
+        async function dispatchVolunteerCardToTelegram(vol, canvasElement) {
+            const cfg = getSystemConfig();
+            const chatIds = getChatIdArray();
+            const caption = buildTelegramVolunteerCaption(vol);
+
+            const blob = await new Promise(resolve => {
+                canvasElement.toBlob(b => resolve(b), "image/png");
+            });
+
+            let photoSent = 0;
+            let textSent = 0;
+
+            for (const chatId of chatIds) {
+                let delivered = false;
+                if (blob) {
+                    try {
+                        const fd = new FormData();
+                        fd.append("chat_id", chatId);
+                        fd.append("photo", blob, `${vol.id}.png`);
+                        fd.append("caption", caption);
+
+                        const resp = await fetch(`https://api.telegram.org/bot${cfg.botToken}/sendPhoto`, {
+                            method: "POST",
+                            body: fd
+                        });
+                        const data = await resp.json().catch(() => null);
+                        if (resp.ok && data && data.ok) {
+                            photoSent++;
+                            delivered = true;
+                        }
+                    } catch (e) {
+                        console.warn("sendPhoto error, falling back to sendMessage:", e);
+                    }
+                }
+
+                if (!delivered) {
+                    const ok = await sendTelegramTextMessage(cfg.botToken, chatId, caption);
+                    if (ok) textSent++;
+                }
+            }
+
+            if (photoSent > 0) return { ok: true, mode: "photo" };
+            if (textSent > 0) return { ok: true, mode: "text" };
+            return { ok: false, mode: "none" };
+        }
+
+        /* =====================================================================
+           4. 1000x1500px PRINT-READY ID CARD GENERATOR (HTML5 CANVAS)
+           ===================================================================== */
+        function roundRectPath(ctx, x, y, w, h, r) {
+            ctx.beginPath();
+            ctx.moveTo(x + r, y);
+            ctx.lineTo(x + w - r, y);
+            ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+            ctx.lineTo(x + w, y + h - r);
+            ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+            ctx.lineTo(x + r, y + h);
+            ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+            ctx.lineTo(x, y + r);
+            ctx.quadraticCurveTo(x, y, x + r, y);
+            ctx.closePath();
+        }
+
+        function drawOfficialSeal(ctx, cx, cy, radius, alpha = 1) {
+            ctx.save();
+            ctx.globalAlpha = alpha;
+
+            // Outer Double Ring
+            ctx.beginPath();
+            ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+            ctx.fillStyle = "#0B192C";
+            ctx.fill();
+            ctx.lineWidth = radius * 0.06;
+            ctx.strokeStyle = "#F59E0B";
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(cx, cy, radius * 0.84, 0, Math.PI * 2);
+            ctx.lineWidth = radius * 0.025;
+            ctx.strokeStyle = "#FDE68A";
+            ctx.stroke();
+
+            // 8-pointed Rescue Star
+            const outerR = radius * 0.66;
+            const innerR = radius * 0.34;
+            ctx.beginPath();
+            for (let i = 0; i < 16; i++) {
+                const r = i % 2 === 0 ? outerR : innerR;
+                const angle = (i * Math.PI) / 8 - Math.PI / 2;
+                const px = cx + Math.cos(angle) * r;
+                const py = cy + Math.sin(angle) * r;
+                if (i === 0) ctx.moveTo(px, py);
+                else ctx.lineTo(px, py);
+            }
+            ctx.closePath();
+            ctx.fillStyle = "#E2E8F0";
+            ctx.fill();
+
+            // Center Gold Disc & Blue Triangle
+            ctx.beginPath();
+            ctx.arc(cx, cy, radius * 0.36, 0, Math.PI * 2);
+            ctx.fillStyle = "#F59E0B";
+            ctx.fill();
+            ctx.lineWidth = radius * 0.03;
+            ctx.strokeStyle = "#0B192C";
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(cx, cy - radius * 0.24);
+            ctx.lineTo(cx - radius * 0.22, cy + radius * 0.16);
+            ctx.lineTo(cx + radius * 0.22, cy + radius * 0.16);
+            ctx.closePath();
+            ctx.fillStyle = "#1D4ED8";
+            ctx.fill();
+            ctx.lineWidth = 2.5;
+            ctx.strokeStyle = "#FFFFFF";
+            ctx.stroke();
+
+            ctx.fillStyle = "#FFFFFF";
+            ctx.font = `900 ${Math.round(radius * 0.16)}px Inter, sans-serif`;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("FVV", cx, cy + radius * 0.48);
+
+            ctx.restore();
+        }
+
+        function drawQrMatrixGraphic(ctx, x, y, size, seedText) {
+            ctx.save();
+            ctx.fillStyle = "#FFFFFF";
+            roundRectPath(ctx, x, y, size, size, 16);
+            ctx.fill();
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = "#CBD5E1";
+            ctx.stroke();
+
+            const cells = 21;
+            const pad = 16;
+            const cellSize = (size - pad * 2) / cells;
+
+            let hash = 2166136261;
+            for (let i = 0; i < seedText.length; i++) {
+                hash ^= seedText.charCodeAt(i);
+                hash = Math.imul(hash, 16777619);
+            }
+
+            const isFinder = (r, c) =>
+                (r < 7 && c < 7) || (r < 7 && c >= cells - 7) || (r >= cells - 7 && c < 7);
+
+            ctx.fillStyle = "#0B192C";
+            for (let r = 0; r < cells; r++) {
+                for (let c = 0; c < cells; c++) {
+                    if (isFinder(r, c)) continue;
+                    const bit = ((hash >>> ((r * 7 + c * 13) % 24)) ^ (r * 31 + c * 17)) & 1;
+                    if (bit === 1) {
+                        ctx.fillRect(
+                            x + pad + c * cellSize,
+                            y + pad + r * cellSize,
+                            cellSize - 1,
+                            cellSize - 1
+                        );
+                    }
+                }
+            }
+
+            // 3 Finder Squares
+            const drawFinder = (fr, fc) => {
+                const fx = x + pad + fc * cellSize;
+                const fy = y + pad + fr * cellSize;
+                const fs = cellSize * 7;
+                ctx.fillStyle = "#0B192C";
+                ctx.fillRect(fx, fy, fs, fs);
+                ctx.fillStyle = "#FFFFFF";
+                ctx.fillRect(fx + cellSize, fy + cellSize, fs - cellSize * 2, fs - cellSize * 2);
+                ctx.fillStyle = "#E11D48";
+                ctx.fillRect(fx + cellSize * 2, fy + cellSize * 2, fs - cellSize * 4, fs - cellSize * 4);
+            };
+            drawFinder(0, 0);
+            drawFinder(0, cells - 7);
+            drawFinder(cells - 7, 0);
+
+            ctx.restore();
+        }
+
+        function drawFallbackVolunteerAvatar(ctx, x, y, w, h) {
+            ctx.save();
+            const bgGrad = ctx.createLinearGradient(x, y, x, y + h);
+            bgGrad.addColorStop(0, "#E2E8F0");
+            bgGrad.addColorStop(1, "#CBD5E1");
+            ctx.fillStyle = bgGrad;
+            ctx.fillRect(x, y, w, h);
+
+            drawOfficialSeal(ctx, x + w / 2, y + h * 0.44, w * 0.32, 0.95);
+
+            ctx.fillStyle = "#0B192C";
+            ctx.font = "800 22px Inter, sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText("RASMIY VOLONTYOR", x + w / 2, y + h * 0.85);
+            ctx.restore();
+        }
+
+        function loadImagePromise(src) {
+            return new Promise(resolve => {
+                if (!src) return resolve(null);
+                const img = new Image();
+                img.onload = () => resolve(img);
+                img.onerror = () => resolve(null);
+                img.src = src;
+            });
+        }
+
+        function wrapCanvasLines(ctx, text, maxWidth, maxLines = 2) {
+            const words = String(text || "").trim().split(/\s+/);
+            const lines = [];
+            let current = "";
+            for (const word of words) {
+                const test = current ? `${current} ${word}` : word;
+                if (ctx.measureText(test).width <= maxWidth) {
+                    current = test;
+                } else {
+                    if (current) lines.push(current);
+                    current = word;
+                    if (lines.length === maxLines - 1) break;
+                }
+            }
+            if (current && lines.length < maxLines) lines.push(current);
+            return lines;
+        }
+
+        async function renderVolunteerIdCardCanvas(canvas, vol) {
+            if (!canvas) return;
+            const W = 1000;
+            const H = 1500;
+            canvas.width = W;
+            canvas.height = H;
+            const ctx = canvas.getContext("2d");
+
+            // 1. Outer Gold/Red Security Frame
+            const outerGrad = ctx.createLinearGradient(0, 0, W, H);
+            outerGrad.addColorStop(0, "#F59E0B");
+            outerGrad.addColorStop(0.5, "#B45309");
+            outerGrad.addColorStop(1, "#FBBF24");
+            roundRectPath(ctx, 0, 0, W, H, 48);
+            ctx.fillStyle = outerGrad;
+            ctx.fill();
+
+            // Inner Card Surface
+            roundRectPath(ctx, 18, 18, W - 36, H - 36, 36);
+            ctx.fillStyle = "#F8FAFC";
+            ctx.fill();
+
+            ctx.save();
+            roundRectPath(ctx, 18, 18, W - 36, H - 36, 36);
+            ctx.clip();
+
+            // Geometric Security Background Lines
+            ctx.strokeStyle = "rgba(11, 25, 44, 0.04)";
+            ctx.lineWidth = 2;
+            for (let i = -H; i < W + H; i += 34) {
+                ctx.beginPath();
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i + H * 0.6, H);
+                ctx.stroke();
+            }
+
+            // 2. Deep Navy Header with Red & Gold Stripe
+            const headerGrad = ctx.createLinearGradient(0, 0, W, 330);
+            headerGrad.addColorStop(0, "#060F1C");
+            headerGrad.addColorStop(0.5, "#0B192C");
+            headerGrad.addColorStop(1, "#132744");
+            ctx.fillStyle = headerGrad;
+            ctx.fillRect(0, 0, W, 335);
+
+            // Emergency Red & Gold Accent Bar
+            ctx.fillStyle = "#E11D48";
+            ctx.fillRect(0, 322, W, 14);
+            ctx.fillStyle = "#F59E0B";
+            ctx.fillRect(0, 336, W, 8);
+
+            // Top-Left Official Seal
+            drawOfficialSeal(ctx, 145, 168, 96, 1);
+
+            // Official Header Typography
+            ctx.fillStyle = "#F59E0B";
+            ctx.font = "800 22px Inter, sans-serif";
+            ctx.textAlign = "left";
+            ctx.fillText("OʻZBEKISTON RESPUBLIKASI FAVQULODDA VAZIYATLAR VAZIRLIGI", 268, 78);
+
+            ctx.fillStyle = "#FFFFFF";
+            ctx.font = "900 36px Inter, sans-serif";
+            ctx.fillText("SURXONDARYO VILOYATI", 268, 134);
+            ctx.fillText("VOLONTYORLAR MAKTABI", 268, 182);
+
+            // 2026-2027 Pill Badge in Header
+            roundRectPath(ctx, 268, 212, 270, 50, 25);
+            ctx.fillStyle = "#E11D48";
+            ctx.fill();
+            ctx.fillStyle = "#FFFFFF";
+            ctx.font = "900 24px Inter, sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText("2026–2027 MAVSUM", 403, 245);
+
+            // Watermark Seal in Center
+            drawOfficialSeal(ctx, 760, 740, 220, 0.06);
+
+            // 3. Title Ribbon: VOLONTYOR GUVOHNOMASI
+            roundRectPath(ctx, 64, 378, W - 128, 76, 20);
+            ctx.fillStyle = "#0B192C";
+            ctx.fill();
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = "#F59E0B";
+            ctx.stroke();
+
+            ctx.fillStyle = "#F59E0B";
+            ctx.font = "900 34px Inter, sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText("RASMIY VOLONTYOR GUVOHNOMASI", W / 2, 427);
+
+            // 4. Portrait Photo Frame + Volunteer ID Badge
+            const photoX = 68;
+            const photoY = 492;
+            const photoW = 310;
+            const photoH = 395;
+
+            roundRectPath(ctx, photoX - 6, photoY - 6, photoW + 12, photoH + 12, 26);
+            ctx.fillStyle = "#F59E0B";
+            ctx.fill();
+
+            ctx.save();
+            roundRectPath(ctx, photoX, photoY, photoW, photoH, 20);
+            ctx.clip();
+
+            const userImg = await loadImagePromise(vol.photo);
+            if (userImg) {
+                const imgRatio = userImg.width / userImg.height;
+                const boxRatio = photoW / photoH;
+                let sx = 0, sy = 0, sw = userImg.width, sh = userImg.height;
+                if (imgRatio > boxRatio) {
+                    sw = userImg.height * boxRatio;
+                    sx = (userImg.width - sw) / 2;
+                } else {
+                    sh = userImg.width / boxRatio;
+                    sy = (userImg.height - sh) / 2;
+                }
+                ctx.drawImage(userImg, sx, sy, sw, sh, photoX, photoY, photoW, photoH);
+            } else {
+                drawFallbackVolunteerAvatar(ctx, photoX, photoY, photoW, photoH);
+            }
+            ctx.restore();
+
+            // ID Badge below Photo
+            roundRectPath(ctx, photoX, photoY + photoH + 18, photoW, 64, 16);
+            ctx.fillStyle = "#E11D48";
+            ctx.fill();
+            ctx.fillStyle = "#FFFFFF";
+            ctx.font = "900 28px Inter, sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText(vol.id || "FVV-2026-1001", photoX + photoW / 2, photoY + photoH + 59);
+
+            // 5. Right Column Volunteer Details
+            const infoX = 418;
+            const infoMaxW = 515;
+            let cursorY = 500;
+
+            const drawField = (label, value, isLarge = false) => {
+                ctx.fillStyle = "#64748B";
+                ctx.font = "800 20px Inter, sans-serif";
+                ctx.textAlign = "left";
+                ctx.fillText(label.toUpperCase(), infoX, cursorY);
+                cursorY += 34;
+
+                ctx.fillStyle = "#0B192C";
+                ctx.font = isLarge ? "900 36px Inter, sans-serif" : "800 27px Inter, sans-serif";
+                const lines = wrapCanvasLines(ctx, value || "-", infoMaxW, 2);
+                lines.forEach(line => {
+                    ctx.fillText(line, infoX, cursorY);
+                    cursorY += isLarge ? 42 : 34;
+                });
+
+                // Subtle divider
+                ctx.fillStyle = "#E2E8F0";
+                ctx.fillRect(infoX, cursorY - 12, infoMaxW, 2);
+                cursorY += 22;
+            };
+
+            drawField("F.I.Sh. (Familiya, Ism, Sharif)", String(vol.fullName || "").toUpperCase(), true);
+            drawField("Hudud (Tuman / Shahar)", vol.district);
+            drawField("Ixtisoslik yoʻnalishi", vol.specialization);
+            drawField("Tugʻilgan sana", vol.birthDate);
+            drawField("Oʻqish / Ish joyi", vol.organization);
+
+            // 6. Bottom Verification Section: QR Code + Validity + Official Stamp
+            const bottomBoxY = 1045;
+            roundRectPath(ctx, 64, bottomBoxY, W - 128, 285, 24);
+            ctx.fillStyle = "#FFFFFF";
+            ctx.fill();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = "#CBD5E1";
+            ctx.stroke();
+
+            // QR Matrix on Left
+            drawQrMatrixGraphic(ctx, 92, bottomBoxY + 26, 232, `https://fvv-volontyorlar.uz/verify?id=${vol.id}`);
+
+            // Center Validity & Issue Date
+            const midX = 356;
+            ctx.textAlign = "left";
+            ctx.fillStyle = "#64748B";
+            ctx.font = "800 20px Inter, sans-serif";
+            ctx.fillText("BERILGAN SANA:", midX, bottomBoxY + 62);
+            ctx.fillStyle = "#0B192C";
+            ctx.font = "900 30px Inter, sans-serif";
+            ctx.fillText(vol.issueDate || formatDate(new Date()), midX, bottomBoxY + 100);
+
+            ctx.fillStyle = "#64748B";
+            ctx.font = "800 20px Inter, sans-serif";
+            ctx.fillText("AMAL QILISH MUDDATI:", midX, bottomBoxY + 158);
+            ctx.fillStyle = "#059669";
+            ctx.font = "900 32px Inter, sans-serif";
+            ctx.fillText(vol.validity || "2026–2027", midX, bottomBoxY + 198);
+
+            ctx.fillStyle = "#475569";
+            ctx.font = "600 18px Inter, sans-serif";
+            ctx.fillText("Shtab rahbari imzosi: ______________", midX, bottomBoxY + 248);
+
+            // Official Round Seal Overlay on Right
+            drawOfficialSeal(ctx, 818, bottomBoxY + 142, 88, 0.92);
+
+            // 7. Bottom Footer Strip
+            ctx.fillStyle = "#0B192C";
+            ctx.fillRect(0, H - 110, W, 110);
+            ctx.fillStyle = "#F59E0B";
+            ctx.fillRect(0, H - 116, W, 6);
+
+            ctx.fillStyle = "#FFFFFF";
+            ctx.font = "900 25px Inter, sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText("BIR JAMOA • BIR MAQSAD • XAVFSIZ JAMIYAT UCHUN", W / 2, H - 64);
+
+            ctx.fillStyle = "#94A3B8";
+            ctx.font = "600 19px Inter, sans-serif";
+            ctx.fillText("Favqulodda xizmat: 1050  |  Surxondaryo viloyati FVV Volontyorlari Maktabi", W / 2, H - 28);
+
+            ctx.restore();
+        }
+
+        function exportCanvasPng(canvasId, fileName) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            canvas.toBlob(blob => {
+                if (!blob) return;
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showToast("Yuklab olindi!", `${fileName} qurilmangizga saqlandi.`);
+            }, "image/png");
+        }
+
+        /* =====================================================================
+           5. REGISTRATION FLOW & PHOTO PROCESSING
+           ===================================================================== */
+        function formatDate(d = new Date()) {
+            const day = String(d.getDate()).padStart(2, "0");
+            const mon = String(d.getMonth() + 1).padStart(2, "0");
+            return `${day}.${mon}.${d.getFullYear()}`;
+        }
+
+        function formatDateTime(d = new Date()) {
+            const hh = String(d.getHours()).padStart(2, "0");
+            const mm = String(d.getMinutes()).padStart(2, "0");
+            return `${formatDate(d)} ${hh}:${mm}`;
+        }
+
+        function generateNextVolunteerId() {
+            let maxNum = 1000;
+            volunteersList.forEach(v => {
+                const match = String(v.id || "").match(/FVV-2026-(\d+)/i);
+                if (match) {
+                    const num = parseInt(match[1], 10);
+                    if (num > maxNum) maxNum = num;
+                }
+            });
+            const randomBump = Math.floor(1 + Math.random() * 4);
+            return `FVV-2026-${maxNum + randomBump}`;
+        }
+
+        function compressUploadedImage(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onerror = () => reject(new Error("Faylni oʻqib boʻlmadi"));
+                reader.onload = ev => {
+                    const img = new Image();
+                    img.onerror = () => reject(new Error("Notoʻgʻri rasm"));
+                    img.onload = () => {
+                        const targetW = 360;
+                        const targetH = 460;
+                        const scale = Math.min(targetW / img.width, targetH / img.height, 1);
+                        const w = Math.round(img.width * scale);
+                        const h = Math.round(img.height * scale);
+
+                        const c = document.createElement("canvas");
+                        c.width = w;
+                        c.height = h;
+                        const ctx = c.getContext("2d");
+                        ctx.fillStyle = "#FFFFFF";
+                        ctx.fillRect(0, 0, w, h);
+                        ctx.drawImage(img, 0, 0, w, h);
+                        resolve(c.toDataURL("image/jpeg", 0.82));
+                    };
+                    img.src = ev.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function onPhotoSelected(event, prefix) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+            try {
+                const dataUrl = await compressUploadedImage(file);
+                if (prefix === "reg") regPhotoDataUrl = dataUrl;
+                const imgEl = document.getElementById(`${prefix}-photo-preview`);
+                const emptyEl = document.getElementById(`${prefix}-photo-empty`);
+                const remBtn = document.getElementById(`${prefix}-photo-remove`);
+                imgEl.src = dataUrl;
+                imgEl.classList.remove("hidden");
+                emptyEl.classList.add("hidden");
+                remBtn.classList.remove("hidden");
+            } catch {
+                showToast("Xatolik", "Rasmni qayta ishlashda muammo yuz berdi.", true);
+            }
+        }
+
+        function clearSelectedPhoto(prefix) {
+            if (prefix === "reg") regPhotoDataUrl = "";
+            const input = document.getElementById(`${prefix}-photo-input`);
+            const imgEl = document.getElementById(`${prefix}-photo-preview`);
+            const emptyEl = document.getElementById(`${prefix}-photo-empty`);
+            const remBtn = document.getElementById(`${prefix}-photo-remove`);
+            if (input) input.value = "";
+            if (imgEl) { imgEl.src = ""; imgEl.classList.add("hidden"); }
+            if (emptyEl) emptyEl.classList.remove("hidden");
+            if (remBtn) remBtn.classList.add("hidden");
+        }
+
+        document.getElementById("volunteer-register-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById("reg-submit-btn");
+            const label = document.getElementById("reg-submit-label");
+            btn.disabled = true;
+            label.textContent = "BAZAGA SAQLANMOQDA VA GUVOHNOMA YARATILMOQDA...";
+
+            const now = new Date();
+            const newVolunteer = {
+                id: generateNextVolunteerId(),
+                fullName: document.getElementById("reg-fullname").value.trim(),
+                birthDate: document.getElementById("reg-birthdate").value,
+                district: document.getElementById("reg-district").value,
+                phone: document.getElementById("reg-phone").value.trim(),
+                specialization: document.getElementById("reg-spec").value,
+                organization: document.getElementById("reg-org").value.trim(),
+                status: "pending",
+                issueDate: formatDate(now),
+                validity: "2026–2027",
+                photo: regPhotoDataUrl || "",
+                createdAt: now.getTime(),
+                synced: false
+            };
+
+            // 1. Add locally first for instant reliability
+            volunteersList.unshift(newVolunteer);
+            saveLocalCache();
+
+            // 2. Push to Firebase Realtime Database
+            let firebaseOk = false;
+            try {
+                const syncedVol = await pushVolunteerToFirebase(newVolunteer);
+                volunteersList[0] = syncedVol;
+                saveLocalCache();
+                firebaseOk = true;
+                await pushAuditToFirebase("Onlayn ariza", "VOLONTYOR", `${newVolunteer.fullName} (${newVolunteer.id}) roʻyxatdan oʻtdi`, "info");
+            } catch (err) {
+                console.warn("Firebase save delayed:", err);
+            }
+
+            // 3. Render 1000x1500px PNG ID Card
+            const idCanvas = document.getElementById("id-card-canvas");
+            await renderVolunteerIdCardCanvas(idCanvas, newVolunteer);
+            lastRegisteredVolunteer = newVolunteer;
+
+            document.getElementById("created-volunteer-id").textContent = newVolunteer.id;
+            document.getElementById("register-form-card").classList.add("hidden");
+            document.getElementById("register-success-panel").classList.remove("hidden");
+
+            // 4. Send PNG Card + Details to Telegram Bot
+            const noteEl = document.getElementById("register-sync-note");
+            noteEl.textContent = "Guvohnoma rasmi Telegram botga yuborilmoqda...";
+
+            const tgRes = await dispatchVolunteerCardToTelegram(newVolunteer, idCanvas);
+            if (firebaseOk && tgRes.ok) {
+                noteEl.textContent = "Maʼlumotlaringiz Firebase Cloud bazasiga saqlandi, guvohnomangiz tayyorlandi va Telegram botga yuborildi.";
+            } else if (firebaseOk) {
+                noteEl.textContent = "Maʼlumotlaringiz Firebase Cloud bazasiga muvaffaqiyatli saqlandi! Botga qayta yuborish tugmasidan foydalanishingiz mumkin.";
+            } else {
+                noteEl.textContent = "Guvohnomangiz tayyorlandi va botga yuborildi. Internet tiklanganda Firebase bazasiga avtomatik sinxronlanadi.";
+            }
+
+            updateDashboardUI();
+            e.target.reset();
+            clearSelectedPhoto("reg");
+            btn.disabled = false;
+            label.textContent = "ARIZANI YUBORISH VA GUVOHNOMA OLISH";
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            showToast("Ariza qabul qilindi!", `ID: ${newVolunteer.id} — guvohnomangiz tayyor!`);
+        });
+
+        function downloadGeneratedIdCard() {
+            if (!lastRegisteredVolunteer) return;
+            exportCanvasPng("id-card-canvas", `Guvohnoma_${lastRegisteredVolunteer.id}.png`);
+        }
+
+        async function resendLastVolunteerToTelegram() {
+            if (!lastRegisteredVolunteer) return;
+            const btn = document.getElementById("btn-resend-telegram");
+            const orig = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = "<i class='fa-solid fa-spinner fa-spin'></i> Yuborilmoqda...";
+            try {
+                const canvas = document.getElementById("id-card-canvas");
+                const res = await dispatchVolunteerCardToTelegram(lastRegisteredVolunteer, canvas);
+                if (res.ok) {
+                    showToast("Botga yuborildi!", "Guvohnoma va maʼlumotlar Telegram botga yetkazildi.");
+                } else {
+                    showToast("Xatolik", "Telegram botga yuborib boʻlmadi. Botga /start bosilganini tekshiring.", true);
+                }
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = orig;
+            }
+        }
+
+        function resetRegistrationForm() {
+            document.getElementById("register-success-panel").classList.add("hidden");
+            document.getElementById("register-form-card").classList.remove("hidden");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        /* =====================================================================
+           6. PUBLIC ID VERIFICATION SEARCH (QUERIES FIREBASE REALTIME DB)
+           ===================================================================== */
+        document.getElementById("public-verify-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const rawId = document.getElementById("verify-id-input").value.trim().toUpperCase();
+            if (!rawId) return;
+
+            const btn = document.getElementById("verify-submit-btn");
+            const box = document.getElementById("verify-result-box");
+            btn.disabled = true;
+            btn.innerHTML = "<i class='fa-solid fa-spinner fa-spin'></i> Qidirilmoqda...";
+
+            let found = null;
+            try {
+                // Direct query to Firebase Realtime Database by Volunteer ID
+                const direct = await firebaseRequest(`/volunteers/${encodeURIComponent(rawId)}.json`, "GET");
+                if (direct && direct.id) {
+                    found = direct;
+                } else {
+                    const all = await firebaseRequest("/volunteers.json", "GET");
+                    if (all && typeof all === "object") {
+                        found = Object.values(all).find(v => v && String(v.id).toUpperCase() === rawId) || null;
+                    }
+                }
+            } catch {
+                found = volunteersList.find(v => String(v.id).toUpperCase() === rawId) || null;
+            }
+
+            box.classList.remove("hidden");
+            if (!found) {
+                box.innerHTML = `
+                    <div class="p-5 rounded-2xl bg-rose-500/15 border border-rose-400/40 text-rose-200 flex items-center gap-3.5">
+                        <i class="fa-solid fa-circle-xmark text-2xl text-emergencyRed shrink-0"></i>
+                        <div>
+                            <div class="font-extrabold text-white text-sm sm:text-base">Guvohnoma topilmadi (${escapeHtml(rawId)})</div>
+                            <div class="text-xs text-slate-300 mt-0.5">ID raqam toʻgʻri kiritilganligini tekshiring (Masalan: FVV-2026-1001).</div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                const statusBadge = found.status === "approved"
+                    ? `<span class="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/50 text-emerald-300 text-xs font-black"><i class="fa-solid fa-circle-check mr-1"></i> TASDIQLANGAN VOLONTYOR</span>`
+                    : found.status === "rejected"
+                        ? `<span class="px-3 py-1 rounded-full bg-rose-500/20 border border-rose-400/50 text-rose-300 text-xs font-black"><i class="fa-solid fa-circle-xmark mr-1"></i> RAD ETILGAN</span>`
+                        : `<span class="px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/50 text-amber-300 text-xs font-black"><i class="fa-solid fa-clock mr-1"></i> KOʻRIB CHIQILMOQDA</span>`;
+
+                // Cache found item for preview
+                if (!volunteersList.some(v => v.id === found.id)) {
+                    volunteersList.unshift(found);
+                }
+
+                box.innerHTML = `
+                    <div class="p-5 sm:p-6 rounded-2xl bg-white/10 border border-emerald-400/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div class="space-y-1.5">
+                            <div class="flex flex-wrap items-center gap-2.5">
+                                <span class="font-mono font-black text-gold text-base">${escapeHtml(found.id)}</span>
+                                ${statusBadge}
+                            </div>
+                            <h4 class="text-lg sm:text-xl font-black text-white">${escapeHtml(found.fullName)}</h4>
+                            <div class="text-xs sm:text-sm text-slate-300 flex flex-wrap gap-x-4 gap-y-1">
+                                <span><i class="fa-solid fa-location-dot text-gold mr-1"></i> ${escapeHtml(found.district)}</span>
+                                <span><i class="fa-solid fa-compass text-sky-400 mr-1"></i> ${escapeHtml(found.specialization)}</span>
+                                <span><i class="fa-solid fa-calendar-check text-emerald-400 mr-1"></i> Muddati: ${escapeHtml(found.validity || "2026–2027")}</span>
+                            </div>
+                        </div>
+                        <button type="button" onclick="openAdminCertPreview('${escapeHtml(found.id)}')" class="px-5 py-3 rounded-xl bg-gold hover:bg-amber-400 text-navy font-extrabold text-xs sm:text-sm shrink-0 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-id-card"></i> Guvohnomani koʻrish
+                        </button>
+                    </div>
+                `;
+            }
+
+            btn.disabled = false;
+            btn.innerHTML = "<i class='fa-solid fa-magnifying-glass'></i> <span>Tekshirish</span>";
+        });
+
+        /* =====================================================================
+           7. SOS EMERGENCY GEOLOCATION & FIREBASE + TELEGRAM ALERT
+           ===================================================================== */
+        function captureSosLocation() {
+            const btn = document.getElementById("capture-gps-btn");
+            const coordsInput = document.getElementById("sos-coords");
+            if (!navigator.geolocation) {
+                showToast("Qoʻllab-quvvatlanmaydi", "Brauzeringiz GPS joylashuvni aniqlay olmaydi.", true);
+                return;
+            }
+            btn.disabled = true;
+            btn.innerHTML = "<i class='fa-solid fa-spinner fa-spin text-gold'></i> Aniqlanmoqda...";
+
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    const lat = pos.coords.latitude.toFixed(6);
+                    const lng = pos.coords.longitude.toFixed(6);
+                    coordsInput.value = `${lat}, ${lng}`;
+                    btn.disabled = false;
+                    btn.innerHTML = "<i class='fa-solid fa-check text-emerald-400'></i> GPS aniqlandi";
+                    showToast("GPS aniqlandi!", `Koordinatalar: ${lat}, ${lng}`);
+                },
+                () => {
+                    btn.disabled = false;
+                    btn.innerHTML = "<i class='fa-solid fa-location-crosshairs text-gold'></i> GPS joylashuvni aniqlash";
+                    showToast("GPS ruxsati", "Joylashuvni aniqlashga ruxsat berilmadi. Manzilni qoʻlda yozing.", true);
+                },
+                { enableHighAccuracy: true, timeout: 10000 }
+            );
+        }
+
+        document.getElementById("sos-alert-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById("sos-submit-btn");
+            btn.disabled = true;
+            btn.innerHTML = "<i class='fa-solid fa-spinner fa-spin'></i> SOS SIGNAL YUBORILMOQDA...";
+
+            const coords = document.getElementById("sos-coords").value.trim();
+            const mapsUrl = coords
+                ? `https://maps.google.com/?q=${encodeURIComponent(coords.replace(/\s+/g, ""))}`
+                : "";
+
+            const sosPayload = {
+                id: `SOS-${Date.now()}`,
+                name: document.getElementById("sos-name").value.trim(),
+                phone: document.getElementById("sos-phone").value.trim(),
+                type: document.getElementById("sos-type").value,
+                address: document.getElementById("sos-address").value.trim(),
+                coords,
+                mapsUrl,
+                description: document.getElementById("sos-desc").value.trim(),
+                time: formatDateTime(new Date()),
+                timestamp: Date.now()
+            };
+
+            sosAlertsList.unshift(sosPayload);
+            saveLocalCache();
+
+            try {
+                await firebaseRequest("/sos.json", "POST", sosPayload);
+            } catch (err) {
+                console.warn("SOS Firebase save warning:", err);
+            }
+
+            const cfg = getSystemConfig();
+            const chatIds = getChatIdArray();
+            const alertText = `🆘 FAVQULODDA SOS SIGNAL! 🆘\n\n` +
+                              `⚠️ Hodisa turi: ${sosPayload.type}\n` +
+                              `👤 Xabar beruvchi: ${sosPayload.name}\n` +
+                              `📞 Telefon: ${sosPayload.phone}\n` +
+                              `📍 Manzil: ${sosPayload.address}\n` +
+                              (mapsUrl ? `🗺 Google Maps: ${mapsUrl}\n` : "") +
+                              `📝 Tavsif: ${sosPayload.description}\n` +
+                              `🕒 Vaqt: ${sosPayload.time}`;
+
+            for (const cid of chatIds) {
+                await sendTelegramTextMessage(cfg.botToken, cid, alertText);
+            }
+
+            e.target.reset();
+            btn.disabled = false;
+            btn.innerHTML = "<i class='fa-solid fa-bell'></i> <span>FAVQULODDA SOS SIGNAL YUBORISH</span>";
+            updateDashboardUI();
+            showToast("SOS Signal yuborildi!", "Xabaringiz navbatchi shtabga va Telegram botga yetkazildi.");
+        });
+
+        /* =====================================================================
+           8. EDUCATIONAL TRAINING MODULES RENDERING
+           ===================================================================== */
+        const TRAINING_MODULES = [
+            {
+                title: "Zilzila xavfsizligi",
+                icon: "fa-house-crack",
+                color: "text-amber-400 bg-amber-500/20",
+                tips: [
+                    "Mustahkam stol osti yoki ichki tayanch devor burchagiga oʻting.",
+                    "Lift va derazalardan uzoqlashing, boshingizni qoʻllaringiz bilan himoyalang.",
+                    "Silkinish toʻxtagach gaz va elektrni oʻchirib ochiq maydonga chiqing."
+                ]
+            },
+            {
+                title: "Birinchi yordam",
+                icon: "fa-kit-medical",
+                color: "text-emerald-400 bg-emerald-500/20",
+                tips: [
+                    "103 tez yordamni chaqiring va jabrlanuvchi nafasini 10 soniya tekshiring.",
+                    "Yurak-oʻpka reanimatsiyasi (CPR): 30 marta koʻkrak bosish : 2 marta sunʼiy nafas.",
+                    "Kuchli qon ketishda toza bogʻlam bilan bosib turing va vaqtni qayd eting."
+                ]
+            },
+            {
+                title: "Yongʻin oʻchirish vositalari",
+                icon: "fa-fire-extinguisher",
+                color: "text-emergencyRed bg-rose-500/20",
+                tips: [
+                    "Oʻt oʻchirgich (OP/OU) plombasini uzing, shlangni olov asosiga yoʻnaltiring.",
+                    "Tutunli xonada ogʻiz-burunni nam mato bilan yopib, pastlab harakatlaning.",
+                    "Elektr jihozlarini suv bilan oʻchirmang, avval tarmoqdan uzing."
+                ]
+            },
+            {
+                title: "Sel va toshqinlar",
+                icon: "fa-water",
+                color: "text-sky-400 bg-sky-500/20",
+                tips: [
+                    "Hujjatlar va 72 soatlik zaxira sumkasini olib balandlikka chiqing.",
+                    "Kuchli sel oqimini piyoda yoki avtomobilda kesib oʻtishga urinmang.",
+                    "Uzilgan elektr simlari va suv bosgan podvallarga yaqinlashmang."
+                ]
+            }
+        ];
+
+        function renderTrainingModules() {
+            const grid = document.getElementById("training-modules-grid");
+            grid.innerHTML = TRAINING_MODULES.map(mod => `
+                <div class="glass-panel rounded-3xl p-6 border border-white/10 hover:border-white/25 transition-all">
+                    <div class="w-12 h-12 rounded-2xl ${mod.color} flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid ${mod.icon}"></i>
+                    </div>
+                    <h3 class="font-black text-white text-lg mb-3">${mod.title}</h3>
+                    <ul class="space-y-2.5 text-xs sm:text-sm text-slate-300">
+                        ${mod.tips.map(t => `
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-gold mt-1 shrink-0 text-xs"></i>
+                                <span>${t}</span>
+                            </li>
+                        `).join("")}
+                    </ul>
+                </div>
+            `).join("");
+        }
+
+        /* =====================================================================
+           9. ROLE-BASED ADMIN PANEL LOGIC
+           ===================================================================== */
+        function quickFillAdminLogin(roleKey) {
+            const acc = ADMIN_ROLES[roleKey];
+            if (!acc) return;
+            document.getElementById("admin-login-user").value = acc.username;
+            document.getElementById("admin-login-pass").value = acc.password;
+            showToast("Toʻldirildi", `${acc.badge} hisobi kiritildi. «Tizimga kirish» tugmasini bosing.`);
+        }
+
+        document.getElementById("admin-login-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const u = document.getElementById("admin-login-user").value.trim().toLowerCase();
+            const p = document.getElementById("admin-login-pass").value;
+
+            const account = Object.values(ADMIN_ROLES).find(a => a.username === u && a.password === p);
+            if (!account) {
+                showToast("Kirish rad etildi", "Login yoki parol notoʻgʻri kiritildi!", true);
+                return;
+            }
+
+            currentAdmin = account;
+            sessionStorage.setItem(KEY_ADMIN_SESSION, account.username);
+            await pushAuditToFirebase(account.title, account.badge, "Admin paneliga kirdi", "info");
+            enterAdminDashboard();
+            showToast("Xush kelibsiz!", `${account.title} sifatida tizimga kirdingiz.`);
+        });
+
+        function checkSavedAdminSession() {
+            const savedUser = sessionStorage.getItem(KEY_ADMIN_SESSION);
+            if (savedUser && ADMIN_ROLES[savedUser]) {
+                currentAdmin = ADMIN_ROLES[savedUser];
+                enterAdminDashboard();
+            } else {
+                document.getElementById("admin-login-box").classList.remove("hidden");
+                document.getElementById("admin-dashboard-box").classList.add("hidden");
+                stopAdminAutoSync();
+            }
+        }
+
+        function enterAdminDashboard() {
+            document.getElementById("admin-login-box").classList.add("hidden");
+            document.getElementById("admin-dashboard-box").classList.remove("hidden");
+
+            document.getElementById("dash-role-title").textContent = currentAdmin.title;
+            const badge = document.getElementById("dash-role-badge");
+            badge.textContent = currentAdmin.badge;
+            badge.className = `px-3 py-0.5 rounded-full text-xs font-black ${currentAdmin.badgeClass}`;
+            document.getElementById("dash-role-desc").textContent = currentAdmin.desc;
+
+            // Role-based button visibility
+            document.getElementById("btn-open-add-modal").classList.toggle("hidden", !currentAdmin.perms.add);
+            document.getElementById("btn-open-import-modal").classList.toggle("hidden", !currentAdmin.perms.add);
+            document.getElementById("btn-export-csv").classList.toggle("hidden", !currentAdmin.perms.csv);
+            document.getElementById("tab-btn-settings").classList.toggle("hidden", !currentAdmin.perms.settings);
+            document.getElementById("btn-clear-audit").classList.toggle("hidden", !currentAdmin.perms.clearAudit);
+
+            // Load settings form values
+            const cfg = getSystemConfig();
+            document.getElementById("cfg-firebase-url").value = cfg.firebaseUrl;
+            document.getElementById("cfg-bot-token").value = cfg.botToken;
+            document.getElementById("cfg-chat-ids").value = cfg.chatIds;
+
+            updateDashboardUI();
+            syncAllFromFirebase(false);
+            startAdminAutoSync();
+        }
+
+        function logoutAdmin() {
+            currentAdmin = null;
+            sessionStorage.removeItem(KEY_ADMIN_SESSION);
+            stopAdminAutoSync();
+            document.getElementById("admin-dashboard-box").classList.add("hidden");
+            document.getElementById("admin-login-box").classList.remove("hidden");
+            showToast("Chiqildi", "Admin sessiyasi yakunlandi.");
+        }
+
+        function startAdminAutoSync() {
+            stopAdminAutoSync();
+            autoSyncInterval = setInterval(() => {
+                if (currentAdmin && !document.getElementById("view-admin").classList.contains("hidden")) {
+                    syncAllFromFirebase(false);
+                }
+            }, 12000);
+        }
+
+        function stopAdminAutoSync() {
+            if (autoSyncInterval) {
+                clearInterval(autoSyncInterval);
+                autoSyncInterval = null;
+            }
+        }
+
+        function setAdminTab(tab) {
+            ["volunteers", "sos", "audit", "settings"].forEach(t => {
+                document.getElementById(`admin-panel-${t}`).classList.add("hidden");
+            });
+            document.getElementById(`admin-panel-${tab}`).classList.remove("hidden");
+
+            document.querySelectorAll(".admintab-btn").forEach(btn => {
+                const active = btn.dataset.admintab === tab;
+                btn.className = active
+                    ? "admintab-btn px-4 py-2.5 rounded-xl bg-gold text-navy font-extrabold text-xs sm:text-sm flex items-center gap-2"
+                    : "admintab-btn px-4 py-2.5 rounded-xl bg-white/10 text-slate-200 hover:bg-white/20 font-bold text-xs sm:text-sm flex items-center gap-2";
+            });
+        }
+
+        function updateDashboardUI() {
+            const total = volunteersList.length;
+            const approved = volunteersList.filter(v => v.status === "approved").length;
+            const pending = volunteersList.filter(v => v.status === "pending").length;
+            const rejected = volunteersList.filter(v => v.status === "rejected").length;
+
+            const heroCount = document.getElementById("hero-total-volunteers");
+            if (heroCount) heroCount.textContent = total;
+
+            document.getElementById("stat-total").textContent = total;
+            document.getElementById("stat-approved").textContent = approved;
+            document.getElementById("stat-pending").textContent = pending;
+            document.getElementById("stat-rejected").textContent = rejected;
+            document.getElementById("sos-count-badge").textContent = sosAlertsList.length;
+
+            renderAdminVolunteers();
+            renderAdminSosList();
+            renderAdminAuditList();
+        }
+
+        function renderAdminVolunteers() {
+            const tbody = document.getElementById("admin-volunteers-tbody");
+            const q = (document.getElementById("admin-search-input").value || "").trim().toLowerCase();
+            const distFilter = document.getElementById("admin-district-filter").value;
+            const statusFilter = document.getElementById("admin-status-filter").value;
+
+            const filtered = volunteersList.filter(v => {
+                const matchText = !q ||
+                    String(v.fullName || "").toLowerCase().includes(q) ||
+                    String(v.id || "").toLowerCase().includes(q) ||
+                    String(v.phone || "").toLowerCase().includes(q);
+                const matchDist = distFilter === "all" || v.district === distFilter;
+                const matchStat = statusFilter === "all" || v.status === statusFilter;
+                return matchText && matchDist && matchStat;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="py-10 text-center text-slate-400">Mos keluvchi volontyorlar topilmadi.</td></tr>`;
+                return;
+            }
+
+            const canApprove = currentAdmin && currentAdmin.perms.approve;
+            const canDelete = currentAdmin && currentAdmin.perms.delete;
+
+            tbody.innerHTML = filtered.map(v => {
+                const statusBadge = v.status === "approved"
+                    ? `<span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 text-xs font-bold">Tasdiqlangan</span>`
+                    : v.status === "rejected"
+                        ? `<span class="px-2.5 py-1 rounded-full bg-rose-500/20 text-rose-300 border border-rose-400/40 text-xs font-bold">Rad etilgan</span>`
+                        : `<span class="px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/40 text-xs font-bold">Kutilmoqda</span>`;
+
+                return `
+                    <tr class="hover:bg-white/5 transition-colors">
+                        <td class="py-3.5 px-4">
+                            <div class="font-mono font-black text-gold text-xs">${escapeHtml(v.id)}</div>
+                            <div class="text-[11px] text-slate-400 mt-0.5">${escapeHtml(v.issueDate || "")}</div>
+                        </td>
+                        <td class="py-3.5 px-4">
+                            <div class="font-bold text-white">${escapeHtml(v.fullName)}</div>
+                            <div class="text-xs text-slate-400">Tugʻilgan: ${escapeHtml(v.birthDate || "-")}</div>
+                        </td>
+                        <td class="py-3.5 px-4">
+                            <div class="text-slate-200 font-medium">${escapeHtml(v.district)}</div>
+                            <div class="text-xs text-sky-300">${escapeHtml(v.specialization)}</div>
+                        </td>
+                        <td class="py-3.5 px-4">
+                            <div class="text-slate-200 font-mono text-xs">${escapeHtml(v.phone)}</div>
+                            <div class="text-xs text-slate-400 truncate max-w-[180px]">${escapeHtml(v.organization || "-")}</div>
+                        </td>
+                        <td class="py-3.5 px-4">${statusBadge}</td>
+                        <td class="py-3.5 px-4 text-right">
+                            <div class="inline-flex items-center gap-1.5">
+                                <button type="button" onclick="openAdminCertPreview('${escapeHtml(v.id)}')" title="Guvohnoma" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-gold hover:text-navy text-gold flex items-center justify-center transition-colors">
+                                    <i class="fa-solid fa-id-card text-xs"></i>
+                                </button>
+                                ${canApprove ? `
+                                    <button type="button" onclick="changeVolunteerStatus('${escapeHtml(v.id)}', 'approved')" title="Tasdiqlash" class="w-8 h-8 rounded-lg bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white flex items-center justify-center transition-colors">
+                                        <i class="fa-solid fa-check text-xs"></i>
+                                    </button>
+                                    <button type="button" onclick="changeVolunteerStatus('${escapeHtml(v.id)}', 'rejected')" title="Rad etish" class="w-8 h-8 rounded-lg bg-amber-500/20 hover:bg-amber-500 text-amber-300 hover:text-navy flex items-center justify-center transition-colors">
+                                        <i class="fa-solid fa-ban text-xs"></i>
+                                    </button>
+                                ` : ""}
+                                ${canDelete ? `
+                                    <button type="button" onclick="promptDeleteVolunteer('${escapeHtml(v.id)}')" title="Oʻchirish" class="w-8 h-8 rounded-lg bg-rose-500/20 hover:bg-emergencyRed text-rose-300 hover:text-white flex items-center justify-center transition-colors">
+                                        <i class="fa-solid fa-trash-can text-xs"></i>
+                                    </button>
+                                ` : ""}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join("");
+        }
+
+        async function changeVolunteerStatus(volId, newStatus) {
+            if (!currentAdmin || !currentAdmin.perms.approve) return;
+            const vol = volunteersList.find(v => v.id === volId);
+            if (!vol) return;
+
+            vol.status = newStatus;
+            saveLocalCache();
+            renderAdminVolunteers();
+            updateDashboardUI();
+
+            try {
+                await firebaseRequest(`/volunteers/${encodeURIComponent(volId)}.json`, "PATCH", { status: newStatus });
+                const label = newStatus === "approved" ? "Tasdiqlangan" : "Rad etilgan";
+                await pushAuditToFirebase(currentAdmin.title, currentAdmin.badge, `${vol.fullName} (${volId}) holati «${label}» qilindi`, "success");
+                renderAdminAuditList();
+                showToast("Yangilandi!", `${vol.fullName} holati Firebase bazasida yangilandi.`);
+            } catch {
+                showToast("Xatolik", "Firebase bilan aloqada xatolik yuz berdi.", true);
+            }
+        }
+
+        function promptDeleteVolunteer(volId) {
+            if (!currentAdmin || !currentAdmin.perms.delete) return;
+            const vol = volunteersList.find(v => v.id === volId);
+            if (!vol) return;
+            pendingDeleteVolunteerId = volId;
+            document.getElementById("delete-confirm-msg").textContent = `${vol.fullName} (${vol.id}) maʼlumotlarini Firebase bazasidan butunlay oʻchirasizmi?`;
+            document.getElementById("modal-confirm-delete").classList.remove("hidden");
+        }
+
+        function closeDeleteModal() {
+            pendingDeleteVolunteerId = null;
+            document.getElementById("modal-confirm-delete").classList.add("hidden");
+        }
+
+        document.getElementById("btn-execute-delete").addEventListener("click", async () => {
+            if (!pendingDeleteVolunteerId || !currentAdmin || !currentAdmin.perms.delete) {
+                closeDeleteModal();
+                return;
+            }
+            const id = pendingDeleteVolunteerId;
+            const target = volunteersList.find(v => v.id === id);
+            volunteersList = volunteersList.filter(v => v.id !== id);
+            saveLocalCache();
+            closeDeleteModal();
+            updateDashboardUI();
+
+            try {
+                await firebaseRequest(`/volunteers/${encodeURIComponent(id)}.json`, "DELETE");
+                if (target) {
+                    await pushAuditToFirebase(currentAdmin.title, currentAdmin.badge, `${target.fullName} (${id}) bazadan oʻchirildi`, "danger");
+                    renderAdminAuditList();
+                }
+                showToast("Oʻchirildi", "Volontyor maʼlumotlari Firebase bazasidan oʻchirildi.");
+            } catch {
+                showToast("Xatolik", "Serverdan oʻchirishda muammo yuz berdi.", true);
+            }
+        });
+
+        /* Manual Add Modal */
+        function openManualAddModal() {
+            if (!currentAdmin || !currentAdmin.perms.add) return;
+            document.getElementById("modal-manual-add").classList.remove("hidden");
+        }
+        function closeManualAddModal() {
+            document.getElementById("modal-manual-add").classList.add("hidden");
+            document.getElementById("manual-add-form").reset();
+        }
+
+        document.getElementById("manual-add-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            if (!currentAdmin || !currentAdmin.perms.add) return;
+
+            const now = new Date();
+            const vol = {
+                id: generateNextVolunteerId(),
+                fullName: document.getElementById("m-fullname").value.trim(),
+                birthDate: document.getElementById("m-birthdate").value,
+                district: document.getElementById("m-district").value,
+                phone: document.getElementById("m-phone").value.trim(),
+                specialization: document.getElementById("m-spec").value,
+                organization: document.getElementById("m-org").value.trim(),
+                status: document.getElementById("m-status").value,
+                issueDate: formatDate(now),
+                validity: "2026–2027",
+                photo: "",
+                createdAt: now.getTime(),
+                synced: true
+            };
+
+            volunteersList.unshift(vol);
+            saveLocalCache();
+            closeManualAddModal();
+            updateDashboardUI();
+
+            try {
+                await pushVolunteerToFirebase(vol);
+                await pushAuditToFirebase(currentAdmin.title, currentAdmin.badge, `${vol.fullName} (${vol.id}) qoʻlda qoʻshildi`, "success");
+                renderAdminAuditList();
+                showToast("Qoʻshildi!", `${vol.fullName} Firebase bazasiga saqlandi.`);
+            } catch {
+                showToast("Ogohlantirish", "Lokal saqlandi, Firebase bilan sinxronlash kutilmoqda.", true);
+            }
+        });
+
+        /* Bot Message Smart Parser & Import */
+        function openBotImportModal() {
+            if (!currentAdmin || !currentAdmin.perms.add) return;
+            document.getElementById("modal-bot-import").classList.remove("hidden");
+        }
+        function closeBotImportModal() {
+            document.getElementById("modal-bot-import").classList.add("hidden");
+            document.getElementById("bot-import-textarea").value = "";
+        }
+
+        async function parseAndImportBotMessage() {
+            const text = document.getElementById("bot-import-textarea").value.trim();
+            if (!text) {
+                showToast("Boʻsh matn", "Iltimos, botdan nusxalangan matnni joylang.", true);
+                return;
+            }
+
+            const extractField = (patterns) => {
+                for (const regex of patterns) {
+                    const m = text.match(regex);
+                    if (m && m[1]) return m[1].trim();
+                }
+                return "";
+            };
+
+            const extractedId = extractField([/ID(?:\s*Raqam)?\s*:\s*([A-Z0-9-]+)/i]) || generateNextVolunteerId();
+            const fullName = extractField([/F\.?I\.?SH\.?\s*:\s*(.+)/i, /Ism(?:\s*va\s*familiya)?\s*:\s*(.+)/i]);
+            if (!fullName) {
+                showToast("Aniqlanmadi", "Matn ichidan F.I.Sh. (ism-familiya) topilmadi.", true);
+                return;
+            }
+
+            const birthDate = extractField([/Tugʻilgan\s*sana\s*:\s*(.+)/i, /Yosh\s*:\s*(.+)/i]) || "2004-01-01";
+            const district = extractField([/Hudud\s*:\s*(.+)/i]) || "Termiz shahri";
+            const phone = extractField([/Telefon\s*:\s*(.+)/i, /Aloqa\s*:\s*(.+)/i]) || "+998";
+            const specialization = extractField([/Yoʻnalish\s*:\s*(.+)/i]) || "Birinchi tibbiy yordam";
+            const organization = extractField([/Oʻqish\/Ish\s*joyi\s*:\s*(.+)/i, /Maqsad\s*:\s*(.+)/i]) || "Surxondaryo viloyati";
+
+            const now = new Date();
+            const importedVol = {
+                id: extractedId.toUpperCase(),
+                fullName,
+                birthDate,
+                district,
+                phone,
+                specialization,
+                organization,
+                status: "approved",
+                issueDate: formatDate(now),
+                validity: "2026–2027",
+                photo: "",
+                createdAt: now.getTime(),
+                synced: true
+            };
+
+            const existingIdx = volunteersList.findIndex(v => v.id === importedVol.id);
+            if (existingIdx >= 0) volunteersList[existingIdx] = importedVol;
+            else volunteersList.unshift(importedVol);
+
+            saveLocalCache();
+            closeBotImportModal();
+            updateDashboardUI();
+
+            try {
+                await pushVolunteerToFirebase(importedVol);
+                await pushAuditToFirebase(currentAdmin.title, currentAdmin.badge, `${importedVol.fullName} (${importedVol.id}) bot matnidan import qilindi`, "success");
+                renderAdminAuditList();
+                showToast("Import qilindi!", `${importedVol.fullName} Firebase bazasiga muvaffaqiyatli qoʻshildi.`);
+            } catch {
+                showToast("Ogohlantirish", "Lokal qoʻshildi, Firebase bilan sinxronlash kutilmoqda.", true);
+            }
+        }
+
+        /* Admin ID Card Preview Modal */
+        async function openAdminCertPreview(volId) {
+            const vol = volunteersList.find(v => v.id === volId);
+            if (!vol) return;
+            activeModalVolunteerId = volId;
+            const canvas = document.getElementById("admin-preview-canvas");
+            await renderVolunteerIdCardCanvas(canvas, vol);
+            document.getElementById("modal-admin-cert").classList.remove("hidden");
+        }
+        function closeAdminCertModal() {
+            activeModalVolunteerId = null;
+            document.getElementById("modal-admin-cert").classList.add("hidden");
+        }
+        function downloadAdminPreviewCanvas() {
+            if (!activeModalVolunteerId) return;
+            exportCanvasPng("admin-preview-canvas", `Guvohnoma_${activeModalVolunteerId}.png`);
+        }
+        async function sendAdminPreviewCanvasToBot() {
+            if (!activeModalVolunteerId) return;
+            const vol = volunteersList.find(v => v.id === activeModalVolunteerId);
+            if (!vol) return;
+            const btn = document.getElementById("btn-admin-modal-bot");
+            btn.disabled = true;
+            btn.innerHTML = "<i class='fa-solid fa-spinner fa-spin'></i> Yuborilmoqda...";
+            try {
+                const canvas = document.getElementById("admin-preview-canvas");
+                const res = await dispatchVolunteerCardToTelegram(vol, canvas);
+                if (res.ok) showToast("Yuborildi!", `${vol.fullName} guvohnomasi botga yuborildi.`);
+                else showToast("Xatolik", "Botga yuborishda muammo yuz berdi.", true);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = "<i class='fa-brands fa-telegram'></i> Botga yuborish";
+            }
+        }
+
+        /* CSV Export */
+        function exportVolunteersCsv() {
+            if (!currentAdmin || !currentAdmin.perms.csv) return;
+            const headers = ["ID", "F.I.Sh.", "Tugʻilgan sana", "Tuman/Shahar", "Telefon", "Yoʻnalish", "Oʻqish/Ish joyi", "Holat", "Berilgan sana", "Muddati"];
+            const rows = volunteersList.map(v => [
+                v.id, v.fullName, v.birthDate, v.district, v.phone, v.specialization, v.organization, v.status, v.issueDate, v.validity
+            ].map(cell => `"${String(cell || "").replace(/"/g, '""')}"`).join(","));
+
+            const csv = "\uFEFF" + [headers.join(","), ...rows].join("\n");
+            const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `FVV_Volontyorlar_${formatDate().replace(/\./g, "-")}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast("CSV yuklandi", `${volunteersList.length} ta yozuv eksport qilindi.`);
+        }
+
+        /* SOS & Audit Rendering */
+        function renderAdminSosList() {
+            const el = document.getElementById("admin-sos-list");
+            if (sosAlertsList.length === 0) {
+                el.innerHTML = `<div class="text-slate-400 text-sm py-6 text-center">Hozircha SOS signallar qayd etilmagan.</div>`;
+                return;
+            }
+            el.innerHTML = sosAlertsList.map(s => `
+                <div class="p-4 rounded-2xl bg-navy/80 border border-emergencyRed/35 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="px-2.5 py-0.5 rounded bg-emergencyRed text-white text-xs font-black">${escapeHtml(s.type)}</span>
+                            <span class="font-bold text-white text-sm">${escapeHtml(s.name)}</span>
+                            <span class="font-mono text-gold text-xs">${escapeHtml(s.phone)}</span>
+                        </div>
+                        <div class="text-xs text-slate-300 mt-1"><i class="fa-solid fa-location-dot text-emergencyRed mr-1"></i> ${escapeHtml(s.address)}</div>
+                        <div class="text-xs text-slate-400 mt-1">${escapeHtml(s.description)}</div>
+                    </div>
+                    <div class="flex flex-col items-start sm:items-end gap-1.5 shrink-0">
+                        <span class="text-[11px] font-mono text-slate-400">${escapeHtml(s.time)}</span>
+                        ${s.mapsUrl ? `<a href="${escapeHtml(s.mapsUrl)}" target="_blank" rel="noopener noreferrer" class="px-3 py-1 rounded-lg bg-sky-600 text-white text-xs font-bold"><i class="fa-solid fa-map-location-dot mr-1"></i> Xaritada koʻrish</a>` : ""}
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        function renderAdminAuditList() {
+            const el = document.getElementById("admin-audit-list");
+            if (auditLogsList.length === 0) {
+                el.innerHTML = `<div class="p-8 text-center text-slate-400 text-sm">Audit jurnali boʻsh.</div>`;
+                return;
+            }
+            el.innerHTML = auditLogsList.map(log => `
+                <div class="px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 hover:bg-white/5">
+                    <div>
+                        <div class="text-sm text-white font-medium">${escapeHtml(log.action)}</div>
+                        <div class="text-xs text-slate-400 mt-0.5">
+                            <span>${escapeHtml(log.actor)}</span> • <span class="text-gold font-bold">${escapeHtml(log.role)}</span>
+                        </div>
+                    </div>
+                    <span class="text-xs font-mono text-slate-400">${escapeHtml(log.time)}</span>
+                </div>
+            `).join("");
+        }
+
+        async function clearRemoteAuditLog() {
+            if (!currentAdmin || !currentAdmin.perms.clearAudit) return;
+            auditLogsList = [];
+            saveLocalCache();
+            renderAdminAuditList();
+            try {
+                await firebaseRequest("/audit.json", "DELETE");
+                showToast("Tozalandi", "Firebase audit jurnali tozalandi.");
+            } catch {
+                showToast("Xatolik", "Server jurnalini tozalashda muammo yuz berdi.", true);
+            }
+        }
+
+        /* System Settings Form (Super Admin) */
+        document.getElementById("system-settings-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            if (!currentAdmin || !currentAdmin.perms.settings) return;
+            const fbUrl = document.getElementById("cfg-firebase-url").value;
+            const token = document.getElementById("cfg-bot-token").value;
+            const chats = document.getElementById("cfg-chat-ids").value;
+            saveSystemConfig(fbUrl, token, chats);
+            await pushAuditToFirebase(currentAdmin.title, currentAdmin.badge, "Firebase va Telegram sozlamalari yangilandi", "info");
+            showToast("Saqlandi!", "Yangi tizim sozlamalari saqlandi.");
+            syncAllFromFirebase(true);
+        });
+
+        async function testSystemIntegrations() {
+            const out = document.getElementById("settings-test-output");
+            out.classList.remove("hidden");
+            out.className = "p-4 rounded-2xl text-xs sm:text-sm bg-white/10 text-slate-200";
+            out.innerHTML = "<i class='fa-solid fa-spinner fa-spin mr-1'></i> Firebase va Telegram ulanishi tekshirilmoqda...";
+
+            const cfg = getSystemConfig();
+            let fbMsg = "";
+            let botMsg = "";
+
+            try {
+                await firebaseRequest("/volunteers.json?shallow=true", "GET");
+                fbMsg = `<div class="text-emerald-300 font-bold"><i class="fa-solid fa-circle-check mr-1"></i> Firebase Realtime DB: Ulangan (${escapeHtml(cfg.firebaseUrl)})</div>`;
+            } catch (err) {
+                fbMsg = `<div class="text-rose-300 font-bold"><i class="fa-solid fa-circle-xmark mr-1"></i> Firebase xatosi: ${escapeHtml(err.message)}</div>`;
+            }
+
+            try {
+                const meResp = await fetch(`https://api.telegram.org/bot${cfg.botToken}/getMe`);
+                const meJson = await meResp.json();
+                if (meResp.ok && meJson.ok) {
+                    const testText = `✅ FVV VOLONTYORLARI — TIZIM TESTI\nFirebase va Telegram bot muvaffaqiyatli bogʻlangan!\n🕒 ${formatDateTime(new Date())}`;
+                    for (const cid of getChatIdArray()) {
+                        await sendTelegramTextMessage(cfg.botToken, cid, testText);
+                    }
+                    botMsg = `<div class="text-emerald-300 font-bold mt-1"><i class="fa-solid fa-circle-check mr-1"></i> Telegram Bot: @${escapeHtml(meJson.result.username)} faol (test xabari yuborildi)</div>`;
+                } else {
+                    botMsg = `<div class="text-rose-300 font-bold mt-1"><i class="fa-solid fa-circle-xmark mr-1"></i> Telegram Bot tokeni yaroqsiz</div>`;
+                }
+            } catch {
+                botMsg = `<div class="text-rose-300 font-bold mt-1"><i class="fa-solid fa-circle-xmark mr-1"></i> Telegram API bilan ulanib boʻlmadi</div>`;
+            }
+
+            out.innerHTML = fbMsg + botMsg;
+        }
+
+        /* =====================================================================
+           10. NAVIGATION, TOAST & SECURITY HELPERS
+           ===================================================================== */
+        function escapeHtml(str) {
+            return String(str || "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+        }
+
+        function switchView(viewName) {
+            ["home", "register", "admin"].forEach(v => {
+                document.getElementById(`view-${v}`).classList.add("hidden");
+            });
+            document.getElementById(`view-${viewName}`).classList.remove("hidden");
+            document.getElementById("mobile-drawer").classList.add("hidden");
+            document.getElementById("mobile-drawer-icon").className = "fa-solid fa-bars";
+            window.scrollTo({ top: 0, behavior: "smooth" });
+
+            if (viewName === "admin") {
+                checkSavedAdminSession();
+            } else {
+                stopAdminAutoSync();
+            }
+        }
+
+        function jumpToSection(e, sectionId) {
+            if (e) e.preventDefault();
+            document.getElementById("mobile-drawer").classList.add("hidden");
+            document.getElementById("mobile-drawer-icon").className = "fa-solid fa-bars";
+
+            if (document.getElementById("view-home").classList.contains("hidden")) {
+                switchView("home");
+                setTimeout(() => {
+                    const target = document.getElementById(sectionId);
+                    if (target) target.scrollIntoView({ behavior: "smooth" });
+                }, 100);
+            } else {
+                const target = document.getElementById(sectionId);
+                if (target) target.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+
+        document.getElementById("mobile-drawer-btn").addEventListener("click", () => {
+            const drawer = document.getElementById("mobile-drawer");
+            const icon = document.getElementById("mobile-drawer-icon");
+            drawer.classList.toggle("hidden");
+            icon.className = drawer.classList.contains("hidden") ? "fa-solid fa-bars" : "fa-solid fa-xmark";
+        });
+
+        let toastTimeout = null;
+        function showToast(title, msg, isError = false) {
+            const container = document.getElementById("toast-container");
+            const icon = document.getElementById("toast-icon");
+            document.getElementById("toast-title").textContent = title;
+            document.getElementById("toast-msg").textContent = msg;
+
+            icon.className = isError
+                ? "w-10 h-10 rounded-xl flex items-center justify-center shrink-0 text-lg bg-rose-100 text-emergencyRed"
+                : "w-10 h-10 rounded-xl flex items-center justify-center shrink-0 text-lg bg-emerald-100 text-emerald-600";
+            icon.innerHTML = isError
+                ? "<i class='fa-solid fa-circle-exclamation'></i>"
+                : "<i class='fa-solid fa-circle-check'></i>";
+
+            container.classList.remove("opacity-0", "-translate-y-4", "pointer-events-none");
+            container.classList.add("opacity-100", "translate-y-0");
+
+            if (toastTimeout) clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                container.classList.remove("opacity-100", "translate-y-0");
+                container.classList.add("opacity-0", "-translate-y-4", "pointer-events-none");
+            }, 3800);
+        }
+
+        /* =====================================================================
+           11. INITIALIZATION
+           ===================================================================== */
+        window.addEventListener("DOMContentLoaded", () => {
+            loadLocalCache();
+            renderTrainingModules();
+            updateDashboardUI();
+            syncAllFromFirebase(false);
+        });
+    </script>
+</body>
+</html>
