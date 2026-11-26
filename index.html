@@ -1972,81 +1972,180 @@
             ctx.closePath();
         }
 
+        function toUzbekLatin(input) {
+            const cyrMap = {
+                "а": "a", "б": "b", "в": "v", "г": "g", "д": "d", "е": "e", "ё": "yo",
+                "ж": "j", "з": "z", "и": "i", "й": "y", "к": "k", "л": "l", "м": "m",
+                "н": "n", "о": "o", "п": "p", "р": "r", "с": "s", "т": "t", "у": "u",
+                "ф": "f", "х": "x", "ц": "s", "ч": "ch", "ш": "sh", "ъ": "ʼ", "ь": "",
+                "э": "e", "ю": "yu", "я": "ya", "ў": "oʻ", "қ": "q", "ғ": "gʻ", "ҳ": "h",
+                "А": "A", "Б": "B", "В": "V", "Г": "G", "Д": "D", "Е": "E", "Ё": "Yo",
+                "Ж": "J", "З": "Z", "И": "I", "Й": "Y", "К": "K", "Л": "L", "М": "M",
+                "Н": "N", "О": "O", "П": "P", "Р": "R", "С": "S", "Т": "T", "У": "U",
+                "Ф": "F", "Х": "X", "Ц": "S", "Ч": "Ch", "Ш": "Sh", "Ъ": "ʼ", "Ь": "",
+                "Э": "E", "Ю": "Yu", "Я": "Ya", "Ў": "Oʻ", "Қ": "Q", "Ғ": "Gʻ", "Ҳ": "H"
+            };
+            let out = String(input || "").split("").map(ch => (ch in cyrMap ? cyrMap[ch] : ch)).join("");
+            // Normalize Uzbek apostrophes (O', O`, O‘, G', G`, G‘) into standard new Uzbek Latin Oʻ / Gʻ
+            out = out.replace(/([OoGg])[’'`‘ʻ]/g, "$1ʻ").replace(/[’`‘]/g, "ʼ");
+            return out.trim();
+        }
+
+        function createMetallicGoldGrad(ctx, x1, y1, x2, y2) {
+            const g = ctx.createLinearGradient(x1, y1, x2, y2);
+            g.addColorStop(0, "#B45309");
+            g.addColorStop(0.22, "#F59E0B");
+            g.addColorStop(0.45, "#FEF08A");
+            g.addColorStop(0.68, "#D97706");
+            g.addColorStop(0.88, "#FDE047");
+            g.addColorStop(1, "#92400E");
+            return g;
+        }
+
+        function drawCurvedArcText(ctx, text, cx, cy, radius, totalAngle, centerAngle, reverse = false) {
+            const chars = String(text || "").split("");
+            if (!chars.length) return;
+            const step = chars.length > 1 ? totalAngle / (chars.length - 1) : 0;
+            const start = centerAngle - totalAngle / 2;
+
+            ctx.save();
+            chars.forEach((ch, idx) => {
+                const angle = reverse ? (centerAngle + totalAngle / 2 - idx * step) : (start + idx * step);
+                ctx.save();
+                ctx.translate(cx + Math.cos(angle) * radius, cy + Math.sin(angle) * radius);
+                ctx.rotate(angle + (reverse ? -Math.PI / 2 : Math.PI / 2));
+                ctx.fillText(ch, 0, 0);
+                ctx.restore();
+            });
+            ctx.restore();
+        }
+
         function drawOfficialSeal(ctx, cx, cy, radius, alpha = 1) {
             ctx.save();
             ctx.globalAlpha = alpha;
 
-            // Outer Double Ring
+            // Outer Gold Ring + Deep Navy Disc
             ctx.beginPath();
             ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-            ctx.fillStyle = "#0B192C";
+            ctx.fillStyle = "#06152B";
             ctx.fill();
-            ctx.lineWidth = radius * 0.06;
-            ctx.strokeStyle = "#F59E0B";
+            ctx.lineWidth = Math.max(2, radius * 0.055);
+            ctx.strokeStyle = createMetallicGoldGrad(ctx, cx - radius, cy - radius, cx + radius, cy + radius);
             ctx.stroke();
 
+            // Inner Gold Thin Ring
             ctx.beginPath();
-            ctx.arc(cx, cy, radius * 0.84, 0, Math.PI * 2);
-            ctx.lineWidth = radius * 0.025;
-            ctx.strokeStyle = "#FDE68A";
+            ctx.arc(cx, cy, radius * 0.69, 0, Math.PI * 2);
+            ctx.lineWidth = Math.max(1.5, radius * 0.025);
+            ctx.strokeStyle = "#FDE047";
             ctx.stroke();
 
-            // 8-pointed Rescue Star
-            const outerR = radius * 0.66;
+            // Curved Uzbek Ring Typography
+            ctx.fillStyle = "#FFFFFF";
+            ctx.font = `900 ${Math.max(8, Math.round(radius * 0.145))}px Inter, sans-serif`;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            drawCurvedArcText(ctx, "FAVQULODDA VAZIYATLAR", cx, cy, radius * 0.835, Math.PI * 0.82, -Math.PI / 2, false);
+            drawCurvedArcText(ctx, "VOLONTYORLARI", cx, cy, radius * 0.835, Math.PI * 0.56, Math.PI / 2, true);
+
+            // Golden Lightning Bolts on Left & Right
+            const drawBolt = (dir) => {
+                ctx.save();
+                ctx.translate(cx + dir * radius * 0.82, cy);
+                ctx.scale(dir, 1);
+                ctx.beginPath();
+                ctx.moveTo(-radius * 0.03, -radius * 0.12);
+                ctx.lineTo(radius * 0.06, -radius * 0.01);
+                ctx.lineTo(0, -radius * 0.01);
+                ctx.lineTo(radius * 0.04, radius * 0.12);
+                ctx.lineTo(-radius * 0.06, radius * 0.01);
+                ctx.lineTo(0, radius * 0.01);
+                ctx.closePath();
+                ctx.fillStyle = "#FDE047";
+                ctx.fill();
+                ctx.restore();
+            };
+            drawBolt(-1);
+            drawBolt(1);
+
+            // 8-Pointed Silver Metallic Rescue Star
+            const outerR = radius * 0.63;
             const innerR = radius * 0.34;
-            ctx.beginPath();
-            for (let i = 0; i < 16; i++) {
-                const r = i % 2 === 0 ? outerR : innerR;
-                const angle = (i * Math.PI) / 8 - Math.PI / 2;
-                const px = cx + Math.cos(angle) * r;
-                const py = cy + Math.sin(angle) * r;
-                if (i === 0) ctx.moveTo(px, py);
-                else ctx.lineTo(px, py);
-            }
-            ctx.closePath();
-            ctx.fillStyle = "#E2E8F0";
-            ctx.fill();
+            for (let i = 0; i < 8; i++) {
+                const aMid = (i * Math.PI) / 4 - Math.PI / 2;
+                const aLeft = aMid - Math.PI / 8;
+                const aRight = aMid + Math.PI / 8;
 
-            // Center Gold Disc & Blue Triangle
+                // Bright half facet
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(cx + Math.cos(aLeft) * innerR, cy + Math.sin(aLeft) * innerR);
+                ctx.lineTo(cx + Math.cos(aMid) * outerR, cy + Math.sin(aMid) * outerR);
+                ctx.closePath();
+                ctx.fillStyle = "#F8FAFC";
+                ctx.fill();
+
+                // Shaded half facet
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(cx + Math.cos(aMid) * outerR, cy + Math.sin(aMid) * outerR);
+                ctx.lineTo(cx + Math.cos(aRight) * innerR, cy + Math.sin(aRight) * innerR);
+                ctx.closePath();
+                ctx.fillStyle = "#CBD5E1";
+                ctx.fill();
+            }
+
+            // Center Gold Disc + Orange Inner Core
             ctx.beginPath();
             ctx.arc(cx, cy, radius * 0.36, 0, Math.PI * 2);
-            ctx.fillStyle = "#F59E0B";
+            ctx.fillStyle = createMetallicGoldGrad(ctx, cx - radius * 0.36, cy - radius * 0.36, cx + radius * 0.36, cy + radius * 0.36);
             ctx.fill();
-            ctx.lineWidth = radius * 0.03;
-            ctx.strokeStyle = "#0B192C";
+            ctx.lineWidth = Math.max(1.5, radius * 0.03);
+            ctx.strokeStyle = "#06152B";
             ctx.stroke();
 
             ctx.beginPath();
-            ctx.moveTo(cx, cy - radius * 0.24);
-            ctx.lineTo(cx - radius * 0.22, cy + radius * 0.16);
-            ctx.lineTo(cx + radius * 0.22, cy + radius * 0.16);
+            ctx.arc(cx, cy, radius * 0.295, 0, Math.PI * 2);
+            ctx.fillStyle = "#EA580C";
+            ctx.fill();
+
+            // Blue Rescue Triangle with Crisp White Outline
+            ctx.beginPath();
+            ctx.moveTo(cx, cy - radius * 0.22);
+            ctx.lineTo(cx - radius * 0.20, cy + radius * 0.14);
+            ctx.lineTo(cx + radius * 0.20, cy + radius * 0.14);
             ctx.closePath();
             ctx.fillStyle = "#1D4ED8";
             ctx.fill();
-            ctx.lineWidth = 2.5;
+            ctx.lineWidth = Math.max(1.5, radius * 0.028);
             ctx.strokeStyle = "#FFFFFF";
             ctx.stroke();
 
+            // FVV Center Emblem Text
             ctx.fillStyle = "#FFFFFF";
-            ctx.font = `900 ${Math.round(radius * 0.16)}px Inter, sans-serif`;
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            ctx.fillText("FVV", cx, cy + radius * 0.48);
+            ctx.font = `900 ${Math.max(8, Math.round(radius * 0.135))}px Inter, sans-serif`;
+            ctx.fillText("FVV", cx, cy + radius * 0.455);
 
             ctx.restore();
         }
 
         function drawQrMatrixGraphic(ctx, x, y, size, seedText) {
             ctx.save();
-            ctx.fillStyle = "#FFFFFF";
-            roundRectPath(ctx, x, y, size, size, 16);
+            // Gold Outer Border & Shadow
+            ctx.shadowColor = "rgba(15, 23, 42, 0.14)";
+            ctx.shadowBlur = 18;
+            ctx.shadowOffsetY = 6;
+            roundRectPath(ctx, x - 6, y - 6, size + 12, size + 12, 22);
+            ctx.fillStyle = createMetallicGoldGrad(ctx, x, y, x + size, y + size);
             ctx.fill();
-            ctx.lineWidth = 3;
-            ctx.strokeStyle = "#CBD5E1";
-            ctx.stroke();
+
+            ctx.shadowColor = "transparent";
+            ctx.fillStyle = "#FFFFFF";
+            roundRectPath(ctx, x, y, size, size, 17);
+            ctx.fill();
 
             const cells = 21;
-            const pad = 16;
+            const pad = 18;
             const cellSize = (size - pad * 2) / cells;
 
             let hash = 2166136261;
@@ -2067,14 +2166,14 @@
                         ctx.fillRect(
                             x + pad + c * cellSize,
                             y + pad + r * cellSize,
-                            cellSize - 1,
-                            cellSize - 1
+                            cellSize - 0.8,
+                            cellSize - 0.8
                         );
                     }
                 }
             }
 
-            // 3 Finder Squares
+            // 3 Crisp Navy Finder Squares
             const drawFinder = (fr, fc) => {
                 const fx = x + pad + fc * cellSize;
                 const fy = y + pad + fr * cellSize;
@@ -2083,7 +2182,7 @@
                 ctx.fillRect(fx, fy, fs, fs);
                 ctx.fillStyle = "#FFFFFF";
                 ctx.fillRect(fx + cellSize, fy + cellSize, fs - cellSize * 2, fs - cellSize * 2);
-                ctx.fillStyle = "#E11D48";
+                ctx.fillStyle = "#0B192C";
                 ctx.fillRect(fx + cellSize * 2, fy + cellSize * 2, fs - cellSize * 4, fs - cellSize * 4);
             };
             drawFinder(0, 0);
@@ -2091,6 +2190,156 @@
             drawFinder(cells - 7, 0);
 
             ctx.restore();
+        }
+
+        function drawLaurelWreath(ctx, x, y, height, flip = false) {
+            ctx.save();
+            ctx.translate(x, y);
+            if (flip) ctx.scale(-1, 1);
+
+            const leafGrad = createMetallicGoldGrad(ctx, 0, -height / 2, height * 0.45, height / 2);
+            ctx.strokeStyle = leafGrad;
+            ctx.fillStyle = leafGrad;
+            ctx.lineWidth = 3.5;
+
+            // Curved Main Stem
+            ctx.beginPath();
+            ctx.moveTo(46, height * 0.46);
+            ctx.quadraticCurveTo(-8, height * 0.14, 24, -height * 0.44);
+            ctx.stroke();
+
+            // Alternating Gold Laurel Leaves
+            const leaves = 9;
+            for (let i = 0; i < leaves; i++) {
+                const t = i / (leaves - 1);
+                const sx = 46 * (1 - t) * (1 - t) + 2 * (-8) * (1 - t) * t + 24 * t * t;
+                const sy = (height * 0.46) * (1 - t) * (1 - t) + 2 * (height * 0.14) * (1 - t) * t + (-height * 0.44) * t * t;
+                const tangentAngle = Math.atan2(-height * 0.65, -24 + t * 44);
+
+                [-0.55, 0.52].forEach((offset, sideIdx) => {
+                    if (i === leaves - 1 && sideIdx === 1) return;
+                    ctx.save();
+                    ctx.translate(sx, sy);
+                    ctx.rotate(tangentAngle + offset);
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.quadraticCurveTo(10, -7, 23, -1);
+                    ctx.quadraticCurveTo(10, 7, 0, 0);
+                    ctx.fill();
+                    ctx.restore();
+                });
+            }
+            ctx.restore();
+        }
+
+        function drawCalendarVectorIcon(ctx, x, y, size) {
+            ctx.save();
+            ctx.strokeStyle = "#0B192C";
+            ctx.fillStyle = "#0B192C";
+            ctx.lineWidth = 3.2;
+            ctx.lineJoin = "round";
+
+            roundRectPath(ctx, x, y + size * 0.14, size, size * 0.84, 7);
+            ctx.stroke();
+
+            // Header bar & binding rings
+            ctx.beginPath();
+            ctx.moveTo(x, y + size * 0.38);
+            ctx.lineTo(x + size, y + size * 0.38);
+            ctx.moveTo(x + size * 0.28, y + size * 0.03);
+            ctx.lineTo(x + size * 0.28, y + size * 0.24);
+            ctx.moveTo(x + size * 0.72, y + size * 0.03);
+            ctx.lineTo(x + size * 0.72, y + size * 0.24);
+            ctx.stroke();
+
+            // Mini date dots
+            for (let r = 0; r < 2; r++) {
+                for (let c = 0; c < 3; c++) {
+                    ctx.fillRect(x + size * (0.20 + c * 0.24), y + size * (0.50 + r * 0.20), size * 0.12, size * 0.11);
+                }
+            }
+            ctx.restore();
+        }
+
+        function drawUzbekArchitecturalSkyline(ctx, W, baseY) {
+            ctx.save();
+            const goldGrad = createMetallicGoldGrad(ctx, 0, baseY - 170, W, baseY);
+            ctx.fillStyle = goldGrad;
+            ctx.globalAlpha = 0.88;
+
+            const drawMinaret = (mx, mw, mh) => {
+                ctx.beginPath();
+                ctx.moveTo(mx - mw * 0.55, baseY);
+                ctx.lineTo(mx - mw * 0.35, baseY - mh * 0.78);
+                ctx.lineTo(mx - mw * 0.48, baseY - mh * 0.82);
+                ctx.lineTo(mx + mw * 0.48, baseY - mh * 0.82);
+                ctx.lineTo(mx + mw * 0.35, baseY - mh * 0.78);
+                ctx.lineTo(mx + mw * 0.55, baseY);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(mx, baseY - mh * 0.84, mw * 0.34, Math.PI, 0);
+                ctx.fill();
+
+                ctx.fillRect(mx - 2, baseY - mh, 4, mh * 0.16);
+            };
+
+            const drawDomeBuilding = (bx, bw, bh, domeScale = 0.55) => {
+                ctx.fillRect(bx - bw / 2, baseY - bh * 0.55, bw, bh * 0.55);
+                // Arch cutout effect via lighter overlay
+                ctx.beginPath();
+                ctx.arc(bx, baseY - bh * 0.55, bw * domeScale * 0.52, Math.PI, 0);
+                ctx.fill();
+                // Ribbed finial
+                ctx.fillRect(bx - 2, baseY - bh * 0.55 - bw * domeScale * 0.52 - 14, 4, 14);
+            };
+
+            const drawMadrasaPortal = (px, pw, ph) => {
+                ctx.fillRect(px - pw / 2, baseY - ph, pw, ph);
+                ctx.fillRect(px - pw * 0.72, baseY - ph * 0.62, pw * 1.44, ph * 0.62);
+                // Twin corner turrets
+                ctx.fillRect(px - pw * 0.72 - 8, baseY - ph * 0.84, 12, ph * 0.84);
+                ctx.fillRect(px + pw * 0.72 - 4, baseY - ph * 0.84, 12, ph * 0.84);
+                // Arch hollow illusion
+                ctx.save();
+                ctx.fillStyle = "#F8FAFC";
+                ctx.beginPath();
+                ctx.moveTo(px - pw * 0.25, baseY);
+                ctx.lineTo(px - pw * 0.25, baseY - ph * 0.46);
+                ctx.quadraticCurveTo(px, baseY - ph * 0.72, px + pw * 0.25, baseY - ph * 0.46);
+                ctx.lineTo(px + pw * 0.25, baseY);
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
+            };
+
+            // Left to Right Historic Uzbek Skyline
+            drawMinaret(74, 24, 126);
+            drawDomeBuilding(138, 86, 86, 0.55);
+            drawMadrasaPortal(242, 92, 108);
+            drawMinaret(338, 22, 118);
+            drawDomeBuilding(408, 92, 92, 0.62);
+            drawMinaret(482, 24, 128);
+            drawDomeBuilding(554, 78, 84, 0.55);
+            drawMadrasaPortal(638, 72, 88);
+            drawMinaret(714, 22, 120);
+            drawDomeBuilding(808, 128, 124, 0.74);
+            drawMinaret(912, 26, 138);
+
+            ctx.restore();
+        }
+
+        function getCardExpiryDate(vol) {
+            if (vol && vol.expiryDate) return toUzbekLatin(vol.expiryDate);
+            const raw = String(vol && vol.issueDate ? vol.issueDate : "").trim();
+            const m = raw.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
+            if (m) {
+                return `${m[1]}.${m[2]}.${Number(m[3]) + 1}`;
+            }
+            const d = new Date();
+            d.setFullYear(d.getFullYear() + 1);
+            return formatDate(d);
         }
 
         function drawFallbackVolunteerAvatar(ctx, x, y, w, h) {
@@ -2101,12 +2350,12 @@
             ctx.fillStyle = bgGrad;
             ctx.fillRect(x, y, w, h);
 
-            drawOfficialSeal(ctx, x + w / 2, y + h * 0.44, w * 0.32, 0.95);
+            drawOfficialSeal(ctx, x + w / 2, y + h * 0.43, w * 0.31, 0.96);
 
             ctx.fillStyle = "#0B192C";
-            ctx.font = "800 22px Inter, sans-serif";
+            ctx.font = "900 22px Inter, sans-serif";
             ctx.textAlign = "center";
-            ctx.fillText("RASMIY VOLONTYOR", x + w / 2, y + h * 0.85);
+            ctx.fillText("RASMIY VOLONTYOR", x + w / 2, y + h * 0.84);
             ctx.restore();
         }
 
@@ -2120,7 +2369,7 @@
             });
         }
 
-        function wrapCanvasLines(ctx, text, maxWidth, maxLines = 2) {
+        function wrapCanvasLines(ctx, text, maxWidth, maxLines = 3) {
             const words = String(text || "").trim().split(/\s+/);
             const lines = [];
             let current = "";
@@ -2146,99 +2395,109 @@
             canvas.height = H;
             const ctx = canvas.getContext("2d");
 
-            // 1. Outer Gold/Red Security Frame
-            const outerGrad = ctx.createLinearGradient(0, 0, W, H);
-            outerGrad.addColorStop(0, "#F59E0B");
-            outerGrad.addColorStop(0.5, "#B45309");
-            outerGrad.addColorStop(1, "#FBBF24");
-            roundRectPath(ctx, 0, 0, W, H, 48);
-            ctx.fillStyle = outerGrad;
+            // 1. Outer Double Metallic Gold Security Frame
+            roundRectPath(ctx, 0, 0, W, H, 54);
+            ctx.fillStyle = "#FFFFFF";
             ctx.fill();
 
-            // Inner Card Surface
-            roundRectPath(ctx, 18, 18, W - 36, H - 36, 36);
-            ctx.fillStyle = "#F8FAFC";
+            roundRectPath(ctx, 10, 10, W - 20, H - 20, 46);
+            ctx.fillStyle = createMetallicGoldGrad(ctx, 0, 0, W, H);
+            ctx.fill();
+
+            roundRectPath(ctx, 24, 24, W - 48, H - 48, 38);
+            const cardBg = ctx.createLinearGradient(0, 0, W, H);
+            cardBg.addColorStop(0, "#FFFFFF");
+            cardBg.addColorStop(0.5, "#F8FAFC");
+            cardBg.addColorStop(1, "#EEF2F7");
+            ctx.fillStyle = cardBg;
             ctx.fill();
 
             ctx.save();
-            roundRectPath(ctx, 18, 18, W - 36, H - 36, 36);
+            roundRectPath(ctx, 24, 24, W - 48, H - 48, 38);
             ctx.clip();
 
-            // Geometric Security Background Lines
-            ctx.strokeStyle = "rgba(11, 25, 44, 0.04)";
+            // Subtle Diagonal Silver Watermark Sheen
+            ctx.strokeStyle = "rgba(11, 25, 44, 0.03)";
             ctx.lineWidth = 2;
-            for (let i = -H; i < W + H; i += 34) {
+            for (let i = -H; i < W + H; i += 40) {
                 ctx.beginPath();
                 ctx.moveTo(i, 0);
-                ctx.lineTo(i + H * 0.6, H);
+                ctx.lineTo(i + H * 0.55, H);
                 ctx.stroke();
             }
 
-            // 2. Deep Navy Header with Red & Gold Stripe
-            const headerGrad = ctx.createLinearGradient(0, 0, W, 330);
-            headerGrad.addColorStop(0, "#060F1C");
-            headerGrad.addColorStop(0.5, "#0B192C");
-            headerGrad.addColorStop(1, "#132744");
+            // 2. Curved Deep Navy Header + Metallic Gold Wave
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(W, 0);
+            ctx.lineTo(W, 330);
+            ctx.bezierCurveTo(W * 0.70, 395, W * 0.34, 345, 0, 260);
+            ctx.closePath();
+            const headerGrad = ctx.createLinearGradient(0, 0, W, 370);
+            headerGrad.addColorStop(0, "#030B17");
+            headerGrad.addColorStop(0.55, "#091B36");
+            headerGrad.addColorStop(1, "#0E274E");
             ctx.fillStyle = headerGrad;
-            ctx.fillRect(0, 0, W, 335);
+            ctx.fill();
+            ctx.restore();
 
-            // Emergency Red & Gold Accent Bar
-            ctx.fillStyle = "#E11D48";
-            ctx.fillRect(0, 322, W, 14);
-            ctx.fillStyle = "#F59E0B";
-            ctx.fillRect(0, 336, W, 8);
+            // Thick Metallic Gold Wave Underneath Header
+            ctx.save();
+            ctx.shadowColor = "rgba(180, 83, 9, 0.32)";
+            ctx.shadowBlur = 16;
+            ctx.shadowOffsetY = 6;
+            ctx.beginPath();
+            ctx.moveTo(0, 258);
+            ctx.bezierCurveTo(W * 0.34, 345, W * 0.70, 395, W, 326);
+            ctx.lineTo(W, 354);
+            ctx.bezierCurveTo(W * 0.70, 422, W * 0.34, 374, 0, 294);
+            ctx.closePath();
+            ctx.fillStyle = createMetallicGoldGrad(ctx, 0, 260, W, 380);
+            ctx.fill();
+            ctx.restore();
 
-            // Top-Left Official Seal
-            drawOfficialSeal(ctx, 145, 168, 96, 1);
+            // Top-Left Official FVV Seal
+            drawOfficialSeal(ctx, 212, 162, 128, 1);
 
-            // Official Header Typography
-            ctx.fillStyle = "#F59E0B";
-            ctx.font = "800 22px Inter, sans-serif";
+            // Vertical Gold Divider Bar
+            ctx.fillStyle = createMetallicGoldGrad(ctx, 390, 56, 396, 286);
+            roundRectPath(ctx, 390, 56, 6, 230, 3);
+            ctx.fill();
+
+            // Right Header Typography (New Uzbek Latin)
+            ctx.fillStyle = "#FFFFFF";
+            ctx.font = "900 54px Inter, sans-serif";
             ctx.textAlign = "left";
-            ctx.fillText("OʻZBEKISTON RESPUBLIKASI FAVQULODDA VAZIYATLAR VAZIRLIGI", 268, 78);
+            ctx.textBaseline = "alphabetic";
+            ctx.fillText("FAVQULODDA", 434, 122);
+            ctx.fillText("VAZIYATLAR", 434, 186);
+            ctx.fillText("VOLONTYORLARI", 434, 250);
 
-            ctx.fillStyle = "#FFFFFF";
-            ctx.font = "900 36px Inter, sans-serif";
-            ctx.fillText("SURXONDARYO VILOYATI", 268, 134);
-            ctx.fillText("VOLONTYORLAR MAKTABI", 268, 182);
+            // 3. Large Subtle Watermark Seal on Right Middle
+            drawOfficialSeal(ctx, 748, 625, 225, 0.075);
 
-            // 2026-2027 Pill Badge in Header
-            roundRectPath(ctx, 268, 212, 270, 50, 25);
-            ctx.fillStyle = "#E11D48";
+            // 4. Portrait Photo Frame with Metallic Gold Double Border
+            const photoX = 76;
+            const photoY = 392;
+            const photoW = 365;
+            const photoH = 445;
+
+            ctx.save();
+            ctx.shadowColor = "rgba(11, 25, 44, 0.16)";
+            ctx.shadowBlur = 24;
+            ctx.shadowOffsetY = 10;
+            roundRectPath(ctx, photoX - 8, photoY - 8, photoW + 16, photoH + 16, 30);
+            ctx.fillStyle = createMetallicGoldGrad(ctx, photoX, photoY, photoX + photoW, photoY + photoH);
             ctx.fill();
+            ctx.restore();
+
+            roundRectPath(ctx, photoX - 3, photoY - 3, photoW + 6, photoH + 6, 26);
             ctx.fillStyle = "#FFFFFF";
-            ctx.font = "900 24px Inter, sans-serif";
-            ctx.textAlign = "center";
-            ctx.fillText("2026–2027 MAVSUM", 403, 245);
-
-            // Watermark Seal in Center
-            drawOfficialSeal(ctx, 760, 740, 220, 0.06);
-
-            // 3. Title Ribbon: VOLONTYOR GUVOHNOMASI
-            roundRectPath(ctx, 64, 378, W - 128, 76, 20);
-            ctx.fillStyle = "#0B192C";
-            ctx.fill();
-            ctx.lineWidth = 3;
-            ctx.strokeStyle = "#F59E0B";
-            ctx.stroke();
-
-            ctx.fillStyle = "#F59E0B";
-            ctx.font = "900 34px Inter, sans-serif";
-            ctx.textAlign = "center";
-            ctx.fillText("RASMIY VOLONTYOR GUVOHNOMASI", W / 2, 427);
-
-            // 4. Portrait Photo Frame + Volunteer ID Badge
-            const photoX = 68;
-            const photoY = 492;
-            const photoW = 310;
-            const photoH = 395;
-
-            roundRectPath(ctx, photoX - 6, photoY - 6, photoW + 12, photoH + 12, 26);
-            ctx.fillStyle = "#F59E0B";
             ctx.fill();
 
             ctx.save();
-            roundRectPath(ctx, photoX, photoY, photoW, photoH, 20);
+            roundRectPath(ctx, photoX, photoY, photoW, photoH, 23);
             ctx.clip();
 
             const userImg = await loadImagePromise(vol.photo);
@@ -2259,97 +2518,175 @@
             }
             ctx.restore();
 
-            // ID Badge below Photo
-            roundRectPath(ctx, photoX, photoY + photoH + 18, photoW, 64, 16);
-            ctx.fillStyle = "#E11D48";
-            ctx.fill();
-            ctx.fillStyle = "#FFFFFF";
-            ctx.font = "900 28px Inter, sans-serif";
-            ctx.textAlign = "center";
-            ctx.fillText(vol.id || "FVV-2026-1001", photoX + photoW / 2, photoY + photoH + 59);
+            // 5. Right Column Volunteer Name (F.I.SH.:) & Gold Rules
+            const infoX = 492;
+            const infoMaxW = 442;
 
-            // 5. Right Column Volunteer Details
-            const infoX = 418;
-            const infoMaxW = 515;
-            let cursorY = 500;
+            ctx.fillStyle = "#B45309";
+            ctx.font = "900 32px Inter, sans-serif";
+            ctx.textAlign = "left";
+            ctx.fillText("F.I.SH.:", infoX, 512);
 
-            const drawField = (label, value, isLarge = false) => {
-                ctx.fillStyle = "#64748B";
-                ctx.font = "800 20px Inter, sans-serif";
-                ctx.textAlign = "left";
-                ctx.fillText(label.toUpperCase(), infoX, cursorY);
-                cursorY += 34;
+            const cleanName = toUzbekLatin(vol.fullName || "VOLONTYOR").toUpperCase();
+            ctx.fillStyle = "#09182E";
+            ctx.font = "900 50px Inter, sans-serif";
+            let nameLines = wrapCanvasLines(ctx, cleanName, infoMaxW, 3);
+            if (nameLines.length > 2) {
+                ctx.font = "900 40px Inter, sans-serif";
+                nameLines = wrapCanvasLines(ctx, cleanName, infoMaxW, 3);
+            }
 
-                ctx.fillStyle = "#0B192C";
-                ctx.font = isLarge ? "900 36px Inter, sans-serif" : "800 27px Inter, sans-serif";
-                const lines = wrapCanvasLines(ctx, value || "-", infoMaxW, 2);
-                lines.forEach(line => {
-                    ctx.fillText(line, infoX, cursorY);
-                    cursorY += isLarge ? 42 : 34;
+            let nameY = 584;
+            const lineStep = nameLines.length > 2 ? 50 : 62;
+            nameLines.forEach(line => {
+                ctx.fillText(line, infoX, nameY);
+                nameY += lineStep;
+            });
+
+            // Two Sleek Gold Accent Rules (matching reference)
+            const rule1Y = Math.max(714, nameY - 12);
+            ctx.fillStyle = createMetallicGoldGrad(ctx, infoX, rule1Y, infoX + infoMaxW, rule1Y);
+            ctx.fillRect(infoX, rule1Y, infoMaxW, 3.5);
+
+            // Compact District & Specialization Line in New Uzbek Latin
+            const metaDistrict = toUzbekLatin(vol.district || "");
+            const metaSpec = toUzbekLatin(vol.specialization || "");
+            if (metaDistrict || metaSpec) {
+                ctx.fillStyle = "#334155";
+                ctx.font = "700 22px Inter, sans-serif";
+                const metaText = [metaDistrict, metaSpec].filter(Boolean).join(" • ");
+                const metaLines = wrapCanvasLines(ctx, metaText, infoMaxW, 2);
+                metaLines.forEach((ml, i) => {
+                    ctx.fillText(ml, infoX, rule1Y + 34 + i * 28);
                 });
+            }
 
-                // Subtle divider
-                ctx.fillStyle = "#E2E8F0";
-                ctx.fillRect(infoX, cursorY - 12, infoMaxW, 2);
-                cursorY += 22;
+            const rule2Y = rule1Y + (metaDistrict || metaSpec ? 76 : 48);
+            ctx.fillStyle = createMetallicGoldGrad(ctx, infoX, rule2Y, infoX + infoMaxW, rule2Y);
+            ctx.fillRect(infoX, rule2Y, infoMaxW, 3.5);
+
+            // 6. Center Curved Navy Shield Banner: VOLONTYOR GUVOHNOMASI
+            const bY = 890;
+            const bH = 172;
+            const bPad = 36;
+
+            const drawBannerPath = (inset = 0) => {
+                const lx = bPad + inset;
+                const rx = W - bPad - inset;
+                const ty = bY + inset;
+                const by = bY + bH - inset;
+                const midY = (ty + by) / 2;
+                ctx.beginPath();
+                ctx.moveTo(lx + 42, ty);
+                ctx.quadraticCurveTo(W / 2, ty + 16, rx - 42, ty);
+                ctx.quadraticCurveTo(rx + 26, midY, rx - 42, by);
+                ctx.quadraticCurveTo(W / 2, by - 16, lx + 42, by);
+                ctx.quadraticCurveTo(lx - 26, midY, lx + 42, ty);
+                ctx.closePath();
             };
 
-            drawField("F.I.Sh. (Familiya, Ism, Sharif)", String(vol.fullName || "").toUpperCase(), true);
-            drawField("Hudud (Tuman / Shahar)", vol.district);
-            drawField("Ixtisoslik yoʻnalishi", vol.specialization);
-            drawField("Tugʻilgan sana", vol.birthDate);
-            drawField("Oʻqish / Ish joyi", vol.organization);
-
-            // 6. Bottom Verification Section: QR Code + Validity + Official Stamp
-            const bottomBoxY = 1045;
-            roundRectPath(ctx, 64, bottomBoxY, W - 128, 285, 24);
-            ctx.fillStyle = "#FFFFFF";
+            ctx.save();
+            ctx.shadowColor = "rgba(11, 25, 44, 0.25)";
+            ctx.shadowBlur = 22;
+            ctx.shadowOffsetY = 8;
+            drawBannerPath(0);
+            ctx.fillStyle = createMetallicGoldGrad(ctx, bPad, bY, W - bPad, bY + bH);
             ctx.fill();
+            ctx.restore();
+
+            drawBannerPath(6);
+            const bannerGrad = ctx.createLinearGradient(0, bY, 0, bY + bH);
+            bannerGrad.addColorStop(0, "#0A1B36");
+            bannerGrad.addColorStop(0.5, "#051021");
+            bannerGrad.addColorStop(1, "#0B1E3D");
+            ctx.fillStyle = bannerGrad;
+            ctx.fill();
+
+            drawBannerPath(13);
             ctx.lineWidth = 2;
-            ctx.strokeStyle = "#CBD5E1";
+            ctx.strokeStyle = "rgba(253, 224, 71, 0.65)";
             ctx.stroke();
 
-            // QR Matrix on Left
-            drawQrMatrixGraphic(ctx, 92, bottomBoxY + 26, 232, `https://fvv-volontyorlar.uz/verify?id=${vol.id}`);
+            // Golden Laurel Wreaths Left & Right
+            drawLaurelWreath(ctx, 134, bY + bH / 2, bH * 0.72, false);
+            drawLaurelWreath(ctx, W - 134, bY + bH / 2, bH * 0.72, true);
 
-            // Center Validity & Issue Date
-            const midX = 356;
-            ctx.textAlign = "left";
-            ctx.fillStyle = "#64748B";
-            ctx.font = "800 20px Inter, sans-serif";
-            ctx.fillText("BERILGAN SANA:", midX, bottomBoxY + 62);
-            ctx.fillStyle = "#0B192C";
-            ctx.font = "900 30px Inter, sans-serif";
-            ctx.fillText(vol.issueDate || formatDate(new Date()), midX, bottomBoxY + 100);
-
-            ctx.fillStyle = "#64748B";
-            ctx.font = "800 20px Inter, sans-serif";
-            ctx.fillText("AMAL QILISH MUDDATI:", midX, bottomBoxY + 158);
-            ctx.fillStyle = "#059669";
-            ctx.font = "900 32px Inter, sans-serif";
-            ctx.fillText(vol.validity || "2026–2027", midX, bottomBoxY + 198);
-
-            ctx.fillStyle = "#475569";
-            ctx.font = "600 18px Inter, sans-serif";
-            ctx.fillText("Shtab rahbari imzosi: ______________", midX, bottomBoxY + 248);
-
-            // Official Round Seal Overlay on Right
-            drawOfficialSeal(ctx, 818, bottomBoxY + 142, 88, 0.92);
-
-            // 7. Bottom Footer Strip
-            ctx.fillStyle = "#0B192C";
-            ctx.fillRect(0, H - 110, W, 110);
-            ctx.fillStyle = "#F59E0B";
-            ctx.fillRect(0, H - 116, W, 6);
-
+            // Banner Typography
             ctx.fillStyle = "#FFFFFF";
-            ctx.font = "900 25px Inter, sans-serif";
             ctx.textAlign = "center";
-            ctx.fillText("BIR JAMOA • BIR MAQSAD • XAVFSIZ JAMIYAT UCHUN", W / 2, H - 64);
+            ctx.font = "900 46px Inter, sans-serif";
+            ctx.fillText("VOLONTYOR", W / 2, bY + 75);
+            ctx.font = "900 50px Inter, sans-serif";
+            ctx.fillText("GUVOHNOMASI", W / 2, bY + 132);
 
-            ctx.fillStyle = "#94A3B8";
-            ctx.font = "600 19px Inter, sans-serif";
-            ctx.fillText("Favqulodda xizmat: 1050  |  Surxondaryo viloyati FVV Volontyorlari Maktabi", W / 2, H - 28);
+            // 7. Golden Historic Uzbek Architectural Skyline (behind QR & above footer curve)
+            drawUzbekArchitecturalSkyline(ctx, W, 1412);
+
+            // 8. Bottom Verification Area: QR Matrix + ID + Amal qilish muddati
+            const qrSize = 236;
+            const qrX = 114;
+            const qrY = 1078;
+            drawQrMatrixGraphic(ctx, qrX, qrY, qrSize, `https://fvv-volontyor.vercel.app/?id=${vol.id}`);
+
+            // Vertical Gold Separator
+            ctx.fillStyle = createMetallicGoldGrad(ctx, 434, 1088, 438, 1318);
+            ctx.fillRect(434, 1088, 4, 230);
+
+            // ID & Validity Text
+            const detX = 482;
+            ctx.textAlign = "left";
+            ctx.fillStyle = "#09182E";
+            ctx.font = "900 34px Inter, sans-serif";
+            ctx.fillText("ID:", detX, 1126);
+
+            ctx.font = "900 46px Inter, sans-serif";
+            ctx.fillText(toUzbekLatin(vol.id || "FVV-2026-1001"), detX, 1180);
+
+            // Calendar Vector Icon + Amal qilish muddati
+            drawCalendarVectorIcon(ctx, detX, 1216, 62);
+
+            ctx.fillStyle = "#1E293B";
+            ctx.font = "700 26px Inter, sans-serif";
+            ctx.fillText("Amal qilish muddati:", detX + 80, 1242);
+
+            ctx.fillStyle = "#09182E";
+            ctx.font = "900 40px Inter, sans-serif";
+            ctx.fillText(getCardExpiryDate(vol), detX + 80, 1290);
+
+            // 9. Gold Wave Divider & Curved Navy Footer
+
+            // Gold Wave Divider above Footer
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(0, 1390);
+            ctx.bezierCurveTo(W * 0.42, 1408, W * 0.72, 1378, W, 1246);
+            ctx.lineTo(W, 1296);
+            ctx.bezierCurveTo(W * 0.72, 1412, W * 0.42, 1428, 0, 1414);
+            ctx.closePath();
+            ctx.fillStyle = createMetallicGoldGrad(ctx, 0, 1260, W, 1420);
+            ctx.fill();
+            ctx.restore();
+
+            // Curved Deep Navy Footer Bar
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(0, 1408);
+            ctx.bezierCurveTo(W * 0.42, 1422, W * 0.72, 1406, W, 1284);
+            ctx.lineTo(W, H);
+            ctx.lineTo(0, H);
+            ctx.closePath();
+            const footerGrad = ctx.createLinearGradient(0, 1350, W, H);
+            footerGrad.addColorStop(0, "#050E1D");
+            footerGrad.addColorStop(1, "#0B1E3D");
+            ctx.fillStyle = footerGrad;
+            ctx.fill();
+            ctx.restore();
+
+            // Footer Slogan
+            ctx.fillStyle = "#FFFFFF";
+            ctx.font = "800 27px Inter, sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText("BIRGALIKDA — XAVFSIZ JAMIYAT UCHUN", W / 2, H - 46);
 
             ctx.restore();
         }
