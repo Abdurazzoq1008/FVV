@@ -41,10 +41,10 @@
             overflow-x: hidden;
         }
         .glass-panel {
-            background: rgba(19, 39, 68, 0.72);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(19, 39, 68, 0.68);
+            backdrop-filter: blur(18px) saturate(160%);
+            -webkit-backdrop-filter: blur(18px) saturate(160%);
+            border: 1px solid rgba(255, 255, 255, 0.12);
         }
         .hero-pattern {
             background-color: #0B192C;
@@ -63,6 +63,462 @@
         }
         #toast-container {
             transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* ===================================================================== */
+        /* LIQUID-GLASS TRANSPARENT BUTTONS & MOUSE-REACTIVE ANIMATION SYSTEM    */
+        /* ===================================================================== */
+        :root {
+            --mx: 50%;
+            --my: 50%;
+            --rx: 0deg;
+            --ry: 0deg;
+            --tx: 0px;
+            --ty: 0px;
+            --btn-scale: 1;
+        }
+
+        /* Hero interactive ambient spotlight */
+        #hero-cursor-glow {
+            position: absolute;
+            width: 560px;
+            height: 560px;
+            border-radius: 9999px;
+            pointer-events: none;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.14) 0%, rgba(225, 29, 72, 0.10) 40%, transparent 72%);
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.45s ease;
+            z-index: 1;
+            filter: blur(20px);
+        }
+        .hero-pattern:hover #hero-cursor-glow {
+            opacity: 1;
+        }
+
+        /* Universal transparent liquid-glass target selector */
+        button:not(.brand-btn),
+        a[href="#sos-section"],
+        a[href^="tel:"],
+        a[href*="fmi-platforma"],
+        a[href*="drive.google"],
+        a[href*="t.me/"],
+        a[href*="instagram.com/"],
+        a[href*="youtube.com/"],
+        a[href*="maps"],
+        label[for="reg-photo-input"],
+        header nav a,
+        #mobile-drawer a {
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+            transform-style: preserve-3d;
+            backdrop-filter: blur(16px) saturate(185%) !important;
+            -webkit-backdrop-filter: blur(16px) saturate(185%) !important;
+            transform: perspective(850px) translate3d(var(--tx, 0px), var(--ty, 0px), 0) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--btn-scale, 1));
+            transition:
+                transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.35s ease,
+                border-color 0.35s ease,
+                background 0.35s ease,
+                color 0.25s ease !important;
+            will-change: transform;
+        }
+
+        /* Active pointer tracking disables laggy transform transition while moving */
+        .is-glass-hover {
+            transition:
+                transform 0.08s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.25s ease,
+                border-color 0.25s ease,
+                background 0.25s ease,
+                color 0.2s ease !important;
+            --btn-scale: 1.032;
+        }
+        .is-glass-card.is-glass-hover {
+            --btn-scale: 1.018;
+        }
+        .is-glass-active {
+            --btn-scale: 0.965 !important;
+            transition: transform 0.1s ease !important;
+        }
+
+        /* Keep all inner button content cleanly above glass layers */
+        button:not(.brand-btn) > *,
+        a[href="#sos-section"] > *,
+        a[href^="tel:"] > *,
+        a[href*="fmi-platforma"] > *,
+        a[href*="drive.google"] > *,
+        a[href*="t.me/"] > *,
+        a[href*="instagram.com/"] > *,
+        a[href*="youtube.com/"] > *,
+        a[href*="maps"] > *,
+        label[for="reg-photo-input"] > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Cursor-following radial liquid spotlight inside button */
+        button:not(.brand-btn)::before,
+        a[href="#sos-section"]::before,
+        a[href^="tel:"]::before,
+        a[href*="fmi-platforma"]::before,
+        a[href*="drive.google"]::before,
+        a[href*="t.me/"]::before,
+        a[href*="instagram.com/"]::before,
+        a[href*="youtube.com/"]::before,
+        a[href*="maps"]::before,
+        label[for="reg-photo-input"]::before,
+        header nav a::before,
+        #mobile-drawer a::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            background: radial-gradient(
+                145px circle at var(--mx, 50%) var(--my, 50%),
+                var(--glass-spot, rgba(255, 255, 255, 0.42)),
+                var(--glass-spot-mid, rgba(255, 255, 255, 0.12)) 45%,
+                transparent 72%
+            );
+            transition: opacity 0.3s ease;
+        }
+        .is-glass-hover::before,
+        button:not(.brand-btn):hover::before,
+        a[href="#sos-section"]:hover::before,
+        a[href^="tel:"]:hover::before,
+        label[for="reg-photo-input"]:hover::before,
+        header nav a:hover::before {
+            opacity: 1;
+        }
+
+        /* Cursor-tracking luminous prismatic rim border */
+        button:not(.brand-btn)::after,
+        a[href="#sos-section"]::after,
+        a[href^="tel:"]::after,
+        a[href*="fmi-platforma"]::after,
+        a[href*="drive.google"]::after,
+        a[href*="t.me/"]::after,
+        a[href*="instagram.com/"]::after,
+        a[href*="youtube.com/"]::after,
+        a[href*="maps"]::after,
+        label[for="reg-photo-input"]::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            padding: 1.5px;
+            border-radius: inherit;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.25;
+            background: radial-gradient(
+                130px circle at var(--mx, 50%) var(--my, 50%),
+                var(--glass-rim, rgba(255, 255, 255, 0.95)),
+                rgba(255, 255, 255, 0.25) 45%,
+                transparent 75%
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            transition: opacity 0.3s ease;
+        }
+        .is-glass-hover::after,
+        button:not(.brand-btn):hover::after,
+        a[href="#sos-section"]:hover::after,
+        a[href^="tel:"]:hover::after,
+        label[for="reg-photo-input"]:hover::after {
+            opacity: 1;
+        }
+
+        /* --------------------------------------------------------------------- */
+        /* DARK CONTEXT TRANSPARENT GLASS VARIANTS (Header, Hero, Edu, Admin)    */
+        /* --------------------------------------------------------------------- */
+        header button:not(.brand-btn),
+        #view-home .hero-pattern button,
+        #view-home .hero-pattern a[href="#sos-section"],
+        #verify-section button,
+        #education-section a,
+        #view-admin button,
+        #modal-admin-cert button,
+        footer button,
+        footer a {
+            background: rgba(255, 255, 255, 0.06) !important;
+            background-image: none !important;
+            border: 1px solid rgba(255, 255, 255, 0.20) !important;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.32),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.06),
+                0 10px 28px rgba(2, 6, 23, 0.32) !important;
+        }
+
+        header nav a {
+            border-radius: 0.75rem;
+            padding: 0.45rem 0.85rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid transparent;
+        }
+        header nav a:hover {
+            background: rgba(255, 255, 255, 0.09);
+            border-color: rgba(255, 255, 255, 0.22);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Emergency Red / Orange transparent glass (Dark & Floating SOS) */
+        header button[class*="from-emergencyRed"],
+        #view-home button[class*="from-emergencyRed"],
+        #view-admin button[class*="bg-emergencyRed"],
+        #view-admin button[class*="bg-rose-"],
+        a[href="#sos-section"][class*="bg-emergencyRed"] {
+            background: linear-gradient(135deg, rgba(225, 29, 72, 0.24), rgba(234, 88, 12, 0.18)) !important;
+            border: 1px solid rgba(251, 113, 133, 0.52) !important;
+            color: #ffffff !important;
+            --glass-spot: rgba(255, 190, 200, 0.48);
+            --glass-spot-mid: rgba(225, 29, 72, 0.22);
+            --glass-rim: rgba(253, 164, 175, 0.98);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 220, 225, 0.42),
+                0 10px 30px rgba(225, 29, 72, 0.25) !important;
+        }
+        header button[class*="from-emergencyRed"]:hover,
+        #view-home button[class*="from-emergencyRed"]:hover,
+        #view-admin button[class*="bg-emergencyRed"]:hover,
+        a[href="#sos-section"][class*="bg-emergencyRed"]:hover {
+            box-shadow:
+                inset 0 1px 0 rgba(255, 230, 235, 0.6),
+                0 14px 36px rgba(225, 29, 72, 0.42) !important;
+        }
+
+        /* Gold transparent glass on Dark backgrounds */
+        header button[class*="border-gold"],
+        button[class*="border-gold"],
+        button[class*="bg-gold"],
+        #view-home button[class*="bg-gold"],
+        #verify-section button[class*="bg-gold"],
+        #view-admin button[class*="bg-gold"],
+        #modal-admin-cert button[class*="bg-gold"] {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(251, 191, 36, 0.12)) !important;
+            border: 1px solid rgba(252, 211, 77, 0.55) !important;
+            color: #FEF3C7 !important;
+            --glass-spot: rgba(254, 240, 138, 0.5);
+            --glass-spot-mid: rgba(245, 158, 11, 0.22);
+            --glass-rim: rgba(253, 224, 71, 0.98);
+            box-shadow:
+                inset 0 1px 0 rgba(254, 243, 199, 0.48),
+                0 10px 28px rgba(245, 158, 11, 0.22) !important;
+        }
+
+        /* Emerald transparent glass on Dark backgrounds */
+        #verify-section button[class*="bg-emerald"],
+        #view-admin button[class*="bg-emerald"] {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.22), rgba(5, 150, 105, 0.14)) !important;
+            border: 1px solid rgba(52, 211, 153, 0.52) !important;
+            color: #ECFDF5 !important;
+            --glass-spot: rgba(167, 243, 208, 0.45);
+            --glass-spot-mid: rgba(16, 185, 129, 0.2);
+            --glass-rim: rgba(110, 231, 183, 0.98);
+            box-shadow:
+                inset 0 1px 0 rgba(209, 250, 229, 0.42),
+                0 10px 28px rgba(16, 185, 129, 0.22) !important;
+        }
+
+        /* Sky / Telegram transparent glass on Dark backgrounds */
+        #view-admin button[class*="bg-sky"],
+        #modal-admin-cert button[class*="bg-sky"],
+        #view-admin a[href*="maps"] {
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.22), rgba(2, 132, 199, 0.14)) !important;
+            border: 1px solid rgba(56, 189, 248, 0.52) !important;
+            color: #F0F9FF !important;
+            --glass-spot: rgba(186, 230, 253, 0.45);
+            --glass-spot-mid: rgba(14, 165, 233, 0.2);
+            --glass-rim: rgba(125, 211, 252, 0.98);
+            box-shadow:
+                inset 0 1px 0 rgba(224, 242, 254, 0.42),
+                0 10px 28px rgba(14, 165, 233, 0.22) !important;
+        }
+
+        /* Education portal inner CTA pills */
+        #education-section a span[class*="bg-emergencyRed"] {
+            background: rgba(225, 29, 72, 0.25) !important;
+            border: 1px solid rgba(251, 113, 133, 0.55);
+            backdrop-filter: blur(12px);
+            color: #ffffff !important;
+        }
+        #education-section a span[class*="bg-gold"] {
+            background: rgba(245, 158, 11, 0.24) !important;
+            border: 1px solid rgba(252, 211, 77, 0.55);
+            backdrop-filter: blur(12px);
+            color: #FEF3C7 !important;
+        }
+
+        /* Footer & subtle link buttons */
+        footer button {
+            padding: 0.4rem 0.85rem;
+            border-radius: 0.75rem;
+            color: #FDE68A !important;
+            text-decoration: none !important;
+        }
+        footer a {
+            width: 2.3rem;
+            height: 2.3rem;
+            border-radius: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --------------------------------------------------------------------- */
+        /* LIGHT CONTEXT TRANSPARENT GLASS VARIANTS (SOS, Contact, Reg, Modals)  */
+        /* --------------------------------------------------------------------- */
+        #sos-section button,
+        #sos-section a[href^="tel:"],
+        #contact-section a,
+        #view-register button,
+        #view-register label[for="reg-photo-input"],
+        #modal-manual-add button,
+        #modal-bot-import button,
+        #modal-confirm-delete button {
+            background: rgba(255, 255, 255, 0.42) !important;
+            background-image: none !important;
+            border: 1px solid rgba(11, 25, 44, 0.16) !important;
+            color: #0B192C !important;
+            --glass-spot: rgba(255, 255, 255, 0.92);
+            --glass-spot-mid: rgba(255, 255, 255, 0.32);
+            --glass-rim: rgba(56, 189, 248, 0.85);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.9),
+                inset 0 -1px 0 rgba(11, 25, 44, 0.05),
+                0 8px 24px rgba(11, 25, 44, 0.08) !important;
+        }
+
+        /* Light Emergency Red / Orange transparent glass */
+        #sos-section button[class*="from-emergencyRed"],
+        #view-register button[class*="from-emergencyRed"],
+        #view-register button[class*="bg-rose-"],
+        #modal-confirm-delete button[class*="bg-emergencyRed"] {
+            background: linear-gradient(135deg, rgba(225, 29, 72, 0.14), rgba(234, 88, 12, 0.10)) !important;
+            border: 1.5px solid rgba(225, 29, 72, 0.42) !important;
+            color: #9F1239 !important;
+            --glass-spot: rgba(255, 255, 255, 0.88);
+            --glass-spot-mid: rgba(225, 29, 72, 0.18);
+            --glass-rim: rgba(225, 29, 72, 0.95);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.85),
+                0 10px 28px rgba(225, 29, 72, 0.14) !important;
+        }
+
+        /* Light Navy transparent glass */
+        #sos-section button[class*="bg-navy"],
+        #view-register button[class*="bg-navy"],
+        #view-register label[for="reg-photo-input"],
+        #modal-manual-add button[class*="bg-navy"] {
+            background: linear-gradient(135deg, rgba(11, 25, 44, 0.10), rgba(19, 39, 68, 0.06)) !important;
+            border: 1.5px solid rgba(11, 25, 44, 0.25) !important;
+            color: #0B192C !important;
+            --glass-spot: rgba(255, 255, 255, 0.92);
+            --glass-spot-mid: rgba(11, 25, 44, 0.10);
+            --glass-rim: rgba(245, 158, 11, 0.9);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.9),
+                0 8px 24px rgba(11, 25, 44, 0.10) !important;
+        }
+        #capture-gps-btn .text-gold {
+            color: #D97706 !important;
+        }
+
+        /* Light Sky / Telegram transparent glass */
+        #view-register button[class*="bg-sky"],
+        #modal-bot-import button[class*="bg-sky"] {
+            background: linear-gradient(135deg, rgba(2, 132, 199, 0.14), rgba(14, 165, 233, 0.08)) !important;
+            border: 1.5px solid rgba(2, 132, 199, 0.38) !important;
+            color: #0369A1 !important;
+            --glass-spot: rgba(255, 255, 255, 0.9);
+            --glass-spot-mid: rgba(14, 165, 233, 0.16);
+            --glass-rim: rgba(2, 132, 199, 0.95);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.85),
+                0 10px 26px rgba(2, 132, 199, 0.14) !important;
+        }
+
+        /* Light Back button pill */
+        #view-register > div > button:first-child,
+        #admin-login-box > button:first-child {
+            padding: 0.55rem 1rem;
+            border-radius: 0.9rem;
+        }
+
+        /* SOS Quick-Dial transparent glass cards */
+        #sos-section a[href="tel:1050"] {
+            border-color: rgba(225, 29, 72, 0.38) !important;
+            --glass-rim: rgba(225, 29, 72, 0.95);
+        }
+        #sos-section a[href="tel:101"] {
+            border-color: rgba(234, 88, 12, 0.32) !important;
+            --glass-rim: rgba(234, 88, 12, 0.95);
+        }
+        #sos-section a[href="tel:102"] {
+            border-color: rgba(11, 25, 44, 0.28) !important;
+            --glass-rim: rgba(37, 99, 235, 0.9);
+        }
+        #sos-section a[href="tel:103"] {
+            border-color: rgba(16, 185, 129, 0.36) !important;
+            --glass-rim: rgba(16, 185, 129, 0.95);
+        }
+
+        /* Click Ripple + Micro Spark Particles */
+        .glass-ripple {
+            position: absolute;
+            border-radius: 9999px;
+            pointer-events: none;
+            z-index: 3;
+            transform: translate(-50%, -50%) scale(0);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.24) 45%, transparent 72%);
+            animation: glassRippleAnim 0.68s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes glassRippleAnim {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0.95; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+        }
+
+        .glass-spark {
+            position: fixed;
+            width: 5px;
+            height: 5px;
+            border-radius: 9999px;
+            pointer-events: none;
+            z-index: 9999;
+            background: radial-gradient(circle, #ffffff 0%, #fcd34d 60%, rgba(225, 29, 72, 0) 100%);
+            box-shadow: 0 0 10px rgba(253, 224, 71, 0.9);
+            animation: glassSparkFly 0.62s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes glassSparkFly {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(calc(-50% + var(--sx, 0px)), calc(-50% + var(--sy, 0px))) scale(0);
+                opacity: 0;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            button:not(.brand-btn),
+            a[href="#sos-section"],
+            a[href^="tel:"],
+            a[href*="fmi-platforma"],
+            a[href*="drive.google"],
+            a[href*="t.me/"],
+            a[href*="instagram.com/"],
+            a[href*="youtube.com/"],
+            a[href*="maps"],
+            label[for="reg-photo-input"] {
+                transform: none !important;
+                transition: background 0.2s ease, border-color 0.2s ease !important;
+            }
         }
     </style>
 </head>
@@ -87,7 +543,7 @@
     <header class="fixed top-0 left-0 right-0 z-50 bg-navy/95 backdrop-blur-md border-b border-white/10 shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-3">
             <!-- Brand -->
-            <button type="button" onclick="switchView('home')" class="flex items-center gap-3 text-left group focus:outline-none">
+            <button type="button" onclick="switchView('home')" class="brand-btn flex items-center gap-3 text-left group focus:outline-none">
                 <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br from-emergencyRed to-emergencyOrange flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition-transform shrink-0">
                     <i class="fa-solid fa-shield-halved text-xl"></i>
                 </div>
@@ -167,6 +623,7 @@
 
         <!-- HERO SECTION -->
         <section class="hero-pattern text-white py-16 sm:py-24 lg:py-28 relative overflow-hidden">
+            <div id="hero-cursor-glow" aria-hidden="true"></div>
             <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
                 <div class="grid lg:grid-cols-12 gap-10 items-center">
                     <div class="lg:col-span-7 text-center lg:text-left">
@@ -295,8 +752,10 @@
         </section>
 
         <!-- SOS EMERGENCY SECTION -->
-        <section id="sos-section" class="py-16 sm:py-24 bg-slate-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <section id="sos-section" class="py-16 sm:py-24 bg-slate-50 relative overflow-hidden">
+            <div class="pointer-events-none absolute -top-24 -left-24 w-96 h-96 rounded-full bg-rose-300/25 blur-3xl"></div>
+            <div class="pointer-events-none absolute bottom-10 -right-20 w-96 h-96 rounded-full bg-amber-300/25 blur-3xl"></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
                 <div class="text-center max-w-2xl mx-auto mb-12">
                     <span class="text-emergencyRed font-extrabold text-xs uppercase tracking-widest">Tezkor harakat va aloqa</span>
                     <h2 class="text-3xl sm:text-4xl font-black text-navy mt-2 mb-3">Favqulodda xizmatlar va SOS signal</h2>
@@ -551,8 +1010,10 @@
     <!-- ===================================================================== -->
     <!-- VIEW 2: VOLUNTEER REGISTRATION & 1000x1500 PNG ID CARD GENERATOR      -->
     <!-- ===================================================================== -->
-    <section id="view-register" class="hidden min-h-screen bg-slate-100 pt-24 pb-20">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+    <section id="view-register" class="hidden min-h-screen bg-slate-100 pt-24 pb-20 relative overflow-hidden">
+        <div class="pointer-events-none fixed top-24 left-10 w-80 h-80 rounded-full bg-rose-300/20 blur-3xl"></div>
+        <div class="pointer-events-none fixed bottom-12 right-10 w-96 h-96 rounded-full bg-sky-300/20 blur-3xl"></div>
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
             <button type="button" onclick="switchView('home')" class="inline-flex items-center gap-2 text-navy font-bold text-sm mb-6 hover:text-emergencyRed transition-colors">
                 <i class="fa-solid fa-arrow-left"></i> Bosh sahifaga qaytish
             </button>
@@ -2947,13 +3408,160 @@
         }
 
         /* =====================================================================
-           11. INITIALIZATION
+           11. LIQUID-GLASS MOUSE-REACTIVE ANIMATION ENGINE
+           ===================================================================== */
+        function initLiquidGlassInteractions() {
+            const GLASS_SELECTOR = [
+                "button:not(.brand-btn)",
+                "a[href='#sos-section']",
+                "a[href^='tel:']",
+                "a[href*='fmi-platforma']",
+                "a[href*='drive.google']",
+                "a[href*='t.me/']",
+                "a[href*='instagram.com/']",
+                "a[href*='youtube.com/']",
+                "a[href*='maps']",
+                "label[for='reg-photo-input']",
+                "header nav a",
+                "#mobile-drawer a"
+            ].join(",");
+
+            const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            let activeHoverEl = null;
+            let rafId = null;
+
+            const heroSection = document.querySelector(".hero-pattern");
+            const heroGlow = document.getElementById("hero-cursor-glow");
+            if (heroSection && heroGlow && !reducedMotion) {
+                let heroRaf = null;
+                heroSection.addEventListener("pointermove", (e) => {
+                    if (e.pointerType === "touch") return;
+                    const rect = heroSection.getBoundingClientRect();
+                    const gx = e.clientX - rect.left;
+                    const gy = e.clientY - rect.top;
+                    if (heroRaf) cancelAnimationFrame(heroRaf);
+                    heroRaf = requestAnimationFrame(() => {
+                        heroGlow.style.left = `${gx}px`;
+                        heroGlow.style.top = `${gy}px`;
+                    });
+                }, { passive: true });
+            }
+
+            function resetGlassTarget(el) {
+                if (!el) return;
+                el.classList.remove("is-glass-hover", "is-glass-active");
+                el.style.setProperty("--rx", "0deg");
+                el.style.setProperty("--ry", "0deg");
+                el.style.setProperty("--tx", "0px");
+                el.style.setProperty("--ty", "0px");
+                el.style.removeProperty("--btn-scale");
+            }
+
+            document.addEventListener("pointermove", (e) => {
+                if (e.pointerType === "touch" || reducedMotion) return;
+                const target = e.target.closest(GLASS_SELECTOR);
+
+                if (activeHoverEl && activeHoverEl !== target) {
+                    resetGlassTarget(activeHoverEl);
+                    activeHoverEl = null;
+                }
+                if (!target || target.disabled) return;
+
+                activeHoverEl = target;
+                const rect = target.getBoundingClientRect();
+                if (!rect.width || !rect.height) return;
+
+                const px = e.clientX - rect.left;
+                const py = e.clientY - rect.top;
+                const nx = Math.max(-1, Math.min(1, (px / rect.width - 0.5) * 2));
+                const ny = Math.max(-1, Math.min(1, (py / rect.height - 0.5) * 2));
+
+                const isCard = rect.width > 220 && rect.height > 95;
+                const isTiny = rect.width <= 48 && rect.height <= 48;
+                target.classList.toggle("is-glass-card", isCard);
+
+                const maxTilt = isCard ? 4.2 : isTiny ? 11 : 7.8;
+                const maxPull = isCard ? 3.5 : isTiny ? 3 : 5;
+                const scaleVal = isCard ? "1.016" : isTiny ? "1.12" : "1.034";
+
+                if (rafId) cancelAnimationFrame(rafId);
+                rafId = requestAnimationFrame(() => {
+                    target.classList.add("is-glass-hover");
+                    target.style.setProperty("--mx", `${px.toFixed(1)}px`);
+                    target.style.setProperty("--my", `${py.toFixed(1)}px`);
+                    target.style.setProperty("--rx", `${(-ny * maxTilt).toFixed(2)}deg`);
+                    target.style.setProperty("--ry", `${(nx * maxTilt).toFixed(2)}deg`);
+                    target.style.setProperty("--tx", `${(nx * maxPull).toFixed(2)}px`);
+                    target.style.setProperty("--ty", `${(ny * maxPull).toFixed(2)}px`);
+                    target.style.setProperty("--btn-scale", scaleVal);
+                });
+            }, { passive: true });
+
+            document.addEventListener("pointerout", (e) => {
+                if (!activeHoverEl) return;
+                const related = e.relatedTarget;
+                if (!related || !activeHoverEl.contains(related)) {
+                    resetGlassTarget(activeHoverEl);
+                    activeHoverEl = null;
+                }
+            });
+
+            document.addEventListener("pointerdown", (e) => {
+                const target = e.target.closest(GLASS_SELECTOR);
+                if (!target || target.disabled) return;
+
+                target.classList.add("is-glass-active");
+                const rect = target.getBoundingClientRect();
+                const lx = e.clientX - rect.left;
+                const ly = e.clientY - rect.top;
+
+                const ripple = document.createElement("span");
+                ripple.className = "glass-ripple";
+                const size = Math.max(rect.width, rect.height) * 2.15;
+                ripple.style.width = `${size}px`;
+                ripple.style.height = `${size}px`;
+                ripple.style.left = `${lx}px`;
+                ripple.style.top = `${ly}px`;
+                target.appendChild(ripple);
+                ripple.addEventListener("animationend", () => ripple.remove(), { once: true });
+                setTimeout(() => { if (ripple.parentNode) ripple.remove(); }, 750);
+
+                if (!reducedMotion && rect.width > 54) {
+                    const sparkCount = 6;
+                    for (let i = 0; i < sparkCount; i++) {
+                        const spark = document.createElement("span");
+                        spark.className = "glass-spark";
+                        const angle = (Math.PI * 2 * i) / sparkCount + (Math.random() - 0.5) * 0.5;
+                        const dist = 22 + Math.random() * 26;
+                        spark.style.left = `${e.clientX}px`;
+                        spark.style.top = `${e.clientY}px`;
+                        spark.style.setProperty("--sx", `${Math.cos(angle) * dist}px`);
+                        spark.style.setProperty("--sy", `${Math.sin(angle) * dist}px`);
+                        document.body.appendChild(spark);
+                        spark.addEventListener("animationend", () => spark.remove(), { once: true });
+                        setTimeout(() => { if (spark.parentNode) spark.remove(); }, 700);
+                    }
+                }
+            });
+
+            document.addEventListener("pointerup", () => {
+                if (activeHoverEl) activeHoverEl.classList.remove("is-glass-active");
+                document.querySelectorAll(".is-glass-active").forEach(el => el.classList.remove("is-glass-active"));
+            });
+            document.addEventListener("pointercancel", () => {
+                document.querySelectorAll(".is-glass-active").forEach(el => el.classList.remove("is-glass-active"));
+            });
+        }
+
+        /* =====================================================================
+           12. INITIALIZATION
            ===================================================================== */
         window.addEventListener("DOMContentLoaded", () => {
             loadLocalCache();
             renderTrainingModules();
             updateDashboardUI();
             syncAllFromFirebase(false);
+            initLiquidGlassInteractions();
         });
     </script>
 </body>
