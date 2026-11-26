@@ -2,7 +2,13 @@
 <html lang="uz" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0B192C">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="FVV Volontyorlar">
+    <meta name="format-detection" content="telephone=no">
     <title>Favqulodda Vaziyatlar Volontyorlari Maktabi (2026–2027) — Surxondaryo</title>
 
     <!-- Google Fonts: Inter -->
@@ -39,6 +45,50 @@
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        /* iOS safe area support for bottom elements */
+        .safe-bottom {
+            padding-bottom: env(safe-area-inset-bottom, 12px);
+        }
+
+        /* Prevent iOS input zoom (font-size >= 16px on inputs) */
+        input, select, textarea {
+            font-size: 16px !important;
+        }
+        @media (min-width: 640px) {
+            input, select, textarea {
+                font-size: 0.875rem !important;
+            }
+        }
+
+        /* Mobile touch: disable heavy 3D tilt on touch screens */
+        @media (hover: none) and (pointer: coarse) {
+            button:not(.brand-btn),
+            a[href="#sos-section"],
+            a[href^="tel:"],
+            a[href*="fmi-platforma"],
+            a[href*="drive.google"],
+            a[href*="t.me/"],
+            a[href*="instagram.com/"],
+            a[href*="youtube.com/"],
+            a[href*="maps"],
+            label[for="reg-photo-input"],
+            header nav a,
+            #mobile-drawer a {
+                transform: none !important;
+                perspective: none !important;
+                touch-action: manipulation;
+            }
+            .is-glass-hover {
+                --btn-scale: 1 !important;
+            }
+            .is-glass-active {
+                --btn-scale: 0.96 !important;
+                opacity: 0.88;
+            }
         }
         .glass-panel {
             background: rgba(19, 39, 68, 0.68);
@@ -520,6 +570,128 @@
                 transition: background 0.2s ease, border-color 0.2s ease !important;
             }
         }
+
+        /* ===== MOBILE RESPONSIVE EXTRAS ===== */
+
+        /* Floating SOS button: safe area aware + smaller on tiny screens */
+        #floating-sos-wrap {
+            bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+        }
+        @media (max-width: 374px) {
+            #floating-sos-wrap a {
+                padding: 0.6rem 0.9rem;
+                font-size: 0.75rem;
+                gap: 0.4rem;
+            }
+        }
+
+        /* Hero right card: hide on small screens to avoid stacking clutter */
+        @media (max-width: 1023px) {
+            .hero-right-card-wrap {
+                display: none;
+            }
+        }
+
+        /* SOS Quick-Dial cards: compact on tiny screens */
+        @media (max-width: 374px) {
+            #sos-section .grid.grid-cols-2 > a {
+                padding: 0.85rem 0.75rem;
+            }
+            #sos-section .grid.grid-cols-2 > a h3 {
+                font-size: 0.8rem;
+            }
+            #sos-section .grid.grid-cols-2 > a .text-2xl {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* SOS form: 1 col on tiny screens */
+        @media (max-width: 479px) {
+            #sos-alert-form .grid.sm\\:grid-cols-3,
+            #sos-alert-form .grid.sm\\:grid-cols-2 {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        /* Admin table mobile: min-width so scroll works */
+        #admin-volunteers-tbody td,
+        #admin-volunteers-tbody th,
+        .admin-table-wrap thead th {
+            white-space: nowrap;
+        }
+
+        /* Modal: use dynamic viewport height for iOS */
+        #modal-manual-add > div,
+        #modal-bot-import > div,
+        #modal-admin-cert > div,
+        #modal-confirm-delete > div {
+            max-height: 90dvh;
+        }
+
+        /* Registration success buttons: stack on xs */
+        @media (max-width: 479px) {
+            #register-success-panel .grid.sm\\:grid-cols-3 {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        /* Canvas preview: always full width on small screens */
+        @media (max-width: 479px) {
+            #id-card-canvas {
+                max-width: 100% !important;
+                border-radius: 1.25rem;
+            }
+        }
+
+        /* Navigation: prevent overflow on very small phones */
+        header .max-w-7xl {
+            gap: 0.5rem;
+        }
+        @media (max-width: 374px) {
+            header .max-w-7xl {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+            header .brand-btn .text-white.font-black {
+                font-size: 0.65rem;
+            }
+        }
+
+        /* Training module cards: 1 column on very small screens */
+        @media (max-width: 479px) {
+            #training-modules-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        /* Contact cards: stack cleanly */
+        @media (max-width: 479px) {
+            #contact-section .grid.md\\:grid-cols-3 > a {
+                padding: 1rem;
+            }
+        }
+
+        /* Admin login role cards: 1 col on small screens */
+        @media (max-width: 639px) {
+            #admin-login-box .grid.md\\:grid-cols-3 {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        /* Admin dashboard top bar: compact on xs */
+        @media (max-width: 479px) {
+            #admin-dashboard-box .glass-panel.rounded-3xl {
+                padding: 1rem;
+            }
+            #admin-dashboard-box .grid.grid-cols-2 {
+                gap: 0.5rem;
+            }
+        }
+
+        /* Smooth scrolling for anchor jumps */
+        html {
+            scroll-behavior: smooth;
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased selection:bg-emergencyRed selection:text-white">
@@ -608,7 +780,7 @@
     </header>
 
     <!-- Floating SOS Button -->
-    <div class="fixed bottom-5 right-5 z-40">
+    <div id="floating-sos-wrap" class="fixed right-4 z-40" style="bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px))">
         <span class="absolute inset-0 rounded-full bg-emergencyRed sos-pulse pointer-events-none"></span>
         <a href="#sos-section" onclick="jumpToSection(event, 'sos-section')" class="relative bg-emergencyRed hover:bg-rose-700 text-white font-black px-4 py-3 rounded-full shadow-2xl flex items-center gap-2 text-sm transition-transform hover:scale-105">
             <i class="fa-solid fa-phone-volume"></i>
@@ -675,7 +847,7 @@
                     </div>
 
                     <!-- Right Preview Card -->
-                    <div class="lg:col-span-5">
+                    <div class="lg:col-span-5 hero-right-card-wrap">
                         <div class="glass-panel rounded-3xl p-6 sm:p-7 shadow-2xl border border-white/15">
                             <div class="flex items-center justify-between mb-5">
                                 <span class="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-bold flex items-center gap-1.5">
@@ -828,7 +1000,7 @@
                     </div>
 
                     <form id="sos-alert-form" class="space-y-4">
-                        <div class="grid sm:grid-cols-3 gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div>
                                 <label class="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">Ismingiz *</label>
                                 <input type="text" id="sos-name" required placeholder="Ism familiya" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:ring-2 focus:ring-emergencyRed outline-none">
@@ -849,7 +1021,7 @@
                             </div>
                         </div>
 
-                        <div class="grid sm:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">Hudud / Manzil moʻljali *</label>
                                 <input type="text" id="sos-address" required placeholder="Masalan: Termiz sh., Alpomish koʻchasi" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:ring-2 focus:ring-emergencyRed outline-none">
@@ -988,7 +1160,7 @@
         </section>
 
         <!-- FOOTER -->
-        <footer class="bg-navyDeep text-slate-300 py-10 border-t border-white/10">
+        <footer class="bg-navyDeep text-slate-300 py-10 border-t border-white/10" style="padding-bottom: calc(2.5rem + env(safe-area-inset-bottom, 0px))">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm">
                 <div class="flex items-center gap-3">
                     <i class="fa-solid fa-shield-halved text-emergencyRed text-2xl"></i>
@@ -1036,9 +1208,9 @@
 
                 <!-- 1000x1500 Canvas Preview -->
                 <div class="flex flex-col items-center">
-                    <canvas id="id-card-canvas" width="1000" height="1500" class="w-full max-w-[380px] h-auto rounded-3xl shadow-2xl border-2 border-amber-400/70 bg-navy"></canvas>
+                    <canvas id="id-card-canvas" width="1000" height="1500" class="w-full max-w-[380px] sm:max-w-[400px] h-auto rounded-3xl shadow-2xl border-2 border-amber-400/70 bg-navy"></canvas>
 
-                    <div class="grid sm:grid-cols-3 gap-3 w-full max-w-2xl mt-7">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full max-w-2xl mt-7">
                         <button type="button" onclick="downloadGeneratedIdCard()" class="py-3.5 px-5 rounded-2xl bg-navy hover:bg-navyLight text-white font-extrabold text-sm shadow-lg flex items-center justify-center gap-2 transition-colors">
                             <i class="fa-solid fa-download"></i>
                             <span>Guvohnomani yuklab olish (1000×1500 PNG)</span>
@@ -1340,8 +1512,8 @@
 
                 <!-- Volunteers Table -->
                 <div class="glass-panel rounded-3xl overflow-hidden border border-white/10">
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
+                    <div class="overflow-x-auto -mx-0 admin-table-wrap">
+                        <table class="w-full text-left border-collapse" style="min-width:680px">
                             <thead>
                                 <tr class="bg-navy/90 text-slate-300 text-xs uppercase tracking-wider border-b border-white/10">
                                     <th class="py-3.5 px-4">ID / Sana</th>
@@ -1425,7 +1597,7 @@
 
     <!-- 1. Manual Add Volunteer Modal -->
     <div id="modal-manual-add" class="hidden fixed inset-0 z-[80] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
-        <div class="bg-white text-slate-800 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
+        <div class="bg-white text-slate-800 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl max-h-[90dvh] overflow-y-auto">
             <div class="flex items-center justify-between pb-4 mb-5 border-b border-slate-100">
                 <h3 class="text-xl font-black text-navy">Yangi volontyor qoʻshish</h3>
                 <button type="button" onclick="closeManualAddModal()" class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center">
